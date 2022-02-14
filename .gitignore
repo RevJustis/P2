@@ -1,2 +1,5 @@
 *.class
 *.log
+*.dat
+*.ctrl
+*.lck
