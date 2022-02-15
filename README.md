@@ -1,5 +1,5 @@
 # P2
-P2! Developed by Jessica(Optimization Lead), Jonathan (Visualization Lead), Justis (GitHub Admin/Owner), Patrick(Team Lead).
+P2! Developed by Jessica(Optimization Lead), Jonathan (Visualization Lead), Justis (GitHub Admin/Owner, Team Lead), Patrick(Co-Admin/Lead).
 
 # Prompt
 Create a Spark Application that process data(choose your data).
