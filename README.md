@@ -15,10 +15,8 @@ Let the P2, have presentation with screen shots and practical demo.
 # Trends
 Age: (A)What are the trends across the age continuum effect the fatality rate of riders/drivers vs pedestrians? Essentially, what ages are most likely to die inside the car, and what ages are most likely to die outside of the car? Are they the same, do the trends have any similarities?
 Big Picture: (B) Graph the trend of fatalities in entire USA, (C) then graph the trend of fatalities in individual states. What are the differences, do they all have the same basic movement upward and downwards? (D) Which states are safest (could be cross referenced with states with high public transport use to find correlation)?
-Weather: (E) Compare rates of fatality by weather in different states. Compare if some states have relatively more deaths during wet weather? (F) What state is most dangerous in the rain, what state is least dangerous in the rain?
-Rural vs Urban: (G)(H)Combine rural state data together and urban state data together, compare graphed trends (specifically death rates of vehicle types, and overall death rates across time).
-Vehicle: (I)Find which vehicles are most dangerous to be around (kill passengers) vs most dangerous to be inside.
-Right on Red: (J)(K)Collect states that allow right on red, and those that don't, and compare overall fatality rates across the year.
+Rural vs Urban: (E)(F)Combine rural state data together and urban state data together, compare graphed trends (specifically death rates of vehicle types, and overall death rates across time).
+Vehicle: (G)(H)Find which vehicles are most dangerous to be around (kill passengers) vs most dangerous to be inside.
 
 #THINGS WE GOTTA DO
 TODO Every concept of spark like rdd, dataframes, sql, dataset and optimization methods  and  persistence should be included.
