@@ -4,22 +4,29 @@ import Utilities._
 object P2 {
   def main(args: Array[String]): Unit = {
     val op = List[String](
-    "Scenario 1",
-    "Scenario 2",
-    "Scenario 3",
-    "Scenario 4",
-    "Scenario 5",
-    "Scenario 6",
-    "End Program"
-  )
+      "Scenario 1",
+      "Scenario 2",
+      "Scenario 3",
+      "Scenario 4",
+      "Scenario 5",
+      "Scenario 6",
+      "End Program"
+    )
     val spark = SparkSession.builder
-    .master("local[*]")
-    .appName("Spark Word Count")
-    .enableHiveSupport()
-    .getOrCreate()
+      .master("local[*]")
+      .appName("Spark Word Count")
+      .enableHiveSupport()
+      .getOrCreate()
 
     spark.sparkContext.setLogLevel("WARN")
-
+    spark.sql(
+      "CREATE TABLE IF NOT EXISTS test (year STRING, total STRING)" +
+        "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'"
+    )
+    spark.sql(
+      "LOAD DATA LOCAL INPATH 'input/FileName.txt' OVERWRITE INTO TABLE test"
+    )
+    spark.sql("select * from test").show
     println("Welcome to DataStuff, where we have some queries for you!")
     val menu = new MyMenu(op)
     var continue = true
@@ -33,13 +40,13 @@ object P2 {
       option match {
         case "Scenario 1" => println(option)
         case "Scenario 2" => println(option)
-        case "Scenario 3" =>println(option)
+        case "Scenario 3" => println(option)
         case "Scenario 4" => println(option)
         case "Scenario 5" => println(option)
-        case "Scenario 6" =>println(option)
-          // val df = spark.sql("SELECT * FROM table")
-          // df.show
-          // df.coalesce(1).write.format("csv").option("header",true).mode("overwrite").save("hdfs://localhost:9000/user/justis/future.csv")
+        case "Scenario 6" => println(option)
+        // val df = spark.sql("SELECT * FROM table")
+        // df.show
+        // df.coalesce(1).write.format("csv").option("header",true).mode("overwrite").save("hdfs://localhost:9000/user/justis/future.csv")
         case "End Program" => continue = false
       }
     }
