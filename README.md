@@ -13,18 +13,12 @@ Should have admin and normal user access with password set in database along wit
 Let the P2, have presentation with screen shots and practical demo.
 
 # Trends
-TODO Age trends: does age effect recklessness or fatality in general. Age as a driver vs age as a pedestrian.
-
-TODO Overall fatality trends: Overall increase across all states? Did any states get better throughout any years?
-
-TODO *Possibly out of scope
-Regulate the weather data. Is regular weather data high just because regular weather is more common than rain for example?*
-
-TODO Rural vs Urban: Isolate differences in trends across more Rural and more Urban states.
-
-TODO Danger ratio: Ratio between death inside a vehicle versus outside the vehicle. Which are the most dangerous to drive, and which are the most dangerous to be around?
-
-TODO Right On Red: Any differences between RightOnRed states and non-RightOnRed states
+Age: (A)What are the trends across the age continuum effect the fatality rate of riders/drivers vs pedestrians? Essentially, what ages are most likely to die inside the car, and what ages are most likely to die outside of the car? Are they the same, do the trends have any similarities?
+Big Picture: (B) Graph the trend of fatalities in entire USA, (C) then graph the trend of fatalities in individual states. What are the differences, do they all have the same basic movement upward and downwards? (D) Which states are safest (could be cross referenced with states with high public transport use to find correlation)?
+Weather: (E) Compare rates of fatality by weather in different states. Compare if some states have relatively more deaths during wet weather? (F) What state is most dangerous in the rain, what state is least dangerous in the rain?
+Rural vs Urban: (G)(H)Combine rural state data together and urban state data together, compare graphed trends (specifically death rates of vehicle types, and overall death rates across time).
+Vehicle: (I)Find which vehicles are most dangerous to be around (kill passengers) vs most dangerous to be inside.
+Right on Red: (J)(K)Collect states that allow right on red, and those that don't, and compare overall fatality rates across the year.
 
 #THINGS WE GOTTA DO
 TODO Every concept of spark like rdd, dataframes, sql, dataset and optimization methods  and  persistence should be included.
