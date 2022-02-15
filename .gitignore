@@ -3,3 +3,5 @@
 *.dat
 *.ctrl
 *.lck
+/shelf/
+/workspace.xml
