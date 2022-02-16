@@ -4,12 +4,10 @@ import Utilities._
 object P2 {
   def main(args: Array[String]): Unit = {
     val op = List[String](
-      "Scenario 1",
-      "Scenario 2",
-      "Scenario 3",
-      "Scenario 4",
-      "Scenario 5",
-      "Scenario 6",
+      "Topic 1",
+      "Topic 2",
+      "Topic 3",
+      "Topic 4",
       "End Program"
     )
     val spark = SparkSession.builder
@@ -33,20 +31,15 @@ object P2 {
 
     while (continue) {
       menu.printMenu()
-      print("Option: ")
+      // print("Option: ")
       val in = chooseN(7)
       val option = menu.selectOption(in)
 
       option match {
-        case "Scenario 1" => println(option)
-        case "Scenario 2" => println(option)
-        case "Scenario 3" => println(option)
-        case "Scenario 4" => println(option)
-        case "Scenario 5" => println(option)
-        case "Scenario 6" => println(option)
-        // val df = spark.sql("SELECT * FROM table")
-        // df.show
-        // df.coalesce(1).write.format("csv").option("header",true).mode("overwrite").save("hdfs://localhost:9000/user/justis/future.csv")
+        case "Topic 1"     => menuLev2(List[String]("A"), 1)
+        case "Topic 2"     => menuLev2(List[String]("B", "C", "D"), 3)
+        case "Topic 3"     => menuLev2(List[String]("E", "F"), 2)
+        case "Topic 4"     => menuLev2(List[String]("G", "H"), 2)
         case "End Program" => continue = false
       }
     }

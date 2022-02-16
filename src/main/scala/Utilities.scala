@@ -104,7 +104,7 @@ object Utilities {
 
     n match {
       case 1 =>
-        print(
+        println(
           "Sorry, but you have to choose '1'... Huh... almost feels like you have no choice at all... OK you can go now. "
         );
         goodIn = true;
@@ -115,7 +115,7 @@ object Utilities {
             case '1' => goodIn = true; inByte = 1.toByte
             case '2' => goodIn = true; inByte = 2.toByte
             case _ =>
-              print("Sorry, but you have to choose '1', or '2': ");
+              println("Sorry, but you have to choose '1', or '2': ");
               input = readChar()
           }
         }
@@ -126,7 +126,7 @@ object Utilities {
             case '2' => goodIn = true; inByte = 2.toByte
             case '3' => goodIn = true; inByte = 3.toByte
             case _ =>
-              print("Sorry, but you have to choose '1', '2', or '3': ");
+              println("Sorry, but you have to choose '1', '2', or '3': ");
               input = readChar()
           }
         }
@@ -138,7 +138,7 @@ object Utilities {
             case '3' => goodIn = true; inByte = 3.toByte
             case '4' => goodIn = true; inByte = 4.toByte
             case _ =>
-              print("Sorry, but you have to choose '1', '2', '3', or '4': ");
+              println("Sorry, but you have to choose '1', '2', '3', or '4': ");
               input = readChar()
           }
         }
@@ -151,7 +151,7 @@ object Utilities {
             case '4' => goodIn = true; inByte = 4.toByte
             case '5' => goodIn = true; inByte = 5.toByte
             case _ =>
-              print(
+              println(
                 "Sorry, but you have to choose '1', '2', '3', '4', or '5': "
               ); input = readChar()
           }
@@ -166,7 +166,7 @@ object Utilities {
             case '5' => goodIn = true; inByte = 5.toByte
             case '6' => goodIn = true; inByte = 6.toByte
             case _ =>
-              print(
+              println(
                 "Sorry, but you have to choose '1', '2', '3', '4', '5', or '6': "
               ); input = readChar()
           }
@@ -182,12 +182,19 @@ object Utilities {
             case '6' => goodIn = true; inByte = 6.toByte
             case '7' => goodIn = true; inByte = 7.toByte
             case _ =>
-              print(
+              println(
                 "Sorry, but you have to choose '1', '2', '3', '4', '5', '6', or '7': "
               ); input = readChar()
           }
         }
     }
     inByte
+  }
+
+  def menuLev2(options: List[String], n: Byte): Unit = {
+    val menu2 = new MyMenu(options)
+    menu2.printMenu()
+    val in = chooseN(n)
+    val option = menu2.selectOption(in)
   }
 }
