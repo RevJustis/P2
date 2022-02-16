@@ -14,3 +14,7 @@ libraryDependencies += "org.apache.spark" %% "spark-sql" % "2.3.1"
 
 // https://mvnrepository.com/artifact/org.apache.spark/spark-hive
 libraryDependencies += "org.apache.spark" %% "spark-hive" % "2.3.1"
+
+// Below two lines are needed for Justis to be able to run the program without IntelliJ...
+fork in run := true
+connectInput in run := true

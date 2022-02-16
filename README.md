@@ -17,7 +17,3 @@ Age: (A)What are the trends across the age continuum effect the fatality rate of
 Big Picture: (B) Graph the trend of fatalities in entire USA, (C) then graph the trend of fatalities in individual states. What are the differences, do they all have the same basic movement upward and downwards? (D) Which states are safest (could be cross referenced with states with high public transport use to find correlation)?
 Rural vs Urban: (E)(F)Combine rural state data together and urban state data together, compare graphed trends (specifically death rates of vehicle types, and overall death rates across time).
 Vehicle: (G)(H)Find which vehicles are most dangerous to be around (kill passengers) vs most dangerous to be inside.
-
-#THINGS WE GOTTA DO
-TODO Every concept of spark like rdd, dataframes, sql, dataset and optimization methods  and  persistence should be included.
-TODO Username and password implementation (MySQL or document in spark-warehouse)
