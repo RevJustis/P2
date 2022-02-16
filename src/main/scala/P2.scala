@@ -1,4 +1,5 @@
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions._
 import Utilities._
 
 object P2 {
@@ -17,6 +18,7 @@ object P2 {
       .getOrCreate()
 
     spark.sparkContext.setLogLevel("WARN")
+    /*
     spark.sql(
       "CREATE TABLE IF NOT EXISTS test (year STRING, total STRING)" +
         "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'"
@@ -25,6 +27,21 @@ object P2 {
       "LOAD DATA LOCAL INPATH 'input/FileName.txt' OVERWRITE INTO TABLE test"
     )
     spark.sql("select * from test").show
+     */
+
+    val df =
+      spark.read.option("header", true).csv("input/CrashReportRecords.csv")
+
+    println("the last one?")
+    df.where("STATE == 57").show
+
+    println("where is samoa?") // here it is!
+    df.where("STATE == 3").select(sum("FATALS")).show
+
+    println("not rural or urban?")
+    df.where("A_RU == 3").show
+    df.where("A_RU == 0").show
+
     println("Welcome to DataStuff, where we have some queries for you!")
     val menu = new MyMenu(op)
     var continue = true
