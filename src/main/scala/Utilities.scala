@@ -272,6 +272,28 @@ object Utilities {
           .mode("overwrite")
           .save("hdfs://localhost:9000/user/justis/rural.csv")
          */
+        case "PEDAL" =>
+          val pedal = spark.read
+            .option("header", true)
+            .csv("input/main/*")
+            .toDF()
+            .where("A_PEDAL_F == 1")
+          /* hdfs for zeppelin
+        ur.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/pedal.csv")
+           */
+          println("Number of crashes fatal to Cyclists by state")
+          pedal.groupBy("STATENAME").count().orderBy(col("count").desc).show(56)
+        /*
+        sum.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/pedal_state.csv")
+         */
         case b => continue = false
       }
     }
