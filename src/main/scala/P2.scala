@@ -12,6 +12,44 @@ object P2 {
   val b = "Back to Main Menu"
 
   def main(args: Array[String]): Unit = {
+    junk()
+    println("TRANSPORTATION AND AUTO DATA (F.I.R.S.T.)")
+
+    val menu1 = new MyMenu(List[String]("Log In", "Sign Up", "Quit Program"))
+    var auth = false
+    while (!auth) {
+      menu1.printMenu()
+      val in = chooseN(3)
+      val option = menu1.selectOption(in)
+      option match {
+        case "Sign Up" =>
+          signUp()
+          logIn()
+          auth = true
+        case "Log In" =>
+          var user = readLine("Please enter your UserName")
+          var break = false
+          while (!userExists(user) || break) {
+            println("Sorry, that username doesn't match.")
+            val menu = new MyMenu(
+              List[String]("Try Log In again", "Quit Log In")
+            )
+            menu.printMenu()
+            val in = chooseN(2)
+            val option = menu.selectOption(in)
+            option match {
+              case "Try Log In again" =>
+                user = readLine("Please enter your UserName")
+              case "Quit Log In" => break = true
+            }
+          }
+          if (!break) {
+            var pass = readLine("")
+          }
+        case "Quit Program" => System.exit(0)
+      }
+    }
+
     spark.sparkContext.setLogLevel("WARN")
     val op = List[String](
       "Topic 1",
@@ -21,8 +59,7 @@ object P2 {
       "End Program"
     )
 
-    println("TRANSPORTATION AND AUTO DATA (F.I.R.S.T.)")
-    val menu = new MyMenu(op)
+    val menuMain = new MyMenu(op)
     var continue = true
     val list1 = List[String]("A", b)
     val list2 = List[String]("B", "C", "D", b)
@@ -30,9 +67,9 @@ object P2 {
     val list4 = List[String]("G", "H", b)
 
     while (continue) {
-      menu.printMenu()
+      menuMain.printMenu()
       val in = chooseN(5)
-      val option = menu.selectOption(in)
+      val option = menuMain.selectOption(in)
 
       option match {
         case "Topic 1"     => menuLev2(list1)
