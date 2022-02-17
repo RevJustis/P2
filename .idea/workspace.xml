@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="241ceada-61af-4624-bfc1-43194785b652" name="Changes" comment="Inserted the car crash data from the csv files into dataframes and created tables for the fatality trends of the entire US and the individual states." />
+    <list default="true" id="241ceada-61af-4624-bfc1-43194785b652" name="Changes" comment="Inserted the car crash data from the csv files into dataframes and created tables for the fatality trends of the entire US and the individual states.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/P2.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/P2.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/Utilities.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Utilities.scala" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

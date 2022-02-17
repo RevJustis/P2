@@ -198,36 +198,14 @@ object P2 {
 
 
 
-
-
-
-
-
-
-    /*
-    println("the last one?")
-    df.where("STATE == 57").show
-
-    println("where is samoa?") // here it is!
-    df.where("STATE == 3").select(sum("FATALS")).show
-
-    println("not rural or urban?")
-    df.where("A_RU == 3").show
-    df.where("A_RU == 0").show
-
-     */
-    /*
-    df.write
-      .format("csv")
-      .option("header", true)
-      .mode("overwrite")
-      .save("hdfs://localhost:9000/user/patrickbrown/future.csv")
-     */
-
-    /*
     println("Welcome to DataStuff, where we have some queries for you!")
     val menu = new MyMenu(op)
     var continue = true
+    val List1 = List[String]("A", b)
+    val List2 = List[String]("B", "C", "D", b)
+    val List3 = List[String]("E", "F", b)
+    val List4 = List[String]("G", "H", b)
+
     while (continue) {
       getOption(op) match {
         case "Topic 1"     => menuLev2(list1)
