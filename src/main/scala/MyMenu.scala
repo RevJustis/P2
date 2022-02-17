@@ -4,12 +4,12 @@ class MyMenu(options: List[String]) {
 
   private def printMenuLine(): Unit = {
     //prints a line that goes on the top of bottom of a menu
-    println("+------------------------------------------------+")
+    println("+-----------------------+")
   }
 
   private def printMenuOption(ind: Int, menVal: String): Unit = {
     //Prints out a section of the menu that is a set amount of characters long.
-    val maxLength = 50;
+    val maxLength = 25;
     var tempStr = "| "
     tempStr += (ind + 1).toString + " -> " + menVal
     while (tempStr.length < (maxLength - 1)) {
@@ -26,8 +26,8 @@ class MyMenu(options: List[String]) {
 
   def printMenu(): Unit = {
     //prints the entire menu with all options
-    println("+-Options----------------------------------------+")
-    menuOptions.foreach(m => {printMenuOption(menuOptions.indexOf(m), m)})
+    println("+-Options---------------+")
+    menuOptions.foreach(m => { printMenuOption(menuOptions.indexOf(m), m) })
     printMenuLine()
   }
 

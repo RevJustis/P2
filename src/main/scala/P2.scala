@@ -1,52 +1,44 @@
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions._
 import Utilities._
 
 object P2 {
+  val spark = SparkSession.builder
+    .master("local[*]")
+    .appName("Spark Word Count")
+    .enableHiveSupport()
+    .getOrCreate()
+
+  val b = "Back to Main Menu"
+
   def main(args: Array[String]): Unit = {
+    spark.sparkContext.setLogLevel("WARN")
     val op = List[String](
-      "Scenario 1",
-      "Scenario 2",
-      "Scenario 3",
-      "Scenario 4",
-      "Scenario 5",
-      "Scenario 6",
+      "Topic 1",
+      "Topic 2",
+      "Topic 3",
+      "Topic 4",
       "End Program"
     )
-    val spark = SparkSession.builder
-      .master("local[*]")
-      .appName("Spark Word Count")
-      .enableHiveSupport()
-      .getOrCreate()
 
-    spark.sparkContext.setLogLevel("WARN")
-    spark.sql(
-      "CREATE TABLE IF NOT EXISTS test (year STRING, total STRING)" +
-        "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'"
-    )
-    spark.sql(
-      "LOAD DATA LOCAL INPATH 'input/FileName.txt' OVERWRITE INTO TABLE test"
-    )
-    spark.sql("select * from test").show
-    println("Welcome to DataStuff, where we have some queries for you!")
+    println("TRANSPORTATION AND AUTO DATA (F.I.R.S.T.)")
     val menu = new MyMenu(op)
     var continue = true
+    val list1 = List[String]("A", b)
+    val list2 = List[String]("B", "C", "D", b)
+    val list3 = List[String]("E", "F", "Unknown", b)
+    val list4 = List[String]("G", "H", b)
 
     while (continue) {
       menu.printMenu()
-      print("Option: ")
-      val in = chooseN(7)
+      val in = chooseN(5)
       val option = menu.selectOption(in)
 
       option match {
-        case "Scenario 1" => println(option)
-        case "Scenario 2" => println(option)
-        case "Scenario 3" => println(option)
-        case "Scenario 4" => println(option)
-        case "Scenario 5" => println(option)
-        case "Scenario 6" => println(option)
-        // val df = spark.sql("SELECT * FROM table")
-        // df.show
-        // df.coalesce(1).write.format("csv").option("header",true).mode("overwrite").save("hdfs://localhost:9000/user/justis/future.csv")
+        case "Topic 1"     => menuLev2(list1)
+        case "Topic 2"     => menuLev2(list2)
+        case "Topic 3"     => menuLev2(list3)
+        case "Topic 4"     => menuLev2(list4)
         case "End Program" => continue = false
       }
     }

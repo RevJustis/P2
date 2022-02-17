@@ -1,8 +1,10 @@
 import scala.io.StdIn.readLine
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.functions.{sum, col, asc}
 import java.io.{File, PrintWriter}
 import scala.Console.println
+import P2._
+import org.apache.spark.sql.functions
 
 object Utilities {
   def junk(spark: SparkSession): Unit = {
@@ -104,7 +106,7 @@ object Utilities {
 
     n match {
       case 1 =>
-        print(
+        println(
           "Sorry, but you have to choose '1'... Huh... almost feels like you have no choice at all... OK you can go now. "
         );
         goodIn = true;
@@ -115,7 +117,7 @@ object Utilities {
             case '1' => goodIn = true; inByte = 1.toByte
             case '2' => goodIn = true; inByte = 2.toByte
             case _ =>
-              print("Sorry, but you have to choose '1', or '2': ");
+              println("Sorry, but you have to choose '1', or '2': ");
               input = readChar()
           }
         }
@@ -126,7 +128,7 @@ object Utilities {
             case '2' => goodIn = true; inByte = 2.toByte
             case '3' => goodIn = true; inByte = 3.toByte
             case _ =>
-              print("Sorry, but you have to choose '1', '2', or '3': ");
+              println("Sorry, but you have to choose '1', '2', or '3': ");
               input = readChar()
           }
         }
@@ -138,7 +140,7 @@ object Utilities {
             case '3' => goodIn = true; inByte = 3.toByte
             case '4' => goodIn = true; inByte = 4.toByte
             case _ =>
-              print("Sorry, but you have to choose '1', '2', '3', or '4': ");
+              println("Sorry, but you have to choose '1', '2', '3', or '4': ");
               input = readChar()
           }
         }
@@ -151,7 +153,7 @@ object Utilities {
             case '4' => goodIn = true; inByte = 4.toByte
             case '5' => goodIn = true; inByte = 5.toByte
             case _ =>
-              print(
+              println(
                 "Sorry, but you have to choose '1', '2', '3', '4', or '5': "
               ); input = readChar()
           }
@@ -166,7 +168,7 @@ object Utilities {
             case '5' => goodIn = true; inByte = 5.toByte
             case '6' => goodIn = true; inByte = 6.toByte
             case _ =>
-              print(
+              println(
                 "Sorry, but you have to choose '1', '2', '3', '4', '5', or '6': "
               ); input = readChar()
           }
@@ -182,12 +184,96 @@ object Utilities {
             case '6' => goodIn = true; inByte = 6.toByte
             case '7' => goodIn = true; inByte = 7.toByte
             case _ =>
-              print(
+              println(
                 "Sorry, but you have to choose '1', '2', '3', '4', '5', '6', or '7': "
               ); input = readChar()
           }
         }
     }
     inByte
+  }
+
+  def menuLev2(options: List[String]): Unit = {
+    val menu2 = new MyMenu(options)
+    var continue = true
+    while (continue) {
+      menu2.printMenu()
+      val in = chooseN(options.length.toByte)
+      val option = menu2.selectOption(in)
+      option match {
+        case "E" => // rural
+          val ru = spark.read
+            .option("header", true)
+            .csv("input/main/*")
+            .toDF()
+            .where("A_RU == 1")
+          /* ru.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/rural.csv")
+           */
+          println("Rural Fatalities by State")
+          val sum =
+            ru.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
+          sum.orderBy(col("SUM").desc).show(60)
+        /*
+        sum.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/rural.csv")
+         */
+        case "F" => // urban
+          val ur = spark.read
+            .option("header", true)
+            .csv("input/main/*")
+            .toDF()
+            .where("A_RU == 2")
+          /*
+        ur.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/urban.csv")
+           */
+          println("Urban Fatalities by State")
+          val sum =
+            ur.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
+          sum.orderBy(col("SUM").desc).show(60)
+        /*
+        sum.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/rural.csv")
+         */
+        case "Unknown" => // suburban
+          val sub = spark.read
+            .option("header", true)
+            .csv("input/main/*")
+            .toDF()
+            .where("A_RU == 3")
+          /* hdfs for zeppelin
+        ur.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/urban.csv")
+           */
+          println("Suburban Fatalities by State")
+          val sum =
+            sub.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
+          sum.orderBy(col("SUM").desc).show(60)
+        /*
+        sum.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/rural.csv")
+         */
+        case b => continue = false
+      }
+    }
   }
 }
