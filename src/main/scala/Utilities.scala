@@ -1,8 +1,10 @@
 import scala.io.StdIn.readLine
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.col
+
 import java.io.{File, PrintWriter}
 import scala.Console.println
+import P2.{spark, _}
 
 object Utilities {
   def junk(spark: SparkSession): Unit = {
@@ -90,6 +92,81 @@ object Utilities {
     //    bevs common between BranchA and ConscountA \\
 //      spark.sql("SELECT branch_a.branch, cons_a.bev, cons_a.count FROM branch_a " +
 //        "INNER JOIN cons_a ON cons_a.bev = branch_a.bev ORDER BY branch_a.branch, cons_a.bev, cons_a.count").show()
+
+
+
+    //PATRICK'S JUNK:
+    /*
+   spark.sql(
+     "CREATE TABLE IF NOT EXISTS test (year STRING, total STRING)" +
+       "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'"
+   )
+   spark.sql(
+     "LOAD DATA LOCAL INPATH 'input/FileName.txt' OVERWRITE INTO TABLE test"
+   )
+   spark.sql("select * from test").show
+    */
+    /*
+    //2016
+    spark.sql("DROP TABLE IF EXISTS crash2016")
+    spark.sql("CREATE TABLE IF NOT EXISTS crash2016(crashType int, age15_19 int, age15_20 int, age16_19 int, age16_20 int, \n" +
+      "age16_24 int, age21_24 int, age60plus int, motorcyle int, pedestrian int, pedalcyclist int, pedalFatal int, pedestrianFatal int, \n" +
+      "relationToRoad int, ruralUrban int, fatals int, schoolBus int, stateNum int, state String, stateCase int, year int) \n" +
+      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    spark.sql("LOAD DATA LOCAL INPATH 'input/main/2016vp.csv' OVERWRITE INTO TABLE crash2016")
+    //val df16 = spark.sql("SELECT * FROM crash2017")
+    val df16 = spark.sql("SELECT sum(fatals) as fatalities, year from crash2016 group by year")
+    //df16.show()
+
+    //2017
+    spark.sql("DROP TABLE IF EXISTS crash2017")
+    spark.sql("CREATE TABLE IF NOT EXISTS crash2017(crashType int, age15_19 int, age15_20 int, age16_19 int, age16_20 int, \n" +
+      "age16_24 int, age21_24 int, age60plus int, motorcyle int, pedestrian int, pedalcyclist int, pedalFatal int, pedestrianFatal int, \n" +
+      "relationToRoad int, ruralUrban int, fatals int, schoolBus int, stateNum int, state String, stateCase int, year int) \n" +
+      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    spark.sql("LOAD DATA LOCAL INPATH 'input/main/2017vp.csv' OVERWRITE INTO TABLE crash2017")
+    //val df17 = spark.sql("SELECT * FROM crash2017")
+    val df17 = spark.sql("SELECT sum(fatals) as fatalities, year from crash2017 group by year")
+    //df17.show()
+
+    //2018
+    spark.sql("DROP TABLE IF EXISTS crash2018")
+    spark.sql("CREATE TABLE IF NOT EXISTS crash2018(crashType int, age15_19 int, age15_20 int, age16_19 int, age16_20 int, \n" +
+      "age16_24 int, age21_24 int, age60plus int, motorcyle int, pedestrian int, pedalcyclist int, pedalFatal int, pedestrianFatal int, \n" +
+      "relationToRoad int, ruralUrban int, fatals int, schoolBus int, stateNum int, state String, stateCase int, year int) \n" +
+      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    spark.sql("LOAD DATA LOCAL INPATH 'input/main/2018vp.csv' OVERWRITE INTO TABLE crash2018")
+    //val df18 = spark.sql("SELECT * FROM crash2018")
+    val df18 = spark.sql("SELECT sum(fatals) as fatalities, year from crash2018 group by year")
+    //df18.show()
+
+    //2019
+    //val df = spark.read.option("header", true).csv("input/2019v2.csv")
+    spark.sql("DROP TABLE IF EXISTS crash2019")
+    spark.sql("CREATE TABLE IF NOT EXISTS crash2019(crashType int, age15_19 int, age15_20 int, age16_19 int, age16_20 int, \n" +
+      "age16_24 int, age21_24 int, age60plus int, motorcyle int, pedestrian int, pedalcyclist int, pedalFatal int, pedestrianFatal int, \n" +
+      "relationToRoad int, ruralUrban int, fatals int, schoolBus int, stateNum int, state String, stateCase int, year int) \n" +
+      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    spark.sql("LOAD DATA LOCAL INPATH 'input/main/2019vp.csv' OVERWRITE INTO TABLE crash2019")
+    //val df = spark.sql("SELECT * FROM crash2019")
+    //val df = spark.sql("SELECT sum(fatals), state, year from crash2019 group by year, state")
+    val df19 = spark.sql("SELECT sum(fatals) as fatalities, year from crash2019 group by year")
+    //df19.show()
+    //df.select("state").distinct.show(57)
+    //df.select("fatals", "state", "year").show()
+    //df.show()
+    */
+
+    //ALL
+    //ALL YEARS 2016-2019
+    import spark.implicits._
+    //val rdd = spark.sparkContext.textFile("input/main/2016v2.csv,input/main/2017v2.csv,input/main/2018v2.csv,input/main/2019v2.csv")
+    //val rdd = spark.sparkContext.parallelize(data)
+    //val df = spark.read.option("header", true).csv("input/main/*")
+    //val df = rdd.toDF()
+    //df.show()
+    //df.where("STATE = 'Alabama'").show()
+    //END OF PATRICK'S JUNK.
   }
 
   def end(): Unit = {
@@ -191,10 +268,116 @@ object Utilities {
     inByte
   }
 
-  def menuLev2(options: List[String], n: Byte): Unit = {
+  def menuLev2(options: List[String]): Unit = {
     val menu2 = new MyMenu(options)
-    menu2.printMenu()
-    val in = chooseN(n)
-    val option = menu2.selectOption(in)
+    var continue = true
+    while(continue) {
+      menu2.printMenu()
+      //put input from user into a var called in
+      val in = chooseN(options.length.toByte)
+      //select the user's option
+      val option = menu2.selectOption(in)
+      option match{
+        case "A" => println("Jessica's topic.")
+
+        case "B" => //GRAPH TRENDS OF FATALITIES IN ENTIRE U.S. FOR 4 YEARS:
+          //CREATE TABLE OF ALL DATA
+          spark.sql("DROP TABLE IF EXISTS crashData")
+          spark.sql("CREATE TABLE IF NOT EXISTS crashData(crashType int, age15_19 int, age15_20 int, age16_19 int, age16_20 int, \n" +
+            "age16_24 int, age21_24 int, age60plus int, motorcyle int, pedestrian int, pedalcyclist int, pedalFatal int, pedestrianFatal int, \n" +
+            "relationToRoad int, ruralUrban int, fatals int, schoolBus int, stateNum int, state String, stateCase int, year int) \n" +
+            "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+          spark.sql("LOAD DATA LOCAL INPATH 'input/main/*' OVERWRITE INTO TABLE crashData")
+          val dfAll = spark.sql("SELECT * FROM crashData")
+          //dfAll.show()
+          //Graph the trend of fatalities in the entire USA
+          println("Trend of fatalities in the entire USA from 2016 to 2019:")
+          val dfAllUS = spark.sql("SELECT sum(fatals) as fatalities, year from crashData group by year order by year")
+          dfAllUS.show()
+          /*
+          df.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/patrickbrown/future.csv")
+          */
+
+        case "C" => //GRAPH TRENDS OF FATALITIES IN EACH STATE:
+          //CREATE TABLE OF ALL DATA
+          spark.sql("DROP TABLE IF EXISTS crashData")
+          spark.sql("CREATE TABLE IF NOT EXISTS crashData(crashType int, age15_19 int, age15_20 int, age16_19 int, age16_20 int, \n" +
+            "age16_24 int, age21_24 int, age60plus int, motorcyle int, pedestrian int, pedalcyclist int, pedalFatal int, pedestrianFatal int, \n" +
+            "relationToRoad int, ruralUrban int, fatals int, schoolBus int, stateNum int, state String, stateCase int, year int) \n" +
+            "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+          spark.sql("LOAD DATA LOCAL INPATH 'input/main/*' OVERWRITE INTO TABLE crashData")
+          val dfAll = spark.sql("SELECT * FROM crashData")
+          //dfAll.show()
+          //Graph the trend of fatalities in individual states
+          println("Trend of fatalities in individual states from 2016 to 2019:")
+          val dfState = spark.sql("SELECT sum(fatals) as fatalities, year, state from crashData group by state, year \n" +
+            "order by state, year")
+          dfState.show()
+          /*
+          df.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/patrickbrown/future.csv")
+          */
+
+        case "D" => //WHICH STATES ARE THE SAFEST?
+          //CREATE TABLE OF ALL DATA
+          spark.sql("DROP TABLE IF EXISTS crashData")
+          spark.sql("CREATE TABLE IF NOT EXISTS crashData(crashType int, age15_19 int, age15_20 int, age16_19 int, age16_20 int, \n" +
+            "age16_24 int, age21_24 int, age60plus int, motorcyle int, pedestrian int, pedalcyclist int, pedalFatal int, pedestrianFatal int, \n" +
+            "relationToRoad int, ruralUrban int, fatals int, schoolBus int, stateNum int, state String, stateCase int, year int) \n" +
+            "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+          spark.sql("LOAD DATA LOCAL INPATH 'input/main/*' OVERWRITE INTO TABLE crashData")
+          val dfAll = spark.sql("SELECT * FROM crashData")
+          //dfAll.show()
+          //Trend by year for all states
+          //States with highest crashes every year
+          println("States with highest crash fatality numbers every year: ")
+          val dfState2016 = spark.sql("SELECT sum(fatals) as fatalities, year, state from crashData where year = 2016 \n" +
+            "group by state, year order by fatalities DESC LIMIT 8")
+          val dfState2017 = spark.sql("SELECT sum(fatals) as fatalities, year, state from crashData where year = 2017\n" +
+            "group by state, year order by fatalities DESC LIMIT 8")
+          val dfState2018 = spark.sql("SELECT sum(fatals) as fatalities, year, state from crashData where year = 2018 \n" +
+            "group by state, year order by fatalities DESC LIMIT 8")
+          val dfState2019 = spark.sql("SELECT sum(fatals) as fatalities, year, state from crashData where year = 2019 \n" +
+            "group by state, year order by fatalities DESC LIMIT 8")
+          dfState2016.show()
+          dfState2017.show()
+          dfState2018.show()
+          dfState2019.show()
+          //States with lowest crashes every year
+          println("States with lowest crash fatality numbers every year: ")
+          val state2016down = spark.sql("SELECT sum(fatals) as fatalities, year, state from crashData where year = 2016 \n" +
+            "group by state, year order by fatalities LIMIT 8")
+          val state2017down = spark.sql("SELECT sum(fatals) as fatalities, year, state from crashData where year = 2017\n" +
+            "group by state, year order by fatalities LIMIT 8")
+          val state2018down = spark.sql("SELECT sum(fatals) as fatalities, year, state from crashData where year = 2018 \n" +
+            "group by state, year order by fatalities LIMIT 8")
+          val state2019down = spark.sql("SELECT sum(fatals) as fatalities, year, state from crashData where year = 2019 \n" +
+            "group by state, year order by fatalities LIMIT 8")
+          state2016down.show()
+          state2017down.show()
+          state2018down.show()
+          state2019down.show()
+          /*
+          df.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/patrickbrown/future.csv")
+          */
+
+        case "E" => println("Justis' topic.")
+        case "F" => println("Justis' topic.")
+        case "G" => println("Jonathan's topic.")
+        case "H" => println("Jonathan's topic.")
+        case b => continue = false
+      }
+    }
   }
 }
