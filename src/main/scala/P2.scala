@@ -9,10 +9,10 @@ object P2 {
     .enableHiveSupport()
     .getOrCreate()
 
-  spark.sparkContext.setLogLevel("WARN")
   val b = "Back to Main Menu"
 
   def main(args: Array[String]): Unit = {
+    spark.sparkContext.setLogLevel("WARN")
     val op = List[String](
       "Topic 1",
       "Topic 2",
@@ -21,9 +21,13 @@ object P2 {
       "End Program"
     )
 
-    println("Welcome to DataStuff, where we have some queries for you!")
+    println("TRANSPORTATION AND AUTO DATA (F.I.R.S.T.)")
     val menu = new MyMenu(op)
     var continue = true
+    val list1 = List[String]("A", b)
+    val list2 = List[String]("B", "C", "D", b)
+    val list3 = List[String]("E", "F", "Unknown", b)
+    val list4 = List[String]("G", "H", b)
 
     while (continue) {
       menu.printMenu()
@@ -31,10 +35,10 @@ object P2 {
       val option = menu.selectOption(in)
 
       option match {
-        case "Topic 1"     => menuLev2(List[String]("A", b), 1)
-        case "Topic 2"     => menuLev2(List[String]("B", "C", "D", b), 3)
-        case "Topic 3"     => menuLev2(List[String]("E", "F", "Sub", b), 2)
-        case "Topic 4"     => menuLev2(List[String]("G", "H", b), 2)
+        case "Topic 1"     => menuLev2(list1)
+        case "Topic 2"     => menuLev2(list2)
+        case "Topic 3"     => menuLev2(list3)
+        case "Topic 4"     => menuLev2(list4)
         case "End Program" => continue = false
       }
     }

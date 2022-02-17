@@ -7,8 +7,6 @@ import P2._
 import org.apache.spark.sql.functions
 
 object Utilities {
-  // val s = P2.spark
-  // val b = P2.b
   def junk(spark: SparkSession): Unit = {
     spark.sql(
       "set hive.exec.dynamic.partition.mode=nonstrict"
@@ -195,12 +193,12 @@ object Utilities {
     inByte
   }
 
-  def menuLev2(options: List[String], n: Byte): Unit = {
+  def menuLev2(options: List[String]): Unit = {
     val menu2 = new MyMenu(options)
     var continue = true
     while (continue) {
       menu2.printMenu()
-      val in = chooseN(n)
+      val in = chooseN(options.length.toByte)
       val option = menu2.selectOption(in)
       option match {
         case "E" => // rural
@@ -231,8 +229,7 @@ object Utilities {
             .option("header", true)
             .csv("input/main/*")
             .toDF()
-            .where("A_RU == 3")
-          ur.show()
+            .where("A_RU == 2")
           /*
         ur.write
           .format("csv")
@@ -251,12 +248,12 @@ object Utilities {
           .mode("overwrite")
           .save("hdfs://localhost:9000/user/justis/rural.csv")
          */
-        case "Sub" => // suburban
+        case "Unknown" => // suburban
           val sub = spark.read
             .option("header", true)
             .csv("input/main/*")
             .toDF()
-            .where("A_RU == 2")
+            .where("A_RU == 3")
           /* hdfs for zeppelin
         ur.write
           .format("csv")
