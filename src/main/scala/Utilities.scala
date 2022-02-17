@@ -1,10 +1,14 @@
 import scala.io.StdIn.readLine
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.functions.{sum, col, asc}
 import java.io.{File, PrintWriter}
 import scala.Console.println
+import P2._
+import org.apache.spark.sql.functions
 
 object Utilities {
+  // val s = P2.spark
+  // val b = P2.b
   def junk(spark: SparkSession): Unit = {
     spark.sql(
       "set hive.exec.dynamic.partition.mode=nonstrict"
@@ -193,8 +197,86 @@ object Utilities {
 
   def menuLev2(options: List[String], n: Byte): Unit = {
     val menu2 = new MyMenu(options)
-    menu2.printMenu()
-    val in = chooseN(n)
-    val option = menu2.selectOption(in)
+    var continue = true
+    while (continue) {
+      menu2.printMenu()
+      val in = chooseN(n)
+      val option = menu2.selectOption(in)
+      option match {
+        case "E" => // rural
+          val ru = spark.read
+            .option("header", true)
+            .csv("input/main/*")
+            .toDF()
+            .where("A_RU == 1")
+          /* ru.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/rural.csv")
+           */
+          println("Rural Fatalities by State")
+          val sum =
+            ru.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
+          sum.orderBy(col("SUM").desc).show(60)
+        /*
+        sum.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/rural.csv")
+         */
+        case "F" => // urban
+          val ur = spark.read
+            .option("header", true)
+            .csv("input/main/*")
+            .toDF()
+            .where("A_RU == 3")
+          ur.show()
+          /*
+        ur.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/urban.csv")
+           */
+          println("Urban Fatalities by State")
+          val sum =
+            ur.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
+          sum.orderBy(col("SUM").desc).show(60)
+        /*
+        sum.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/rural.csv")
+         */
+        case "Sub" => // suburban
+          val sub = spark.read
+            .option("header", true)
+            .csv("input/main/*")
+            .toDF()
+            .where("A_RU == 2")
+          /* hdfs for zeppelin
+        ur.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/urban.csv")
+           */
+          println("Suburban Fatalities by State")
+          val sum =
+            sub.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
+          sum.orderBy(col("SUM").desc).show(60)
+        /*
+        sum.write
+          .format("csv")
+          .option("header", true)
+          .mode("overwrite")
+          .save("hdfs://localhost:9000/user/justis/rural.csv")
+         */
+        case b => continue = false
+      }
+    }
   }
 }

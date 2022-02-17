@@ -3,6 +3,15 @@ import org.apache.spark.sql.functions._
 import Utilities._
 
 object P2 {
+  val spark = SparkSession.builder
+    .master("local[*]")
+    .appName("Spark Word Count")
+    .enableHiveSupport()
+    .getOrCreate()
+
+  spark.sparkContext.setLogLevel("WARN")
+  val b = "Back to Main Menu"
+
   def main(args: Array[String]): Unit = {
     val op = List[String](
       "Topic 1",
@@ -11,36 +20,6 @@ object P2 {
       "Topic 4",
       "End Program"
     )
-    val spark = SparkSession.builder
-      .master("local[*]")
-      .appName("Spark Word Count")
-      .enableHiveSupport()
-      .getOrCreate()
-
-    spark.sparkContext.setLogLevel("WARN")
-    /*
-    spark.sql(
-      "CREATE TABLE IF NOT EXISTS test (year STRING, total STRING)" +
-        "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'"
-    )
-    spark.sql(
-      "LOAD DATA LOCAL INPATH 'input/FileName.txt' OVERWRITE INTO TABLE test"
-    )
-    spark.sql("select * from test").show
-     */
-
-    val df =
-      spark.read.option("header", true).csv("input/CrashReportRecords.csv")
-
-    println("the last one?")
-    df.where("STATE == 57").show
-
-    println("where is samoa?") // here it is!
-    df.where("STATE == 3").select(sum("FATALS")).show
-
-    println("not rural or urban?")
-    df.where("A_RU == 3").show
-    df.where("A_RU == 0").show
 
     println("Welcome to DataStuff, where we have some queries for you!")
     val menu = new MyMenu(op)
@@ -48,15 +27,14 @@ object P2 {
 
     while (continue) {
       menu.printMenu()
-      // print("Option: ")
-      val in = chooseN(7)
+      val in = chooseN(5)
       val option = menu.selectOption(in)
 
       option match {
-        case "Topic 1"     => menuLev2(List[String]("A"), 1)
-        case "Topic 2"     => menuLev2(List[String]("B", "C", "D"), 3)
-        case "Topic 3"     => menuLev2(List[String]("E", "F"), 2)
-        case "Topic 4"     => menuLev2(List[String]("G", "H"), 2)
+        case "Topic 1"     => menuLev2(List[String]("A", b), 1)
+        case "Topic 2"     => menuLev2(List[String]("B", "C", "D", b), 3)
+        case "Topic 3"     => menuLev2(List[String]("E", "F", "Sub", b), 2)
+        case "Topic 4"     => menuLev2(List[String]("G", "H", b), 2)
         case "End Program" => continue = false
       }
     }
