@@ -144,16 +144,7 @@ object P2 {
     //df.show()
     //df.where("STATE = 'Alabama'").show()
 
-    import org.apache.spark.storage.StorageLevel
-    //val rdd2 = rdd.persist(StorageLevel.MEMORY_ONLY_SER)
-    //or
-    //val df2 = df.persist(StorageLevel.MEMORY_ONLY_SER)
 
-    //spark.sql("drop table if exists crash2016")
-    //spark.sql("drop table if exists crash2017")
-    //spark.sql("drop table if exists crash2018")
-    //spark.sql("drop table if exists crash2019")
-    //spark.sql("drop table if exists test")
 
 
     //---------------------------------------------------------------------------------------------------------------
