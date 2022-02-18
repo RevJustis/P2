@@ -1,6 +1,7 @@
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import Utilities._
+import org.apache.spark.storage.StorageLevel
 
 object P2 {
   //create a spark session
@@ -22,7 +23,20 @@ object P2 {
       "End Program"
     )
 
+    import org.apache.spark.storage.StorageLevel
+    //val rdd2 = rdd.persist(StorageLevel.MEMORY_ONLY_SER)
+    //or
+    //val df2 = df.persist(StorageLevel.MEMORY_ONLY_SER)
+
+    //spark.sql("drop table if exists crash2016")
+    //spark.sql("drop table if exists crash2017")
+    //spark.sql("drop table if exists crash2018")
+    //spark.sql("drop table if exists crash2019")
+    //spark.sql("drop table if exists test")
+
+
     //---------------------------------------------------------------------------------------------------------------
+
 
     println("Welcome to DataStuff, where we have some queries for you!")
     val menu = new MyMenu(op)
@@ -46,6 +60,7 @@ object P2 {
         case "End Program" => continue = false
       }
     }
+
     //Close Spark Session
     spark.close
     end

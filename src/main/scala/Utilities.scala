@@ -1,6 +1,7 @@
 import scala.io.StdIn.readLine
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.col
+import org.apache.spark.storage.StorageLevel
 
 import java.io.{File, PrintWriter}
 import scala.Console.println
@@ -95,6 +96,7 @@ object Utilities {
 
 
 
+    //---------------------------------------------------------------------------------------------------------------
     //PATRICK'S JUNK:
     /*
    spark.sql(
@@ -166,6 +168,49 @@ object Utilities {
     //val df = rdd.toDF()
     //df.show()
     //df.where("STATE = 'Alabama'").show()
+
+    //spark.sql("DROP TABLE IF EXISTS crashData")
+    //spark.sql("CREATE TABLE IF NOT EXISTS crashData(crashType int, age15_19 int, age15_20 int, age16_19 int, age16_20 int, \n" +
+    //  "age16_24 int, age21_24 int, age60plus int, motorcyle int, pedestrian int, pedalcyclist int, pedalFatal int, pedestrianFatal int, \n" +
+    //  "relationToRoad int, ruralUrban int, fatals int, schoolBus int, stateNum int, state String, stateCase int, year int) \n" +
+    //  "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    //spark.sql("LOAD DATA LOCAL INPATH 'input/main/*' OVERWRITE INTO TABLE crashData")
+    //val dfAll = spark.sql("SELECT * FROM crashData")
+    //dfAll.show()
+
+    //CREATE TABLE OF ALL DATA
+    //spark.sql("DROP TABLE IF EXISTS crashData")
+    //spark.sql("CREATE TABLE IF NOT EXISTS crashData(crashType int, age15_19 int, age15_20 int, age16_19 int, age16_20 int, \n" +
+    //  "age16_24 int, age21_24 int, age60plus int, motorcyle int, pedestrian int, pedalcyclist int, pedalFatal int, pedestrianFatal int, \n" +
+    //  "relationToRoad int, ruralUrban int, fatals int, schoolBus int, stateNum int, state String, stateCase int, year int) \n" +
+    //  "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    //spark.sql("LOAD DATA LOCAL INPATH 'input/main/*' OVERWRITE INTO TABLE crashData")
+    //val dfAll = spark.sql("SELECT * FROM crashData")
+    //dfAll.show()
+
+
+    //NEW WAY
+    //spark.sql("drop table if exists vehicleStats")
+    //val df = spark.read.option("header", true).csv("input/vehicleStats/*")
+    //df.show(50)
+    //OLD WAY
+    //spark.sql("drop table if exists vehicleStats")
+    //spark.sql("create table if not exists vehicleStats(vehicleType varchar(30), total int, percent double, \n" +
+    //"year int) row format delimited fields terminated by ','")
+    //spark.sql("load data local inpath 'input/vehicleStats/*' overwrite into table vehicleStats")
+
+    //Read CSV file into a DF
+    //val vDF = spark.read.option("header", true).csv("input/vehicleStats/*")
+    //vDF.write.parquet("spark-warehouse/vehiclestats/vehicleStats.parquet")
+    //vDF.createOrReplaceTempView("vehicleStats")
+    //val dfVehicle = spark.sql("select * from vehicleStats")
+    //dfVehicle.show()
+
+    //vDF.write.parquet("vehicleStats.parquet")
+    //vDF.createOrReplaceTempView("vehicleStats")
+    //val dfVehicle = spark.sql("select * from vehicleStats order by vehicleType, year")
+    //dfVehicle.show(30)
+
     //END OF PATRICK'S JUNK.
   }
 
@@ -282,18 +327,27 @@ object Utilities {
 
         case "B" => //GRAPH TRENDS OF FATALITIES IN ENTIRE U.S. FOR 4 YEARS:
           //CREATE TABLE OF ALL DATA
-          spark.sql("DROP TABLE IF EXISTS crashData")
-          spark.sql("CREATE TABLE IF NOT EXISTS crashData(crashType int, age15_19 int, age15_20 int, age16_19 int, age16_20 int, \n" +
-            "age16_24 int, age21_24 int, age60plus int, motorcyle int, pedestrian int, pedalcyclist int, pedalFatal int, pedestrianFatal int, \n" +
-            "relationToRoad int, ruralUrban int, fatals int, schoolBus int, stateNum int, state String, stateCase int, year int) \n" +
-            "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
-          spark.sql("LOAD DATA LOCAL INPATH 'input/main/*' OVERWRITE INTO TABLE crashData")
-          val dfAll = spark.sql("SELECT * FROM crashData")
+          //val peopleDF = spark.read.option("input/vehicleStats/*")
+          val aDF = spark.read.option("header", true).csv("input/main/*").toDF()
+          // DataFrames can be saved as Parquet files, maintaining the schema information
+          aDF.write.mode("overwrite").parquet("spark-warehouse/usCrashes.parquet")
+          // Read in the parquet file created above
+          // Parquet files are self-describing so the schema is preserved
+          // The result of loading a Parquet file is also a DataFrame
+          val parquetFileDF = spark.read.parquet("spark-warehouse/usCrashes.parquet")
+          // Parquet files can also be used to create a temporary view and then used in SQL statements
+          parquetFileDF.createOrReplaceTempView("crashData")
+          val dfAll = spark.sql("select * from crashData")
           //dfAll.show()
+          //Optimization
+          dfAll.persist(StorageLevel.MEMORY_ONLY_SER)
+
           //Graph the trend of fatalities in the entire USA
           println("Trend of fatalities in the entire USA from 2016 to 2019:")
           val dfAllUS = spark.sql("SELECT sum(fatals) as fatalities, year from crashData group by year order by year")
           dfAllUS.show()
+          //Optimization
+          dfAllUS.persist(StorageLevel.MEMORY_ONLY_SER)
           /*
           df.write
           .format("csv")
@@ -304,19 +358,28 @@ object Utilities {
 
         case "C" => //GRAPH TRENDS OF FATALITIES IN EACH STATE:
           //CREATE TABLE OF ALL DATA
-          spark.sql("DROP TABLE IF EXISTS crashData")
-          spark.sql("CREATE TABLE IF NOT EXISTS crashData(crashType int, age15_19 int, age15_20 int, age16_19 int, age16_20 int, \n" +
-            "age16_24 int, age21_24 int, age60plus int, motorcyle int, pedestrian int, pedalcyclist int, pedalFatal int, pedestrianFatal int, \n" +
-            "relationToRoad int, ruralUrban int, fatals int, schoolBus int, stateNum int, state String, stateCase int, year int) \n" +
-            "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
-          spark.sql("LOAD DATA LOCAL INPATH 'input/main/*' OVERWRITE INTO TABLE crashData")
-          val dfAll = spark.sql("SELECT * FROM crashData")
+          //val peopleDF = spark.read.option("input/vehicleStats/*")
+          val aDF = spark.read.option("header", true).csv("input/main/*").toDF()
+          // DataFrames can be saved as Parquet files, maintaining the schema information
+          aDF.write.mode("overwrite").parquet("spark-warehouse/usCrashes.parquet")
+          // Read in the parquet file created above
+          // Parquet files are self-describing so the schema is preserved
+          // The result of loading a Parquet file is also a DataFrame
+          val parquetFileDF = spark.read.parquet("spark-warehouse/usCrashes.parquet")
+          // Parquet files can also be used to create a temporary view and then used in SQL statements
+          parquetFileDF.createOrReplaceTempView("crashData")
+          val dfAll = spark.sql("select * from crashData")
           //dfAll.show()
+          //Optimization
+          dfAll.persist(StorageLevel.MEMORY_ONLY_SER)
+
           //Graph the trend of fatalities in individual states
           println("Trend of fatalities in individual states from 2016 to 2019:")
           val dfState = spark.sql("SELECT sum(fatals) as fatalities, year, state from crashData group by state, year \n" +
             "order by state, year")
           dfState.show()
+          //Optimization
+          dfState.persist(StorageLevel.MEMORY_ONLY_SER)
           /*
           df.write
           .format("csv")
@@ -327,14 +390,20 @@ object Utilities {
 
         case "D" => //WHICH STATES ARE THE SAFEST?
           //CREATE TABLE OF ALL DATA
-          spark.sql("DROP TABLE IF EXISTS crashData")
-          spark.sql("CREATE TABLE IF NOT EXISTS crashData(crashType int, age15_19 int, age15_20 int, age16_19 int, age16_20 int, \n" +
-            "age16_24 int, age21_24 int, age60plus int, motorcyle int, pedestrian int, pedalcyclist int, pedalFatal int, pedestrianFatal int, \n" +
-            "relationToRoad int, ruralUrban int, fatals int, schoolBus int, stateNum int, state String, stateCase int, year int) \n" +
-            "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
-          spark.sql("LOAD DATA LOCAL INPATH 'input/main/*' OVERWRITE INTO TABLE crashData")
-          val dfAll = spark.sql("SELECT * FROM crashData")
-          //dfAll.show()
+          //val peopleDF = spark.read.option("input/vehicleStats/*")
+          val aDF = spark.read.option("header", true).csv("input/main/*").toDF()
+          // DataFrames can be saved as Parquet files, maintaining the schema information
+          aDF.write.mode("overwrite").parquet("spark-warehouse/usCrashes.parquet")
+          // Read in the parquet file created above
+          // Parquet files are self-describing so the schema is preserved
+          // The result of loading a Parquet file is also a DataFrame
+          val parquetFileDF = spark.read.parquet("spark-warehouse/usCrashes.parquet")
+          // Parquet files can also be used to create a temporary view and then used in SQL statements
+          parquetFileDF.createOrReplaceTempView("crashData")
+          val dfAll = spark.sql("select * from crashData")
+          //Optimization
+          dfAll.persist(StorageLevel.MEMORY_ONLY_SER)
+
           //Trend by year for all states
           //States with highest crashes every year
           println("States with highest crash fatality numbers every year: ")
@@ -350,6 +419,11 @@ object Utilities {
           dfState2017.show()
           dfState2018.show()
           dfState2019.show()
+          //Optimization
+          dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
+          dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
+          dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
+          dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
           //States with lowest crashes every year
           println("States with lowest crash fatality numbers every year: ")
           val state2016down = spark.sql("SELECT sum(fatals) as fatalities, year, state from crashData where year = 2016 \n" +
@@ -364,6 +438,28 @@ object Utilities {
           state2017down.show()
           state2018down.show()
           state2019down.show()
+          //Optimization
+          dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
+          dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
+          dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
+          dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
+
+          //See what type of vehicle led to the most crashes.
+          println("Here are the stats for different vehicles: ")
+          //val peopleDF = spark.read.option("input/vehicleStats/*")
+          val vDF = spark.read.option("header", true).csv("input/vehicleStats/*").toDF()
+          // DataFrames can be saved as Parquet files, maintaining the schema information
+          vDF.write.mode("overwrite").parquet("spark-warehouse/vehicle.parquet")
+          // Read in the parquet file created above
+          // Parquet files are self-describing so the schema is preserved
+          // The result of loading a Parquet file is also a DataFrame
+          val parquetDF = spark.read.parquet("spark-warehouse/vehicle.parquet")
+          // Parquet files can also be used to create a temporary view and then used in SQL statements
+          parquetDF.createOrReplaceTempView("vehicleParquetFile")
+          val x = spark.sql("select * from vehicleParquetFile order by Year, VehicleType")
+          x.show(28)
+          //Optimization
+          x.persist(StorageLevel.MEMORY_ONLY_SER)
           /*
           df.write
           .format("csv")

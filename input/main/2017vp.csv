@@ -1,3 +1,4 @@
+crashType,age15_19,age15_20,age16_19,age16_20,age16_24,age21_24,age60plus,motorcycle,pedestrian,pedalcyclist,pedalFatal,pedestrianFatal,relationToRoad,ruralUrban,fatals,schoolBus,stateNum,state,stateCase,year
 1,2,2,2,2,2,2,2,2,2,2,2,2,3,2,1,0,1,Alabama,10001,2017
 1,2,2,2,2,2,2,2,2,2,2,2,2,3,2,1,0,1,Alabama,10002,2017
 3,2,2,2,2,2,2,2,2,2,2,2,2,1,2,1,0,1,Alabama,10003,2017
