@@ -1,0 +1,4 @@
+maria,1234,true
+john,apple,false
+test,qwer,false
+test2,qwerty,false

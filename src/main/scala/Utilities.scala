@@ -1,24 +1,23 @@
 import scala.io.StdIn.readLine
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions
-import java.io.{File, PrintWriter}
+import org.apache.spark.sql.{SparkSession, functions}
+import java.io.{File, PrintWriter, FileOutputStream}
 import scala.Console.println
 import P2._
 
 object Utilities {
+  var admin: Boolean = false
   def junk(): Unit = {
     spark.sql(
       "set hive.exec.dynamic.partition.mode=nonstrict"
     )
+    spark.sql("DROP TABLE IF EXISTS userpass")
     spark.sql(
-      "CREATE TABLE IF NOT EXISTS userpass (name STRING, pass STRING) "
+      "CREATE TABLE IF NOT EXISTS userpass (user STRING, pass STRING, admin STRING) "
         + "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"
     )
     spark.sql(
       "LOAD DATA LOCAL INPATH 'input/userpass.txt' OVERWRITE INTO TABLE userpass"
     )
-
-    //spark.sql("DROP TABLE IF EXISTS cons_tot_all")
 
 //    spark.sql("CREATE TABLE IF NOT EXISTS branch_a (bev STRING, branch STRING)" +
 //        "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
@@ -139,7 +138,6 @@ object Utilities {
           val ru = spark.read
             .option("header", true)
             .csv("input/main/*")
-            .toDF()
             .where("A_RU == 1")
           /* ru.write
           .format("csv")
@@ -237,18 +235,52 @@ object Utilities {
     }
   }
 
-  def signUp()
-      : Unit = { // TODO user adds a username and password to the userpass table
+  def signUp(): String = {
+    var continue = true
+    var user = ""
+    while (continue) {
+      println("Please enter a Username:")
+      user = readLine().trim()
+      if (userExists(user)) println("That username is taken, try again:")
+      else continue = false
+    }
+    println("Please enter a Password:")
+    val pass = readLine()
+
+    val pw = new PrintWriter(
+      new FileOutputStream(
+        new File("input/userpass.txt"),
+        true /* append = true */
+      )
+    )
+    pw.append(s"$user,$pass,false\n")
+    pw.close()
+    junk()
+    user
   }
 
-  def logIn(): Unit = {}
+  def logIn(user: String): Unit = {
+    val q = spark.sql(
+      s"SELECT admin FROM userpass WHERE user = '$user' AND admin = 'true'"
+    )
+    if (q.count() == 0) admin = false else admin = true
+  }
 
   def userExists(user: String): Boolean = {
     val q = spark.sql(s"SELECT * FROM userpass WHERE user = '$user'")
     if (q.count() == 0) false else true
   }
 
-  def authPass(): Boolean = {
-    true //FIXME Hardcoded!
+  def authPass(user: String, pass: String): Boolean = {
+    val q = spark.sql(
+      s"SELECT * FROM userpass WHERE user = '$user' AND pass = '$pass'"
+    )
+    if (q.count() == 0) false else true
+  }
+  def getOption(l: List[String]): String = {
+    val menu = new MyMenu(l)
+    menu.printMenu()
+    val in = chooseN(l.length.toByte)
+    menu.selectOption(in)
   }
 }
