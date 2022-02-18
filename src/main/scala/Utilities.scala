@@ -211,6 +211,17 @@ object Utilities {
     //val dfVehicle = spark.sql("select * from vehicleStats order by vehicleType, year")
     //dfVehicle.show(30)
 
+    //import org.apache.spark.storage.StorageLevel
+    //val rdd2 = rdd.persist(StorageLevel.MEMORY_ONLY_SER)
+    //or
+    //val df2 = df.persist(StorageLevel.MEMORY_ONLY_SER)
+
+    //spark.sql("drop table if exists crash2016")
+    //spark.sql("drop table if exists crash2017")
+    //spark.sql("drop table if exists crash2018")
+    //spark.sql("drop table if exists crash2019")
+    //spark.sql("drop table if exists test")
+
     //END OF PATRICK'S JUNK.
   }
 
