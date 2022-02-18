@@ -1,8 +1,16 @@
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions._
 import Utilities._
+import org.apache.spark.sql.SparkSession
 
 object P2 {
+
+  val spark = SparkSession.builder
+    .master("local[*]")
+    .appName("Spark Word Count")
+    .enableHiveSupport()
+    .getOrCreate()
+    spark.sparkContext.setLogLevel("WARN")
+  val b = "Back to Main Menu"
+
   def main(args: Array[String]): Unit = {
     val op = List[String](
       "Topic 1",
@@ -11,38 +19,43 @@ object P2 {
       "Topic 4",
       "End Program"
     )
-    val spark = SparkSession.builder
-      .master("local[*]")
-      .appName("Spark Word Count")
-      .enableHiveSupport()
-      .getOrCreate()
 
-    spark.sparkContext.setLogLevel("WARN")
-    /*
-    spark.sql(
+
+
+    /*spark.sql(
       "CREATE TABLE IF NOT EXISTS test (year STRING, total STRING)" +
         "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'"
     )
     spark.sql(
       "LOAD DATA LOCAL INPATH 'input/FileName.txt' OVERWRITE INTO TABLE test"
     )
-    spark.sql("select * from test").show
-     */
+    spark.sql("select * from test").show*/
 
-    val df =
-      spark.read.option("header", true).csv("input/CrashReportRecords.csv")
+    spark.sql(
+      "CREATE TABLE IF NOT EXISTS personsKilled (year int, passengerCars int, lightTrucks int, largeTrucks int," +
+        "motorcycles int, buses int, otherUnknown int, total1 int, pedestrian int, pedalcyclist int, other int, total2 int," +
+        "unknownPersonType int, total int)" +
+        "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"
+    )
+    spark.sql(
+      "LOAD DATA LOCAL INPATH 'input/PersonsKilled/PersonsKilled.csv' OVERWRITE INTO TABLE personsKilled")
 
-    println("the last one?")
-    df.where("STATE == 57").show
+//    spark.sql("select * from personskilled").show()
 
-    println("where is samoa?") // here it is!
-    df.where("STATE == 3").select(sum("FATALS")).show
+    spark.sql("select year, passengerCars, total1 + total2 as totalNotIncludingPed from personsKilled where year between 2008 and 2018 ").show()
+    spark.sql("select year, buses, total from personsKilled where year between 2008 and 2018").show()
 
-    println("not rural or urban?")
-    df.where("A_RU == 3").show
-    df.where("A_RU == 0").show
+//    spark.read
+//      .option("header", true)
+//      .csv("input/main/*")
+//      .toDF()
 
-    println("Welcome to DataStuff, where we have some queries for you!")
+
+
+
+
+
+    /*println("Welcome to DataStuff, where we have some queries for you!")
     val menu = new MyMenu(op)
     var continue = true
 
@@ -53,14 +66,14 @@ object P2 {
       val option = menu.selectOption(in)
 
       option match {
-        case "Topic 1"     => menuLev2(List[String]("A"), 1)
-        case "Topic 2"     => menuLev2(List[String]("B", "C", "D"), 3)
-        case "Topic 3"     => menuLev2(List[String]("E", "F"), 2)
-        case "Topic 4"     => menuLev2(List[String]("G", "H"), 2)
+        case "Topic 1"     => menuLev2(List[String]("A", b), 2)
+        case "Topic 2"     => menuLev2(List[String]("B", "C", "D", b), 4)
+        case "Topic 3"     => menuLev2(List[String]("E", "F", b), 3)
+        case "Topic 4"     => menuLev2(List[String]("G", "H", b), 3)
         case "End Program" => continue = false
       }
     }
     spark.close
-    end
+    end*/
   }
 }
