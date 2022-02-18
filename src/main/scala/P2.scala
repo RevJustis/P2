@@ -1,6 +1,7 @@
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import Utilities._
+import org.apache.spark.storage.StorageLevel
 
 object P2 {
   val spark = SparkSession.builder
@@ -143,6 +144,19 @@ object P2 {
     //df.show()
     //df.where("STATE = 'Alabama'").show()
 
+    import org.apache.spark.storage.StorageLevel
+    //val rdd2 = rdd.persist(StorageLevel.MEMORY_ONLY_SER)
+    //or
+    //val df2 = df.persist(StorageLevel.MEMORY_ONLY_SER)
+
+    //spark.sql("drop table if exists crash2016")
+    //spark.sql("drop table if exists crash2017")
+    //spark.sql("drop table if exists crash2018")
+    //spark.sql("drop table if exists crash2019")
+    //spark.sql("drop table if exists test")
+
+
+    //---------------------------------------------------------------------------------------------------------------
     spark.sql("DROP TABLE IF EXISTS crashData")
     spark.sql("CREATE TABLE IF NOT EXISTS crashData(crashType int, age15_19 int, age15_20 int, age16_19 int, age16_20 int, \n" +
       "age16_24 int, age21_24 int, age60plus int, motorcyle int, pedestrian int, pedalcyclist int, pedalFatal int, pedestrianFatal int, \n" +
@@ -192,6 +206,7 @@ object P2 {
     //state2017down.show()
     //state2018down.show()
     //state2019down.show()
+
 
 
 

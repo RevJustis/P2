@@ -4,8 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="241ceada-61af-4624-bfc1-43194785b652" name="Changes" comment="Inserted the car crash data from the csv files into dataframes and created tables for the fatality trends of the entire US and the individual states.">
+    <list default="true" id="241ceada-61af-4624-bfc1-43194785b652" name="Changes" comment="Moved my queries to the UI (queries B, C, and D).">
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/P2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/P2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/project.P2-build.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/project.P2-build.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sbt.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sbt.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/main/2016vp.csv" beforeDir="false" afterPath="$PROJECT_DIR$/input/main/2016vp.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/main/2017vp.csv" beforeDir="false" afterPath="$PROJECT_DIR$/input/main/2017vp.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/main/2018vp.csv" beforeDir="false" afterPath="$PROJECT_DIR$/input/main/2018vp.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/main/2019vp.csv" beforeDir="false" afterPath="$PROJECT_DIR$/input/main/2019vp.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crash2016/.2016vp.csv.crc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crash2016/2016vp.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crash2017/.2017vp.csv.crc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crash2017/2017vp.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crash2018/.2018vp.csv.crc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crash2018/2018vp.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crash2019/.2019vp.csv.crc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crash2019/2019vp.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crashdata/..DS_Store.crc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crashdata/.2016vp.csv.crc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crashdata/.2017vp.csv.crc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crashdata/.2018vp.csv.crc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crashdata/.2019vp.csv.crc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crashdata/2016vp.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crashdata/2017vp.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crashdata/2018vp.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/crashdata/2019vp.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/test/.FileName.txt.crc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spark-warehouse/test/FileName.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/P2.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/P2.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/Utilities.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Utilities.scala" afterDir="false" />
     </list>
@@ -110,7 +137,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645067240601</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Moved my queries to the UI (queries B, C, and D).">
+      <created>1645126249730</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1645126249730</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -126,7 +160,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Inserted the car crash data from the csv files into dataframes and created tables for the fatality trends of the entire US and the individual states." />
-    <option name="LAST_COMMIT_MESSAGE" value="Inserted the car crash data from the csv files into dataframes and created tables for the fatality trends of the entire US and the individual states." />
+    <MESSAGE value="Moved my queries to the UI (queries B, C, and D)." />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved my queries to the UI (queries B, C, and D)." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/P2$P2.ic" NAME="P2 Coverage Results" MODIFIED="1645045264462" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
