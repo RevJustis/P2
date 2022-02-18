@@ -161,7 +161,7 @@ object Utilities {
 
     //ALL
     //ALL YEARS 2016-2019
-    import spark.implicits._
+    //import spark.implicits._
     //val rdd = spark.sparkContext.textFile("input/main/2016v2.csv,input/main/2017v2.csv,input/main/2018v2.csv,input/main/2019v2.csv")
     //val rdd = spark.sparkContext.parallelize(data)
     //val df = spark.read.option("header", true).csv("input/main/*")
