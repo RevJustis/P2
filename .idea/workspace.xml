@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="241ceada-61af-4624-bfc1-43194785b652" name="Changes" comment="Fixed my code in the junk function." />
+    <list default="true" id="241ceada-61af-4624-bfc1-43194785b652" name="Changes" comment="Moved some code to the Utilities object's junk function.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -127,7 +129,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645160383339</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Moved some code to the Utilities object's junk function.">
+      <created>1645195615862</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1645195615863</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -146,7 +155,8 @@
     <MESSAGE value="Moved my queries to the UI (queries B, C, and D)." />
     <MESSAGE value="All dataframes with data from CSV files have now been converted to parquet files for me to query on. I have also persisted all dataframes to serialized storage levels for optimization." />
     <MESSAGE value="Fixed my code in the junk function." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed my code in the junk function." />
+    <MESSAGE value="Moved some code to the Utilities object's junk function." />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved some code to the Utilities object's junk function." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/P2$P2.ic" NAME="P2 Coverage Results" MODIFIED="1645045264462" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
