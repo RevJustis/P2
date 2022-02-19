@@ -1,7 +1,7 @@
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import Utilities._
-
+// enjoy optimizing!
 object P2 {
   val spark = SparkSession.builder
     .master("local[*]")
