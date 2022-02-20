@@ -193,7 +193,7 @@ object Utilities {
           .mode("overwrite")
           .save("hdfs://localhost:9000/user/justis/urban.csv")
            */
-          println("Suburban Fatalities by State")
+          println("Unknown location type Fatalities by State")
           val sum =
             sub.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
           sum.orderBy(functions.col("SUM").desc).show(60)
