@@ -5,9 +5,15 @@
 *.ctrl
 *.lck
 
+#Spark and this project
 P2.iml
 P2-build.iml
 project.P2-build.iml
+.bsp/
+.idea/
+metastore_db/
+spark-warehouse/
+project/
 
 #MacOS
 .DS_Store
