@@ -1,8 +1,10 @@
 import scala.io.StdIn.readLine
 import org.apache.spark.sql.{SparkSession, functions}
-import java.io.{File, PrintWriter, FileOutputStream}
+
+import java.io.{File, FileOutputStream, PrintWriter}
 import scala.Console.println
 import P2._
+import org.apache.spark.storage.StorageLevel
 
 object Utilities {
   var admin: Boolean = false
@@ -132,7 +134,7 @@ object Utilities {
         case "B" => //GRAPH TRENDS OF FATALITIES IN ENTIRE U.S. FOR 4 YEARS:
           //CREATE TABLE OF ALL DATA
           //val peopleDF = spark.read.option("input/vehicleStats/*")
-          val aDF = spark.read.option("header", true).csv("input/main/*").toDF()
+          val aDF = spark.read.option("header", true).csv("input/main_p/*")
           // DataFrames can be saved as Parquet files, maintaining the schema information
           aDF.write
             .mode("overwrite")
@@ -168,7 +170,7 @@ object Utilities {
         case "C" => //GRAPH TRENDS OF FATALITIES IN EACH STATE:
           //CREATE TABLE OF ALL DATA
           //val peopleDF = spark.read.option("input/vehicleStats/*")
-          val aDF = spark.read.option("header", true).csv("input/main/*").toDF()
+          val aDF = spark.read.option("header", true).csv("input/main_p/*")
           // DataFrames can be saved as Parquet files, maintaining the schema information
           aDF.write
             .mode("overwrite")
@@ -205,7 +207,7 @@ object Utilities {
         case "D" => //WHICH STATES ARE THE SAFEST?
           //CREATE TABLE OF ALL DATA
           //val peopleDF = spark.read.option("input/vehicleStats/*")
-          val aDF = spark.read.option("header", true).csv("input/main/*").toDF()
+          val aDF = spark.read.option("header", true).csv("input/main_p/*")
           // DataFrames can be saved as Parquet files, maintaining the schema information
           aDF.write
             .mode("overwrite")
@@ -278,7 +280,6 @@ object Utilities {
           dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
 
           //See what type of vehicle led to the most crashes.
-          println("Here are the stats for different vehicles: ")
           //val peopleDF = spark.read.option("input/vehicleStats/*")
           val vDF =
             spark.read.option("header", true).csv("input/vehicleStats/*").toDF()
@@ -290,12 +291,14 @@ object Utilities {
           val parquetDF = spark.read.parquet("spark-warehouse/vehicle.parquet")
           // Parquet files can also be used to create a temporary view and then used in SQL statements
           parquetDF.createOrReplaceTempView("vehicleParquetFile")
+          println("Here are the stats for different vehicles: ")
           val x = spark.sql(
             "select * from vehicleParquetFile order by Year, VehicleType"
           )
           x.show(28)
           //Optimization
           x.persist(StorageLevel.MEMORY_ONLY_SER)
+
         case "E" => // rural
           val ru = spark.read
             .option("header", true)
@@ -612,6 +615,14 @@ object Utilities {
     //spark.sql("drop table if exists crash2018")
     //spark.sql("drop table if exists crash2019")
     //spark.sql("drop table if exists test")
+
+    /*
+   <component name="SbtModule">
+     <option name="buildForURI" value="file:$MODULE_DIR$/../../" />
+     <option name="imports" value="SUB:DOLLAR05e87506ba00c849e00d.`root`, _root_.sbt.Keys._, _root_.sbt.ScriptedPlugin.autoImport._, _root_.sbt.plugins.JUnitXmlReportPlugin.autoImport._, _root_.sbt.plugins.MiniDependencyTreePlugin.autoImport._, _root_.sbt._, _root_.sbt.nio.Keys._, _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.ScriptedPlugin, _root_.sbt.plugins.SbtPlugin, _root_.sbt.plugins.SemanticdbPlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.sbt.plugins.MiniDependencyTreePlugin, _root_.scala.xml.{TopScope=&gt;SUB:DOLLARscope}" />
+   </component>
+
+    */
 
     //END OF PATRICK'S JUNK.
   }
