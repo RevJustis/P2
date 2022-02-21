@@ -13,8 +13,14 @@
           </set>
         </option>
         <option name="resolveSbtClassifiers" value="true" />
+<<<<<<< HEAD
         <option name="sbtVersion" value="1.5.8" />
         <option name="useSbtShellForImport" value="true" />
+||||||| 237ab95
+        <option name="sbtVersion" value="1.3.10" />
+=======
+        <option name="sbtVersion" value="1.5.7" />
+>>>>>>> Q4
       </SbtProjectSettings>
     </option>
   </component>

@@ -1,16 +1,34 @@
+<<<<<<< HEAD
 import scala.io.StdIn.readLine
 import org.apache.spark.sql.{SparkSession, functions}
 
 import java.io.{File, FileOutputStream, PrintWriter}
+||||||| 237ab95
+import scala.io.StdIn.readLine
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.col
+import java.io.{File, PrintWriter}
+=======
+import P2._
+import org.apache.spark.sql.SparkSession
+
+>>>>>>> Q4
 import scala.Console.println
+<<<<<<< HEAD
 import P2._
 import org.apache.spark.storage.StorageLevel
+||||||| 237ab95
+=======
+import scala.io.StdIn.readLine
+
+>>>>>>> Q4
 
 object Utilities {
   var admin: Boolean = false
   def prep(): Unit = {
     spark.sql(
       "set hive.exec.dynamic.partition.mode=nonstrict"
+<<<<<<< HEAD
     )
     spark.sql("DROP TABLE IF EXISTS userpass")
     spark.sql(
@@ -26,19 +44,192 @@ object Utilities {
 //    spark.sql("CREATE TABLE IF NOT EXISTS branch_a (bev STRING, branch STRING)" +
 //        "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
 //    spark.sql("CREATE TABLE IF NOT EXISTS Partitioned_abc(bev STRING) PARTITIONED BY (branches STRING)")
+||||||| 237ab95
+    ) // TODO USE THIS FOR A MORE COMPACT DELETE
 
-//    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_BranchA.txt' OVERWRITE INTO TABLE branch_a")
-//    spark.sql("INSERT OVERWRITE TABLE Partitioned_abc PARTITION(branches) SELECT bev,branch FROM all_branch")
-||||||| 7349b1d
+    //spark.sql("DROP TABLE IF EXISTS branchbevs")
+    //spark.sql("DROP TABLE IF EXISTS cons_a")
+    //spark.sql("DROP TABLE IF EXISTS cons_b")
+    //spark.sql("DROP TABLE IF EXISTS cons_c")
+    //spark.sql("DROP TABLE IF EXISTS cons_aXb")
+    //spark.sql("DROP TABLE IF EXISTS constot1")
+    //spark.sql("DROP TABLE IF EXISTS constot2")
+    //spark.sql("DROP TABLE IF EXISTS constot3")
+    //spark.sql("DROP TABLE IF EXISTS constot4")
+    //spark.sql("DROP TABLE IF EXISTS constot5")
+    //spark.sql("DROP TABLE IF EXISTS constot6")
+    //spark.sql("DROP TABLE IF EXISTS constot7")
+    //spark.sql("DROP TABLE IF EXISTS constot8")
+    //spark.sql("DROP TABLE IF EXISTS constot9")
+    //spark.sql("DROP TABLE IF EXISTS constotall")
+    //spark.sql("DROP TABLE IF EXISTS cons_tot_all")
 
 //    spark.sql("CREATE TABLE IF NOT EXISTS branch_a (bev STRING, branch STRING)" +
 //        "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+//    spark.sql("CREATE TABLE IF NOT EXISTS branch_b (bev STRING, branch STRING)" +
+//      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+//    spark.sql("CREATE TABLE IF NOT EXISTS branch_c (bev STRING, branch STRING)" +
+//      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+//    spark.sql("CREATE TABLE IF NOT EXISTS cons_a (bev STRING, count INT)" +
+//      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+//    spark.sql("CREATE TABLE IF NOT EXISTS cons_a (bev STRING, count INT)" +
+//      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+//    spark.sql("CREATE TABLE IF NOT EXISTS cons_b (bev STRING, count INT)" +
+//      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+//    spark.sql("CREATE TABLE IF NOT EXISTS cons_c (bev STRING, count INT)" +
+//      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
 //    spark.sql("CREATE TABLE IF NOT EXISTS Partitioned_abc(bev STRING) PARTITIONED BY (branches STRING)")
+=======
+    ) // TODO USE THIS FOR A MORE COMPACT DELETE
 
+    //spark.sql("DROP TABLE IF EXISTS branchbevs")
+    //spark.sql("DROP TABLE IF EXISTS cons_a")
+    //spark.sql("DROP TABLE IF EXISTS cons_b")
+    //spark.sql("DROP TABLE IF EXISTS cons_c")
+    //spark.sql("DROP TABLE IF EXISTS cons_aXb")
+    //spark.sql("DROP TABLE IF EXISTS constot1")
+    //spark.sql("DROP TABLE IF EXISTS constot2")
+    //spark.sql("DROP TABLE IF EXISTS constot3")
+    //spark.sql("DROP TABLE IF EXISTS constot4")
+    //spark.sql("DROP TABLE IF EXISTS constot5")
+    //spark.sql("DROP TABLE IF EXISTS constot6")
+    //spark.sql("DROP TABLE IF EXISTS constot7")
+    //spark.sql("DROP TABLE IF EXISTS constot8")
+    //spark.sql("DROP TABLE IF EXISTS constot9")
+    //spark.sql("DROP TABLE IF EXISTS constotall")
+    //spark.sql("DROP TABLE IF EXISTS cons_tot_all")
+
+    //    spark.sql("CREATE TABLE IF NOT EXISTS branch_a (bev STRING, branch STRING)" +
+    //        "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    //    spark.sql("CREATE TABLE IF NOT EXISTS branch_b (bev STRING, branch STRING)" +
+    //      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    //    spark.sql("CREATE TABLE IF NOT EXISTS branch_c (bev STRING, branch STRING)" +
+    //      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    //    spark.sql("CREATE TABLE IF NOT EXISTS cons_a (bev STRING, count INT)" +
+    //      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    //    spark.sql("CREATE TABLE IF NOT EXISTS cons_a (bev STRING, count INT)" +
+    //      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    //    spark.sql("CREATE TABLE IF NOT EXISTS cons_b (bev STRING, count INT)" +
+    //      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    //    spark.sql("CREATE TABLE IF NOT EXISTS cons_c (bev STRING, count INT)" +
+    //      "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    //    spark.sql("CREATE TABLE IF NOT EXISTS Partitioned_abc(bev STRING) PARTITIONED BY (branches STRING)")
+>>>>>>> Q4
+
+<<<<<<< HEAD
+//    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_BranchA.txt' OVERWRITE INTO TABLE branch_a")
+//    spark.sql("INSERT OVERWRITE TABLE Partitioned_abc PARTITION(branches) SELECT bev,branch FROM all_branch")
+||||||| 7349b1d
+||||||| 237ab95
+//    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_BranchA.txt' OVERWRITE INTO TABLE branch_a")
+//    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_BranchB.txt' INTO TABLE branch_b")
+//    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_BranchC.txt' INTO TABLE branch_c")
+    //    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_ConscountA.txt' INTO TABLE cons_a")
+    //    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_ConscountA.txt' INTO TABLE cons_a")
+    //    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_ConscountB.txt' INTO TABLE cons_b")
+    //    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_ConscountC.txt' INTO TABLE cons_c")
+//    spark.sql("INSERT OVERWRITE TABLE Partitioned_abc PARTITION(branches) SELECT bev,branch FROM all_branch")
+=======
+    //    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_BranchA.txt' OVERWRITE INTO TABLE branch_a")
+    //    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_BranchB.txt' INTO TABLE branch_b")
+    //    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_BranchC.txt' INTO TABLE branch_c")
+    //    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_ConscountA.txt' INTO TABLE cons_a")
+    //    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_ConscountA.txt' INTO TABLE cons_a")
+    //    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_ConscountB.txt' INTO TABLE cons_b")
+    //    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_ConscountC.txt' INTO TABLE cons_c")
+    //    spark.sql("INSERT OVERWRITE TABLE Partitioned_abc PARTITION(branches) SELECT bev,branch FROM all_branch")
+>>>>>>> Q4
+
+<<<<<<< HEAD
+//    spark.sql("CREATE TABLE IF NOT EXISTS branch_a (bev STRING, branch STRING)" +
+//        "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+//    spark.sql("CREATE TABLE IF NOT EXISTS Partitioned_abc(bev STRING) PARTITIONED BY (branches STRING)")
+||||||| 237ab95
+//    Intersection of cons_a and cons_b \\
+//    spark.sql("CREATE TABLE IF NOT EXISTS cons_aXb AS SELECT * FROM cons_a INTERSECT SELECT * FROM cons_b")
+//    spark.sql("CREATE TABLE IF NOT EXISTS all_branch AS SELECT * FROM branch_a UNION SELECT * FROM branch_b UNION SELECT * FROM branch_c")
+//    spark.sql("CREATE TABLE IF NOT EXISTS cons_abc AS SELECT * FROM cons_a UNION SELECT * FROM cons_b UNION SELECT * FROM cons_c")
+//
+//    for (x <- 1 to 9) {
+//      spark.sql(s"CREATE TABLE IF NOT EXISTS b${x}bevs AS SELECT bev FROM all_branch WHERE branch = 'Branch$x'")
+//    }
+//    for (x <- 1 to 9) {
+//      spark.sql(s"CREATE TABLE IF NOT EXISTS bevTot$x AS SELECT $x AS branch, COUNT(bev) AS bevTot FROM " +
+//        s"b${x}bevs")
+//    }
+//    for (x <- 1 to 9) {
+//      val c = spark.sql(s"SELECT $x AS branch, SUM(count) AS cons FROM " +
+//      s"b${x}bevs INNER JOIN cons_abc AS c ON c.bev = b${x}bevs.bev").collect()
+//      val pw = new PrintWriter(new File(s"input/dumb$x.txt" ))
+//      pw.write((c(0)(0)).toString + ',' + c(0)(1) + '\n')
+//      pw.close()
+//    }
+    // for (x <- 1 to 9) {
+    //   spark.sql(s"CREATE TABLE IF NOT EXISTS consTot$x (branch INT, consTot INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    //   spark.sql(s"LOAD DATA LOCAL INPATH 'input/dumb$x.txt' OVERWRITE INTO TABLE consTot$x")
+    // }
+//    var s = "CREATE TABLE IF NOT EXISTS bevTotAll AS SELECT * FROM bevTot1 "
+//    for (x <- 2 to 9) {
+//      s = s + s"UNION SELECT * FROM bevTot$x "
+//    }
+//    spark.sql(s)
+
+    // var s2 = "CREATE TABLE IF NOT EXISTS constotall AS SELECT * FROM constot1 "
+    // for (x <- 2 to 9) {
+    //   s2 = s2 + s"UNION SELECT * FROM constot$x "
+    // }
+    // spark.sql(s2)
+=======
+    //    Intersection of cons_a and cons_b \\
+    //    spark.sql("CREATE TABLE IF NOT EXISTS cons_aXb AS SELECT * FROM cons_a INTERSECT SELECT * FROM cons_b")
+    //    spark.sql("CREATE TABLE IF NOT EXISTS all_branch AS SELECT * FROM branch_a UNION SELECT * FROM branch_b UNION SELECT * FROM branch_c")
+    //    spark.sql("CREATE TABLE IF NOT EXISTS cons_abc AS SELECT * FROM cons_a UNION SELECT * FROM cons_b UNION SELECT * FROM cons_c")
+    //
+    //    for (x <- 1 to 9) {
+    //      spark.sql(s"CREATE TABLE IF NOT EXISTS b${x}bevs AS SELECT bev FROM all_branch WHERE branch = 'Branch$x'")
+    //    }
+    //    for (x <- 1 to 9) {
+    //      spark.sql(s"CREATE TABLE IF NOT EXISTS bevTot$x AS SELECT $x AS branch, COUNT(bev) AS bevTot FROM " +
+    //        s"b${x}bevs")
+    //    }
+    //    for (x <- 1 to 9) {
+    //      val c = spark.sql(s"SELECT $x AS branch, SUM(count) AS cons FROM " +
+    //      s"b${x}bevs INNER JOIN cons_abc AS c ON c.bev = b${x}bevs.bev").collect()
+    //      val pw = new PrintWriter(new File(s"input/dumb$x.txt" ))
+    //      pw.write((c(0)(0)).toString + ',' + c(0)(1) + '\n')
+    //      pw.close()
+    //    }
+    // for (x <- 1 to 9) {
+    //   spark.sql(s"CREATE TABLE IF NOT EXISTS consTot$x (branch INT, consTot INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+    //   spark.sql(s"LOAD DATA LOCAL INPATH 'input/dumb$x.txt' OVERWRITE INTO TABLE consTot$x")
+    // }
+    //    var s = "CREATE TABLE IF NOT EXISTS bevTotAll AS SELECT * FROM bevTot1 "
+    //    for (x <- 2 to 9) {
+    //      s = s + s"UNION SELECT * FROM bevTot$x "
+    //    }
+    //    spark.sql(s)
+
+    // var s2 = "CREATE TABLE IF NOT EXISTS constotall AS SELECT * FROM constot1 "
+    // for (x <- 2 to 9) {
+    //   s2 = s2 + s"UNION SELECT * FROM constot$x "
+    // }
+    // spark.sql(s2)
+>>>>>>> Q4
+
+<<<<<<< HEAD
 //    spark.sql("LOAD DATA LOCAL INPATH 'input/Bev_BranchA.txt' OVERWRITE INTO TABLE branch_a")
 //    spark.sql("INSERT OVERWRITE TABLE Partitioned_abc PARTITION(branches) SELECT bev,branch FROM all_branch")
 =======
 >>>>>>> Q2
+||||||| 237ab95
+    //    bevs common between BranchA and ConscountA \\
+//      spark.sql("SELECT branch_a.branch, cons_a.bev, cons_a.count FROM branch_a " +
+//        "INNER JOIN cons_a ON cons_a.bev = branch_a.bev ORDER BY branch_a.branch, cons_a.bev, cons_a.count").show()
+=======
+    //    bevs common between BranchA and ConscountA \\
+    //      spark.sql("SELECT branch_a.branch, cons_a.bev, cons_a.count FROM branch_a " +
+    //        "INNER JOIN cons_a ON cons_a.bev = branch_a.bev ORDER BY branch_a.branch, cons_a.bev, cons_a.count").show()
+>>>>>>> Q4
   }
 
   def end(): Unit = {
@@ -101,8 +292,15 @@ object Utilities {
             case _ =>
               println(
                 "Sorry, but you have to choose '1', '2', '3', '4', or '5': "
+<<<<<<< HEAD
               )
               input = readLine().trim().charAt(0)
+||||||| 237ab95
+              ); input = readChar()
+=======
+              );
+              input = readChar()
+>>>>>>> Q4
           }
         }
       case 6 =>
@@ -117,8 +315,15 @@ object Utilities {
             case _ =>
               println(
                 "Sorry, but you have to choose '1', '2', '3', '4', '5', or '6': "
+<<<<<<< HEAD
               )
               input = readLine().trim().charAt(0)
+||||||| 237ab95
+              ); input = readChar()
+=======
+              );
+              input = readChar()
+>>>>>>> Q4
           }
         }
       case 7 =>
@@ -134,14 +339,22 @@ object Utilities {
             case _ =>
               println(
                 "Sorry, but you have to choose '1', '2', '3', '4', '5', '6', or '7': "
+<<<<<<< HEAD
               )
               input = readLine().trim().charAt(0)
+||||||| 237ab95
+              ); input = readChar()
+=======
+              );
+              input = readChar()
+>>>>>>> Q4
           }
         }
     }
     inByte
   }
 
+<<<<<<< HEAD
   def qMenu(options: List[String]): Unit = {
     var continue = true
     while (continue) {
@@ -757,5 +970,26 @@ object Utilities {
     */
 
     //END OF PATRICK'S JUNK.
+||||||| 237ab95
+  def menuLev2(options: List[String], n: Byte): Unit = {
+    val menu2 = new MyMenu(options)
+    menu2.printMenu()
+    val in = chooseN(n)
+    val option = menu2.selectOption(in)
+=======
+  def menuLev2(options: List[String]): Unit = {
+    val menu2 = new MyMenu(options)
+    var continue = true
+    while (continue) {
+      menu2.printMenu()
+      val in = chooseN(options.length.toByte)
+      val option = menu2.selectOption(in)
+      option match {
+        case "G" => println("test 4 topic")
+        val test = spark.read
+        case b => continue = false
+      }
+    }
+>>>>>>> Q4
   }
 }

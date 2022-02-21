@@ -1,7 +1,17 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
     <ScalaCodeStyleSettings>
+<<<<<<< HEAD
       <option name="FORMATTER" value="1" />
+||||||| 237ab95
+=======
+      <option name="alwaysUsedImports">
+        <array>
+          <option value="org.apache.spark.sql.SparkSession" />
+        </array>
+      </option>
+      <option name="FORMATTER" value="1" />
+>>>>>>> Q4
       <option name="MULTILINE_STRING_CLOSING_QUOTES_ON_NEW_LINE" value="true" />
     </ScalaCodeStyleSettings>
   </code_scheme>
