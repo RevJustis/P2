@@ -1,0 +1,4 @@
+[0m[[0m[33mwarn[0m] [0m[0mscala-library-2.11.12-sources.jar no longer exists at /Users/justis/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.11.12/scala-library-2.11.12-sources.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mnot up to date. inChanged = false, force = false[0m
+[0m[[0m[0mdebug[0m] [0m[0mUpdating ProjectRef(uri("file:/Users/patrickbrown/IdeaProjects/P2/"), "root")...[0m
+[0m[[0m[0mdebug[0m] [0m[0mDone updating ProjectRef(uri("file:/Users/patrickbrown/IdeaProjects/P2/"), "root")[0m

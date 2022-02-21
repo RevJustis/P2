@@ -1,0 +1,27 @@
+Index: src/main/scala/P2.scala
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import org.apache.spark.sql.SparkSession\nimport org.apache.spark.sql.functions._\nimport Utilities._\n\nobject P2 {\n  def main(args: Array[String]): Unit = {\n    val op = List[String](\n      \"Topic 1\",\n      \"Topic 2\",\n      \"Topic 3\",\n      \"Topic 4\",\n      \"End Program\"\n    )\n    val spark = SparkSession.builder\n      .master(\"local[*]\")\n      .appName(\"Spark Word Count\")\n      .enableHiveSupport()\n      .getOrCreate()\n\n    spark.sparkContext.setLogLevel(\"WARN\")\n    /*\n    spark.sql(\n      \"CREATE TABLE IF NOT EXISTS test (year STRING, total STRING)\" +\n        \"ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t'\"\n    )\n    spark.sql(\n      \"LOAD DATA LOCAL INPATH 'input/FileName.txt' OVERWRITE INTO TABLE test\"\n    )\n    spark.sql(\"select * from test\").show\n     */\n\n    val df =\n      spark.read.option(\"header\", true).csv(\"input/CrashReportRecords.csv\")\n\n    println(\"the last one?\")\n    df.where(\"STATE == 57\").show\n\n    println(\"where is samoa?\") // here it is!\n    df.where(\"STATE == 3\").select(sum(\"FATALS\")).show\n\n    println(\"not rural or urban?\")\n    df.where(\"A_RU == 3\").show\n    df.where(\"A_RU == 0\").show\n\n    println(\"Welcome to DataStuff, where we have some queries for you!\")\n    val menu = new MyMenu(op)\n    var continue = true\n\n    while (continue) {\n      menu.printMenu()\n      // print(\"Option: \")\n      val in = chooseN(7)\n      val option = menu.selectOption(in)\n\n      option match {\n        case \"Topic 1\"     => menuLev2(List[String](\"A\"), 1)\n        case \"Topic 2\"     => menuLev2(List[String](\"B\", \"C\", \"D\"), 3)\n        case \"Topic 3\"     => menuLev2(List[String](\"E\", \"F\"), 2)\n        case \"Topic 4\"     => menuLev2(List[String](\"G\", \"H\"), 2)\n        case \"End Program\" => continue = false\n      }\n    }\n    spark.close\n    end\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/scala/P2.scala b/src/main/scala/P2.scala
+--- a/src/main/scala/P2.scala	
++++ b/src/main/scala/P2.scala	
+@@ -29,6 +29,7 @@
+     spark.sql("select * from test").show
+      */
+ 
++    /*
+     val df =
+       spark.read.option("header", true).csv("input/CrashReportRecords.csv")
+ 
+@@ -42,6 +43,8 @@
+     df.where("A_RU == 3").show
+     df.where("A_RU == 0").show
+ 
++     */
++
+     println("Welcome to DataStuff, where we have some queries for you!")
+     val menu = new MyMenu(op)
+     var continue = true
