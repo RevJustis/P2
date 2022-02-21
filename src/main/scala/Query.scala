@@ -2,7 +2,7 @@ import P2._
 import org.apache.spark.sql.functions
 
 object Query {
-  def q1(): Unit = {
+  def rural(): Unit = {
     val ru = spark.read
       .option("header", true)
       .csv("input/main/*")
@@ -16,7 +16,7 @@ object Query {
     val sum2 = ru.groupBy("YEAR").agg(functions.sum("FATALS").as("SUM"))
     sum.orderBy(functions.col("SUM").desc).show(60)
   }
-  def q2(): Unit = {
+  def urban(): Unit = {
     val ur = spark.read
       .option("header", true)
       .csv("input/main/*")
@@ -32,7 +32,7 @@ object Query {
     sum.orderBy(functions.col("SUM").desc).show(60)
 
   }
-  def q3(): Unit = {
+  def other(): Unit = {
     val other = spark.read
       .option("header", true)
       .csv("input/main/*")
@@ -48,7 +48,7 @@ object Query {
     sum.orderBy(functions.col("SUM").desc).show(60)
 
   }
-  def q4(): Unit = {
+  def pedal(): Unit = {
     val pedal = spark.read
       .option("header", true)
       .csv("input/main/*")
@@ -70,7 +70,7 @@ object Query {
       .show(56)
   }
 
-  def q5(): Unit = {
+  def jessica(): Unit = {
     spark.sql(
       "CREATE TABLE IF NOT EXISTS test (year STRING, total STRING)" +
         "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'"
@@ -226,7 +226,22 @@ object Query {
     // }
 
   }
-  def q6(): Unit = {}
+  def jonathan(): Unit = {
+    spark.sql("select * from personskilled").show()
+//    spark.sql("select * from personskilled").show()
+
+    spark
+      .sql(
+        "select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
+          "motorcycles as Delta, (total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as DeltaPED," +
+          " total from personsKilled where year between 2008 and 2018"
+      )
+      .show()
+
+    // "(total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as Delta, total from " +
+    // "personsKilled where year between 2008 and 2018").show()
+
+  }
   def q7(): Unit = {}
   def q8(): Unit = {}
   def q9(): Unit = {}
