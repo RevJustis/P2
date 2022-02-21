@@ -44,8 +44,7 @@ object P2 {
                 auth = true
               } else {
                 println("Sorry, your password is incorrect")
-                val option = getOption(List[String]("Try Again", "Quit"))
-                option match {
+                getOption(List[String]("Try Again", "Quit")) match {
                   case "Try Again" => //do nothing
                   case "Quit"      => continue = true
                 }

@@ -143,13 +143,13 @@ object Utilities {
   }
 
   def signUp(): String = {
-    var continue = true
+    var continue = false
     var user = ""
-    while (continue) {
+    while (!continue) {
       println("Please enter a Username:")
       user = readLine().trim()
       if (userExists(user)) println("That username is taken, try again:")
-      else continue = false
+      else continue = true
     }
     println("Please enter a Password:")
     val pass = readLine()
@@ -157,12 +157,12 @@ object Utilities {
     val pw = new PrintWriter(
       new FileOutputStream(
         new File("input/userpass.txt"),
-        true /* append = true */
+        true // append = true
       )
     )
     pw.append(s"$user,$pass,false\n")
     pw.close()
-    junk()
+    prep()
     user
   }
 
@@ -184,6 +184,7 @@ object Utilities {
     )
     if (q.count() == 0) false else true
   }
+
   def getOption(l: List[String]): String = {
     val menu = new MyMenu(l)
     menu.printMenu()
