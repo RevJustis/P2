@@ -419,7 +419,7 @@ object Utilities {
     )
     pw.append(s"$user,$pass,false\n")
     pw.close()
-    junk()
+    prep()
     user
   }
   def logIn(user: String): Unit = {

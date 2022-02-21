@@ -15,6 +15,7 @@ object P2 {
   def main(args: Array[String]): Unit = {
 
     sc.setLogLevel("ERROR")
+    prep()
     var auth = false
     while (!auth) {
       getOption(List[String]("Log In", "Sign Up", "Quit Program")) match {
