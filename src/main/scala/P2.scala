@@ -40,11 +40,11 @@ object P2 {
     spark.sql(
       "LOAD DATA LOCAL INPATH 'input/PersonsKilled/PersonsKilled.csv' OVERWRITE INTO TABLE personsKilled")
 
-    spark.sql("select * from personskilled").show()
+//    spark.sql("select * from personskilled").show()
 
     spark.sql("select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
-      "(total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as Delta, total from " +
-      "personsKilled where year between 2008 and 2018").show()
+      "motorcycles as Delta, (total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as DeltaPED," +
+      " total from personsKilled where year between 2008 and 2018").show()
 
 //    spark.sql("select year, buses, total1 as totalNotIncludingMotorcycles, (total1 + motorcycles)" +
 //      "as TotalNotIncludingPed from personsKilled where year between 2008 and 2018").show()
