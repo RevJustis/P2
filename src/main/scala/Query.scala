@@ -226,6 +226,7 @@ object Query {
     // }
 
   }
+
   def jonathan(): Unit = {
     spark.sql("select * from personskilled").show()
 //    spark.sql("select * from personskilled").show()
