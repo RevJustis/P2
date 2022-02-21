@@ -42,9 +42,9 @@ object P2 {
 
     spark.sql("select * from personskilled").show()
 
-    spark.sql("select year, passengerCars, buses, total1 as totalNotIncludingMotorcyclesAndPed, (total1 + motorcycles) " +
-      "as totalNotIncludingPed, abs((total1 + motorcycles) - total) as Delta1Ped from personsKilled where" +
-      " year between 2008 and 2018").show()
+    spark.sql("select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
+      "(total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as Delta, total from " +
+      "personsKilled where year between 2008 and 2018").show()
 
 //    spark.sql("select year, buses, total1 as totalNotIncludingMotorcycles, (total1 + motorcycles)" +
 //      "as TotalNotIncludingPed from personsKilled where year between 2008 and 2018").show()
