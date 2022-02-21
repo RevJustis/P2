@@ -40,15 +40,45 @@ object P2 {
     spark.sql(
       "LOAD DATA LOCAL INPATH 'input/PersonsKilled/PersonsKilled.csv' OVERWRITE INTO TABLE personsKilled")
 
-//    spark.sql("select * from personskilled").show()
+    spark.sql("select * from personskilled").show()
 
-    spark.sql("select year, passengerCars, total1 + total2 as totalNotIncludingPed from personsKilled where year between 2008 and 2018 ").show()
-    spark.sql("select year, buses, total from personsKilled where year between 2008 and 2018").show()
+    spark.sql("select year, passengerCars, buses, total1 as totalNotIncludingMotorcyclesAndPed, (total1 + motorcycles) " +
+      "as totalNotIncludingPed, abs((total1 + motorcycles) - total) as Delta1Ped from personsKilled where" +
+      " year between 2008 and 2018").show()
+
+//    spark.sql("select year, buses, total1 as totalNotIncludingMotorcycles, (total1 + motorcycles)" +
+//      "as TotalNotIncludingPed from personsKilled where year between 2008 and 2018").show()
 
 //    spark.read
 //      .option("header", true)
 //      .csv("input/main/*")
 //      .toDF()
+
+    /*case class data2016(crashtype: Int, age15to19: Int, age15to20: Int, age16to19: Int, age16to20: Int, age16to24: Int,
+                      age21to24: Int, older65: Int, InvolvingLGTRK: Int, InvolvingMoto: Int, InvolvingPed: Int,
+                      InvolvingPedal: Int, InvolvingPedalF: Int, InvolvingPedF: Int, InvolvingRdDep: Int,
+                      RelationToRd: Int, Fatalities: Int, schoolBusRelated: Int, State: Int, StateName: String,
+                      StCase: Int, year: Int)*/
+
+
+
+   /* val df16 = spark.read
+      .option("header",true)
+      .csv("input/PersonsKilled/2016.csv")
+      .where("A_PED_F ==1")
+    df16.show()
+
+    val sum = df16.groupBy("STATENAME").agg(functions.sum("A_LT")).as("LGTruckSum").show()*/
+
+
+
+    /*val rdd16= spark.sparkContext.textFile("input/PersonsKilled/2016.csv")
+    import spark.implicits._
+    val ds16 = rdd16.toDS()
+    ds16.show()*/
+
+
+
 
 
 
