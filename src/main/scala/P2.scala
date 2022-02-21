@@ -13,6 +13,7 @@ object P2 {
 
   def main(args: Array[String]): Unit = {
     sc.setLogLevel("ERROR")
+    prep
     var auth = false
     while (!auth) {
       getOption(List[String]("Log In", "Sign Up", "Quit Program")) match {
@@ -85,10 +86,10 @@ object P2 {
     var continue = true
     while (continue) {
       getOption(op) match {
-        case "Topic 1"     => menuLev2(list1)
-        case "Topic 2"     => menuLev2(list2)
-        case "Topic 3"     => menuLev2(list3)
-        case "Topic 4"     => menuLev2(list4)
+        case "Topic 1"     => qMenu(list1)
+        case "Topic 2"     => qMenu(list2)
+        case "Topic 3"     => qMenu(list3)
+        case "Topic 4"     => qMenu(list4)
         case "End Program" => continue = false
       }
     }

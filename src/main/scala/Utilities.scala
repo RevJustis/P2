@@ -6,7 +6,7 @@ import P2._
 
 object Utilities {
   var admin: Boolean = false
-  def junk(): Unit = {
+  def prep(): Unit = {
     spark.sql(
       "set hive.exec.dynamic.partition.mode=nonstrict"
     )
@@ -18,7 +18,8 @@ object Utilities {
     spark.sql(
       "LOAD DATA LOCAL INPATH 'input/userpass.txt' OVERWRITE INTO TABLE userpass"
     )
-
+  }
+  def junk(): Unit = {
 //    spark.sql("CREATE TABLE IF NOT EXISTS branch_a (bev STRING, branch STRING)" +
 //        "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
 //    spark.sql("CREATE TABLE IF NOT EXISTS Partitioned_abc(bev STRING) PARTITIONED BY (branches STRING)")
@@ -32,8 +33,7 @@ object Utilities {
   }
 
   def chooseN(n: Byte): Byte = {
-    // val temp = readLine()
-    var input: Char = readLine().charAt(0)
+    var input: Char = readLine().trim().charAt(0)
     var inByte: Byte = 0
     var goodIn: Boolean = false
 
@@ -51,7 +51,7 @@ object Utilities {
             case '2' => goodIn = true; inByte = 2.toByte
             case _ =>
               println("Sorry, but you have to choose '1', or '2': ");
-              input = readChar()
+              input = readLine().trim().charAt(0)
           }
         }
       case 3 =>
@@ -62,7 +62,7 @@ object Utilities {
             case '3' => goodIn = true; inByte = 3.toByte
             case _ =>
               println("Sorry, but you have to choose '1', '2', or '3': ");
-              input = readChar()
+              input = readLine().trim().charAt(0)
           }
         }
       case 4 =>
@@ -74,7 +74,7 @@ object Utilities {
             case '4' => goodIn = true; inByte = 4.toByte
             case _ =>
               println("Sorry, but you have to choose '1', '2', '3', or '4': ");
-              input = readChar()
+              input = readLine().trim().charAt(0)
           }
         }
       case 5 =>
@@ -88,7 +88,8 @@ object Utilities {
             case _ =>
               println(
                 "Sorry, but you have to choose '1', '2', '3', '4', or '5': "
-              ); input = readChar()
+              )
+              input = readLine().trim().charAt(0)
           }
         }
       case 6 =>
@@ -103,7 +104,8 @@ object Utilities {
             case _ =>
               println(
                 "Sorry, but you have to choose '1', '2', '3', '4', '5', or '6': "
-              ); input = readChar()
+              )
+              input = readLine().trim().charAt(0)
           }
         }
       case 7 =>
@@ -119,14 +121,15 @@ object Utilities {
             case _ =>
               println(
                 "Sorry, but you have to choose '1', '2', '3', '4', '5', '6', or '7': "
-              ); input = readChar()
+              )
+              input = readLine().trim().charAt(0)
           }
         }
     }
     inByte
   }
 
-  def menuLev2(options: List[String]): Unit = {
+  def qMenu(options: List[String]): Unit = {
     var continue = true
     while (continue) {
       getOption(options) match {
