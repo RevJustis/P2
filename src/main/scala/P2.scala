@@ -1,13 +1,8 @@
 import Utilities._
-<<<<<<< HEAD
 import org.apache.spark.storage.StorageLevel
-||||||| 237ab95
-=======
 import org.apache.spark.sql.SparkSession
->>>>>>> Q4
 
 object P2 {
-<<<<<<< HEAD
   val spark = SparkSession.builder
     .master("local[*]")
     .appName("Spark Word Count")
@@ -16,27 +11,10 @@ object P2 {
   val sc = spark.sparkContext
   val b = "Back to Main Menu"
 
-||||||| 237ab95
-=======
-
-  val spark = SparkSession.builder
-    .master("local[*]")
-    .appName("Spark Word Count")
-    .enableHiveSupport()
-    .getOrCreate()
-    spark.sparkContext.setLogLevel("WARN")
-  val b = "Back to Main Menu"
-
->>>>>>> Q4
   def main(args: Array[String]): Unit = {
-
     sc.setLogLevel("ERROR")
-<<<<<<< HEAD
     prep
-||||||| 7349b1d
-=======
     prep()
->>>>>>> Q2
     var auth = false
     while (!auth) {
       getOption(List[String]("Log In", "Sign Up", "Quit Program")) match {
@@ -92,10 +70,6 @@ object P2 {
         case "End Program"                => System.exit(0)
       }
     }
-
-
-    //---------------------------------------------------------------------------------------------------------------
-
     var continue = true
     val op = List[String](
       "Topic 1",
@@ -104,73 +78,23 @@ object P2 {
       "Topic 4",
       "End Program"
     )
-<<<<<<< HEAD
     val list1 = List[String]("A", b)
     val list2 = List[String]("B", "C", "D", b)
     val list3 = List[String]("E", "F", "Unknown", "PEDAL", b)
     val list4 = List[String]("G", "H", b)
-||||||| 237ab95
-    val spark = SparkSession.builder
-      .master("local[*]")
-      .appName("Spark Word Count")
-      .enableHiveSupport()
-      .getOrCreate()
 
-    spark.sparkContext.setLogLevel("WARN")
-    /*
-    spark.sql(
-      "CREATE TABLE IF NOT EXISTS test (year STRING, total STRING)" +
-        "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'"
-    )
-    spark.sql(
-      "LOAD DATA LOCAL INPATH 'input/FileName.txt' OVERWRITE INTO TABLE test"
-    )
-    spark.sql("select * from test").show
-     */
-
-    val df =
-      spark.read.option("header", true).csv("input/CrashReportRecords.csv")
-
-    println("the last one?")
-    df.where("STATE == 57").show
-
-    println("where is samoa?") // here it is!
-    df.where("STATE == 3").select(sum("FATALS")).show
-
-    println("not rural or urban?")
-    df.where("A_RU == 3").show
-    df.where("A_RU == 0").show
-
-    println("Welcome to DataStuff, where we have some queries for you!")
     val menu = new MyMenu(op)
     var continue = true
-=======
-
-
-
-    /*spark.sql(
-      "CREATE TABLE IF NOT EXISTS test (year STRING, total STRING)" +
-        "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'"
-    )
-    spark.sql(
-      "LOAD DATA LOCAL INPATH 'input/FileName.txt' OVERWRITE INTO TABLE test"
-    )
-    spark.sql("select * from test").show*/
-
-    spark.sql(
-      "CREATE TABLE IF NOT EXISTS personsKilled (year int, passengerCars int, lightTrucks int, largeTrucks int," +
-        "motorcycles int, buses int, otherUnknown int, total1 int, pedestrian int, pedalcyclist int, other int, total2 int," +
-        "unknownPersonType int, total int)" +
-        "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"
-    )
-    spark.sql(
-      "LOAD DATA LOCAL INPATH 'input/PersonsKilled/PersonsKilled.csv' OVERWRITE INTO TABLE personsKilled")
 
 //    spark.sql("select * from personskilled").show()
 
-    spark.sql("select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
-      "motorcycles as Delta, (total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as DeltaPED," +
-      " total from personsKilled where year between 2008 and 2018").show()
+    spark
+      .sql(
+        "select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
+          "motorcycles as Delta, (total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as DeltaPED," +
+          " total from personsKilled where year between 2008 and 2018"
+      )
+      .show()
 
 //    spark.sql("select year, buses, total1 as totalNotIncludingMotorcycles, (total1 + motorcycles)" +
 //      "as TotalNotIncludingPed from personsKilled where year between 2008 and 2018").show()
@@ -186,9 +110,7 @@ object P2 {
                       RelationToRd: Int, Fatalities: Int, schoolBusRelated: Int, State: Int, StateName: String,
                       StCase: Int, year: Int)*/
 
-
-
-   /* val df16 = spark.read
+    /* val df16 = spark.read
       .option("header",true)
       .csv("input/PersonsKilled/2016.csv")
       .where("A_PED_F ==1")
@@ -196,20 +118,10 @@ object P2 {
 
     val sum = df16.groupBy("STATENAME").agg(functions.sum("A_LT")).as("LGTruckSum").show()*/
 
-
-
     /*val rdd16= spark.sparkContext.textFile("input/PersonsKilled/2016.csv")
     import spark.implicits._
     val ds16 = rdd16.toDS()
     ds16.show()*/
-
-
-
-
-
-
-
-
 
     /*println("Welcome to DataStuff, where we have some queries for you!")
     val menu = new MyMenu(op)
