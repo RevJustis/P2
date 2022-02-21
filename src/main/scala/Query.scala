@@ -171,7 +171,7 @@ object Query {
       AgeSex
         .where(
           "SEX = 1 OR SEX = 2 OR SEX = 9"
-        ) // 9 is apparently "other" or "unknown" here; archaic
+        )
         .groupBy("SEX")
         .agg(
           functions
@@ -181,13 +181,16 @@ object Query {
         .orderBy("Total")
         .show()
 
-    //the code below does return total number of injuries for this age range, but I would have to do a separate
-    //function for each range if I use this method. I think a partition would work, but I'm still working on how
-    //to do that
+
     println("Pedestrian INJURIES (fatal and nonfatal) by age: ")
     val t1 = AgeSex.where("AGE<=15")
-    val t2 = AgeSex.where("AGE<=15")
-    val t3 = AgeSex.where("AGE<=15")
+    val t2 = AgeSex.where("AGE<=23 AND AGE>=16")
+    val t3 = AgeSex.where("AGE<=29 AND AGE>=24")
+    val t4 = AgeSex.where("AGE<=39 AND AGE>=30")
+    val t5 = AgeSex.where("AGE<=49 AND AGE>=40")
+    val t6 = AgeSex.where("AGE<=59 AND AGE>=50")
+    val t7 = AgeSex.where("AGE<=60 AND AGE>=60")
+    val t8 = AgeSex.where("AGE>=70")
     t1
       .agg(
         functions
@@ -199,16 +202,129 @@ object Query {
       .agg(
         functions
           .count("*")
-          .as("??? years")
+          .as("16-23 years")
       )
       .show()
     t3
       .agg(
         functions
           .count("*")
-          .as("??? years")
+          .as("24-29 years")
       )
       .show()
+
+    t4
+      .agg(
+        functions
+          .count("*")
+          .as("30-39 years")
+      )
+      .show()
+
+    t5
+      .agg(
+        functions
+          .count("*")
+          .as("40-49 years")
+      )
+      .show()
+
+    t6
+      .agg(
+        functions
+          .count("*")
+          .as("50-59 years")
+      )
+      .show()
+
+    t7
+      .agg(
+        functions
+          .count("*")
+          .as("60-69 years")
+      )
+      .show()
+
+    t8
+      .agg(
+        functions
+          .count("*")
+          .as("70+ years")
+      )
+      .show()
+
+    println("Pedestrian FATALITIES by age: ")
+    val t9 = AgeSex.where("AGE<=15")
+    val t10 = AgeSex.where("AGE<=23 AND AGE>=16")
+    val t11 = AgeSex.where("AGE<=29 AND AGE>=24")
+    val t12 = AgeSex.where("AGE<=39 AND AGE>=30")
+    val t13 = AgeSex.where("AGE<=49 AND AGE>=40")
+    val t14 = AgeSex.where("AGE<=59 AND AGE>=50")
+    val t15 = AgeSex.where("AGE<=60 AND AGE>=60")
+    val t16 = AgeSex.where("AGE>=70")
+    t9
+      .agg(
+        functions
+          .count("*")
+          .as("0-15 years")
+      )
+      .show()
+    t10
+      .agg(
+        functions
+          .count("*")
+          .as("16-23 years")
+      )
+      .show()
+    t11
+      .agg(
+        functions
+          .count("*")
+          .as("24-29 years")
+      )
+      .show()
+
+    t12
+      .agg(
+        functions
+          .count("*")
+          .as("30-39 years")
+      )
+      .show()
+
+    t13
+      .agg(
+        functions
+          .count("*")
+          .as("40-49 years")
+      )
+      .show()
+
+    t14
+      .agg(
+        functions
+          .count("*")
+          .as("50-59 years")
+      )
+      .show()
+
+    t15
+      .agg(
+        functions
+          .count("*")
+          .as("60-69 years")
+      )
+      .show()
+
+    t16
+      .agg(
+        functions
+          .count("*")
+          .as("70+ years")
+      )
+      .show()
+
+
 
     // val t1 = (AgeSex.where("AGE<=15").toDF(), "0-15 years")
     // val t2 = (AgeSex.where("AGE<=15").toDF(), "2")
