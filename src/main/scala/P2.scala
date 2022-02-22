@@ -10,6 +10,7 @@ object P2 {
     .getOrCreate()
   val sc = spark.sparkContext
   val b = "Back to Main Menu"
+  val mainPF = spark.read.parquet("input/mainPF/*")
 
   def main(args: Array[String]): Unit = {
     sc.setLogLevel("ERROR")
@@ -90,7 +91,7 @@ object P2 {
     // TODO update these lists!
     val list1 = List[String]("A", b)
     val list2 = List[String]("USfatals", "StateFatals", "Safest", b)
-    val list3 = List[String]("E", "F", "Unknown", "PEDAL", b)
+    val list3 = List[String]("Rural", "Urban", "Other", "PEDAL", b)
     val list4 = List[String]("G", "H", b)
 
     var continue = false

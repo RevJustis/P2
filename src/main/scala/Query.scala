@@ -74,10 +74,14 @@ object Query {
   ///Start Jessica
 
   def pedtotal(): Unit = {
-    println("Total number of pedestrian vehicle-related INJURIES (fatal and non-fatal) 2016-2019: ")
+    println(
+      "Total number of pedestrian vehicle-related INJURIES (fatal and non-fatal) 2016-2019: "
+    )
     println(mainPF.where("A_PED == 1").count())
 
-    println("Total number of pedestrian vehicle-related INJURIES (fatal and non-fatal) by year: ")
+    println(
+      "Total number of pedestrian vehicle-related INJURIES (fatal and non-fatal) by year: "
+    )
     val pedTotalByY =
       mainPF.where("A_PED == 1")
     pedTotalByY
@@ -298,8 +302,6 @@ object Query {
       .show()
   }
 
-  }
-
   def jonathan(): Unit = {
     spark.sql("select * from personskilled").show()
     spark
@@ -311,7 +313,7 @@ object Query {
       .show()
   }
 
- ///Begin Patrick
+  ///Begin Patrick
 
   def usfatals(): Unit = {
     //Graph the trend of fatalities in the entire USA
@@ -323,7 +325,7 @@ object Query {
     dfAllUS.show()
   }
 
-def statefatals(): Unit = {
+  def statefatals(): Unit = {
     //Graph the trend of fatalities in individual states
     println("Trend of fatalities in individual states from 2016 to 2019:")
     val dfState = spark.sql(
@@ -340,6 +342,7 @@ def statefatals(): Unit = {
       .save("hdfs://localhost:9000/user/patrickbrown/state_fatals.csv")
      */
   }
+
   def highfatalstates(): Unit = {
     //Trend by year for all states
     //States with highest crashes every year
@@ -377,6 +380,7 @@ def statefatals(): Unit = {
       .save("hdfs://localhost:9000/user/patrickbrown/highfatalstates.csv")
      */
   }
+
   def lowfatalstates(): Unit = {
     //States with lowest crashes every year
     println("States with lowest crash fatality numbers every year: ")
@@ -413,6 +417,7 @@ def statefatals(): Unit = {
       .save("hdfs://localhost:9000/user/patrickbrown/lowfatalstates.csv")
      */
   }
+
   def vehicleCrash(): Unit = {
     //See what type of vehicle led to the most crashes.
     println("Here are the stats for different vehicles: ")
@@ -433,6 +438,4 @@ def statefatals(): Unit = {
   def q9(): Unit = {}
   def q10(): Unit = {}
   def q11(): Unit = {}
-
-
-
+}

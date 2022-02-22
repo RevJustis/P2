@@ -38,8 +38,20 @@ object Utilities {
       .option("header", true)
       .csv("input/Main/*")
       .toDF()
+<<<<<<< Updated upstream
     main.write.parquet("main.parquet")
     val mainPF = spark.read.parquet("input/mainPF/*")
+||||||| constructed merge base
+    mainPF.write.parquet("main.parquet")
+<<<<<<< Updated upstream
+    val mainPF = spark.read.parquet("input/mainPF/*")
+=======
+    mainPF.write.parquet("main.parquet")
+>>>>>>> Stashed changes
+||||||| constructed merge base
+    val mainPF = spark.read.parquet("input/mainPF/*")
+=======
+>>>>>>> Stashed changes
     mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
     val AgeSex = spark.read
@@ -64,7 +76,7 @@ object Utilities {
     // Parquet files are self-describing so the schema is preserved
     // The result of loading a Parquet file is also a DataFrame
     val parquetFileDF =
-    spark.read.parquet("spark-warehouse/usCrashes.parquet")
+      spark.read.parquet("spark-warehouse/usCrashes.parquet")
     // Parquet files can also be used to create a temporary view and then used in SQL statements
     parquetFileDF.createOrReplaceTempView("crashData")
 
@@ -208,13 +220,13 @@ object Utilities {
             "Back to Prev Menu"
           )
           var continue = false
-          while(!continue) {
-                getOption(subtopics) match{
-                  case "Most fatalities" => highfatalstates
-                  case "Least fatalities" => lowfatalstates
-                  case "Vehicle fatals" => vehicleCrash
-                  case "Back to Prev Menu" => continue = true
-                }
+          while (!continue) {
+            getOption(subtopics) match {
+              case "Most fatalities"   => highfatalstates
+              case "Least fatalities"  => lowfatalstates
+              case "Vehicle fatals"    => vehicleCrash
+              case "Back to Prev Menu" => continue = true
+            }
           }
 
         case "q4.1" =>
@@ -225,7 +237,7 @@ object Utilities {
                 " total from personsKilled where year between 2008 and 2018"
             )
             .show()
-        case "jessica1" => jessica
+        case "jessica1" => pedtotal()
         case "jonathan" => jonathan
         case b          => continue = true
       }
