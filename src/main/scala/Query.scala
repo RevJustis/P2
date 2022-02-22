@@ -295,7 +295,6 @@ object Query {
     spark.read.parquet("spark-warehouse/usCrashes.parquet")
     // Parquet files can also be used to create a temporary view and then used in SQL statements
     parquetFileDF.createOrReplaceTempView("crashData")
-    val dfAll = spark.sql("select * from crashData")
 
     //Graph the trend of fatalities in individual states
     println("Trend of fatalities in individual states from 2016 to 2019:")
@@ -303,9 +302,9 @@ object Query {
       "SELECT sum(fatals) as fatalities, year, state from crashData group by state, year \n" +
         "order by state, year"
     )
-    dfState.show()
     //Optimization
     dfState.persist(StorageLevel.MEMORY_ONLY_SER)
+    dfState.show()
     /*
     ur.write
       .format("csv")
@@ -351,15 +350,15 @@ object Query {
       "SELECT sum(fatals) as fatalities, year, state from crashData where year = 2019 \n" +
         "group by state, year order by fatalities DESC LIMIT 8"
     )
-    dfState2016.show()
-    dfState2017.show()
-    dfState2018.show()
-    dfState2019.show()
     //Optimization
     dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
     dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
     dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
     dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
+    dfState2016.show()
+    dfState2017.show()
+    dfState2018.show()
+    dfState2019.show()
     /*
     ur.write
       .format("csv")
@@ -404,15 +403,15 @@ object Query {
       "SELECT sum(fatals) as fatalities, year, state from crashData where year = 2019 \n" +
         "group by state, year order by fatalities LIMIT 8"
     )
-    state2016down.show()
-    state2017down.show()
-    state2018down.show()
-    state2019down.show()
     //Optimization
     state2016down.persist(StorageLevel.MEMORY_ONLY_SER)
     state2017down.persist(StorageLevel.MEMORY_ONLY_SER)
     state2018down.persist(StorageLevel.MEMORY_ONLY_SER)
     state2019down.persist(StorageLevel.MEMORY_ONLY_SER)
+    state2016down.show()
+    state2017down.show()
+    state2018down.show()
+    state2019down.show()
     /*
     ur.write
       .format("csv")
@@ -439,9 +438,9 @@ object Query {
     val x = spark.sql(
       "select * from vehicleParquetFile order by Year, VehicleType"
     )
-    x.show(28)
     //Optimization
     x.persist(StorageLevel.MEMORY_ONLY_SER)
+    x.show(28)
     /*
     ur.write
       .format("csv")
