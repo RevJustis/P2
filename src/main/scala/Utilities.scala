@@ -235,13 +235,13 @@ object Utilities {
           .save("hdfs://localhost:9000/user/justis/pedal_state.csv")
          */
 
-        case "US Fatal" => //GRAPH TRENDS OF FATALITIES IN ENTIRE U.S. FOR 4 YEARS:
+        case "B" => //GRAPH TRENDS OF FATALITIES IN ENTIRE U.S. FOR 4 YEARS:
           usfatals()
 
-        case "State Fatal" => //GRAPH TRENDS OF FATALITIES IN EACH STATE:
+        case "C" => //GRAPH TRENDS OF FATALITIES IN EACH STATE:
           statefatals()
 
-        case "Safest" => //WHICH STATES ARE THE SAFEST?
+        case "D" => //WHICH STATES ARE THE SAFEST?
           highfatalstates()
           lowfatalstates()
           vehicleCrash()
