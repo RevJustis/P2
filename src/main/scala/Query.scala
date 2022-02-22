@@ -6,7 +6,7 @@ object Query {
   def rural(): Unit = {
     val ru = spark.read
       .option("header", true)
-      .csv("input/main/*")
+      .csv("input/mainPF/*")
       .where("A_RU == 1")
 
     println("Rural Fatalities by State")
@@ -20,7 +20,7 @@ object Query {
   def urban(): Unit = {
     val ur = spark.read
       .option("header", true)
-      .csv("input/main/*")
+      .csv("input/mainPF/*")
       .toDF()
       .where("A_RU == 2")
 
@@ -36,7 +36,7 @@ object Query {
   def other(): Unit = {
     val other = spark.read
       .option("header", true)
-      .csv("input/main/*")
+      .csv("input/mainPF/*")
       .toDF()
       .where("A_RU == 3")
 
@@ -52,7 +52,7 @@ object Query {
   def pedal(): Unit = {
     val pedal = spark.read
       .option("header", true)
-      .csv("input/main/*")
+      .csv("input/mainPF/*")
       .toDF()
       .where("A_PEDAL_F == 1")
 
@@ -81,30 +81,34 @@ object Query {
     // )
     // spark.sql("select * from test").show
 
-    val main = spark.read
+    val mainPF = spark.read
       .option("header", true)
       .csv("input/Main/*")
+   mainPF.write.parquet("mainPF.parquet")
+    val mainPFPF = spark.read.parquet("input/mainPF/*")
 
-    val AgeSex = spark.read
+    val AgeSexPF = spark.read
       .option("header", true)
-      .csv("input/AgeSex/*")
+      .csv("input/AgeSexPF/*")
+    AgeSexPF.write.parquet("AgeSexPF.parquet")
+    val AgeSexPF = spark.read.parquet("input/AgeSexPF/*")
 
     println(
       "Total number of pedestrian vehicle-related INJURIES (fatal and non-fatal) 2016-2019: "
     )
     println(
-      main.where("A_PED == 1").count()
+      mainPFPF.where("A_PED == 1").count()
     ) //result is same if you use both columns
     println(
-      AgeSex.where("A_PED == 1").count()
-    ) //this code using the other dataset AgeSex returns
+      AgeSexPF.where("A_PED == 1").count()
+    ) //this code using the other dataset AgeSexPF returns
     //a slightly higher number
 
     println(
       "Total number of pedestrian vehicle-related INJURIES (fatal and non-fatal) by year: "
     )
     val pedTotalByY =
-      main.where("A_PED == 1") // Justis was here
+      mainPF.where("A_PED == 1") // Justis was here
     pedTotalByY
       .groupBy("YEAR")
       .agg(
@@ -118,16 +122,16 @@ object Query {
     println(
       "Total number of pedestrian vehicle-related FATALITIES 2016-2019: "
     )
-    println(main.where("A_PED_F == 1").count())
+    println(mainPF.where("A_PED_F == 1").count())
 
-    //println(AgeSex.where("A_PED_F == 1").count())//used the other dataset here and got a different result
+    //println(AgeSexPF.where("A_PED_F == 1").count())//used the other dataset here and got a different result
     // from above, both numbers seem really high
 
     println(
       "Total number of pedestrian vehicle-related FATALITIES by year: "
     ) //number result seems really high
     val pedFbyY =
-      main.where(
+      mainPF.where(
         "A_PED_F == 1"
       ) //why do I get ridiculous number when == to "2"??
     pedFbyY
@@ -143,7 +147,7 @@ object Query {
     println(
       "Pedestrian INJURIES (fatal and nonfatal) by state: "
     ) //could do min/max here as well
-    val state = main.where("A_PED == 1")
+    val state = mainPF.where("A_PED == 1")
 
     state
       .groupBy("STATENAME")
@@ -155,8 +159,8 @@ object Query {
       .orderBy("Total")
       .show(60)
 
-    println("Pedestrian FATALITIES by state  ") //could do min/max here as well
-    main
+    println("Pedestrian FATALITIES by state  ")
+    mainPF
       .where("A_PED_F == 1")
       .groupBy("STATENAME")
       .agg(
@@ -169,7 +173,7 @@ object Query {
 
     println("Pedestrian INJURIES (fatal and nonfatal) by sex 2016-2019: ")
     val sex =
-      AgeSex
+      AgeSexPF
         .where(
           "SEX = 1 OR SEX = 2 OR SEX = 9"
         )
@@ -184,14 +188,14 @@ object Query {
 
 
     println("Pedestrian INJURIES (fatal and nonfatal) by age: ")
-    val t1 = AgeSex.where("AGE<=15")
-    val t2 = AgeSex.where("AGE<=23 AND AGE>=16")
-    val t3 = AgeSex.where("AGE<=29 AND AGE>=24")
-    val t4 = AgeSex.where("AGE<=39 AND AGE>=30")
-    val t5 = AgeSex.where("AGE<=49 AND AGE>=40")
-    val t6 = AgeSex.where("AGE<=59 AND AGE>=50")
-    val t7 = AgeSex.where("AGE<=60 AND AGE>=60")
-    val t8 = AgeSex.where("AGE>=70")
+    val t1 = AgeSexPF.where("AGE<=15")
+    val t2 = AgeSexPF.where("AGE<=23 AND AGE>=16")
+    val t3 = AgeSexPF.where("AGE<=29 AND AGE>=24")
+    val t4 = AgeSexPF.where("AGE<=39 AND AGE>=30")
+    val t5 = AgeSexPF.where("AGE<=49 AND AGE>=40")
+    val t6 = AgeSexPF.where("AGE<=59 AND AGE>=50")
+    val t7 = AgeSexPF.where("AGE<=60 AND AGE>=60")
+    val t8 = AgeSexPF.where("AGE>=70")
     t1
       .agg(
         functions
@@ -255,14 +259,14 @@ object Query {
       .show()
 
     println("Pedestrian FATALITIES by age: ")
-    val t9 = AgeSex.where("AGE<=15")
-    val t10 = AgeSex.where("AGE<=23 AND AGE>=16")
-    val t11 = AgeSex.where("AGE<=29 AND AGE>=24")
-    val t12 = AgeSex.where("AGE<=39 AND AGE>=30")
-    val t13 = AgeSex.where("AGE<=49 AND AGE>=40")
-    val t14 = AgeSex.where("AGE<=59 AND AGE>=50")
-    val t15 = AgeSex.where("AGE<=60 AND AGE>=60")
-    val t16 = AgeSex.where("AGE>=70")
+    val t9 = AgeSexPF.where("AGE<=15")
+    val t10 = AgeSexPF.where("AGE<=23 AND AGE>=16")
+    val t11 = AgeSexPF.where("AGE<=29 AND AGE>=24")
+    val t12 = AgeSexPF.where("AGE<=39 AND AGE>=30")
+    val t13 = AgeSexPF.where("AGE<=49 AND AGE>=40")
+    val t14 = AgeSexPF.where("AGE<=59 AND AGE>=50")
+    val t15 = AgeSexPF.where("AGE<=60 AND AGE>=60")
+    val t16 = AgeSexPF.where("AGE>=70")
     t9
       .agg(
         functions
@@ -327,9 +331,9 @@ object Query {
 
 
 
-    // val t1 = (AgeSex.where("AGE<=15").toDF(), "0-15 years")
-    // val t2 = (AgeSex.where("AGE<=15").toDF(), "2")
-    // val t3 = (AgeSex.where("AGE<=15").toDF(), "3")
+    // val t1 = (AgeSexPF.where("AGE<=15").toDF(), "0-15 years")
+    // val t2 = (AgeSexPF.where("AGE<=15").toDF(), "2")
+    // val t3 = (AgeSexPF.where("AGE<=15").toDF(), "3")
     // val a = new Array[(DataFrame, String)](t1, t2, t3)
 
     // for (e <- a) {
