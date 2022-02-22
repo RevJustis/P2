@@ -38,7 +38,7 @@ object Utilities {
       .option("header", true)
       .csv("input/Main/*")
       .toDF()
-    mainPF.write.parquet("mainPF.parquet")
+    mainPF.write.parquet("main.parquet")
     val mainPF = spark.read.parquet("input/mainPF/*")
     mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
@@ -46,7 +46,7 @@ object Utilities {
       .option("header", true)
       .csv("input/AgeSexPF/*")
       .toDF()
-    AgeSexPF.write.parquet("AgeSexPF.parquet")
+    AgeSexPF.write.parquet("AgeSex.parquet")
     val AgeSexPF = spark.read.parquet("input/AgeSexPF/*")
     AgeSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
