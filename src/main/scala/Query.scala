@@ -73,9 +73,6 @@ object Query {
 
   ///Start Jessica
 
-
-
-
   def pedtotal(): Unit = {
     println("Total number of pedestrian vehicle-related INJURIES (fatal and non-fatal) 2016-2019: ")
     println(mainPF.where("A_PED == 1").count())
