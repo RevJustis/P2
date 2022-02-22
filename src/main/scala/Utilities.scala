@@ -33,7 +33,6 @@ object Utilities {
       "LOAD DATA LOCAL INPATH 'input/PersonsKilled/PersonsKilled.csv' OVERWRITE INTO TABLE personsKilled"
     )
 
-
     //PATRICK
     //CREATE TABLE OF ALL CRASH DATA
     //val peopleDF = spark.read.option("input/vehicleStats/*")
@@ -172,14 +171,14 @@ object Utilities {
     var continue = false
     while (!continue) {
       getOption(options) match {
-        case "Rural"   => rural
-        case "Urban"   => urban
-        case "Unknown" => other
-        case "PEDAL"   => pedal
-        case "USfatals" => //GRAPH TRENDS OF FATALITIES IN ENTIRE U.S. FOR 4 YEARS:
+        case "Rural"         => rural
+        case "Urban"         => urban
+        case "Other"         => other
+        case "Pedal Cyclist" => pedal
+        case "US Fatals" => //GRAPH TRENDS OF FATALITIES IN ENTIRE U.S. FOR 4 YEARS:
           usfatals
 
-        case "StateFatals" => //GRAPH TRENDS OF FATALITIES IN EACH STATE:
+        case "State Fatals" => //GRAPH TRENDS OF FATALITIES IN EACH STATE:
           statefatals
 
         case "Safest" => //WHICH STATES ARE THE SAFEST?
@@ -200,15 +199,6 @@ object Utilities {
               case "Back to Prev Menu" => continue = true
             }
           }
-
-        case "q4.1" =>
-          spark
-            .sql(
-              "select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
-                "motorcycles as Delta, (total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as DeltaPED," +
-                " total from personsKilled where year between 2008 and 2018"
-            )
-            .show()
         case "jessica1" => pedtotal()
         case "jonathan" => jonathan
         case b          => continue = true
