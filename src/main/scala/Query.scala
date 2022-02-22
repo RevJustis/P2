@@ -71,10 +71,8 @@ object Query {
       .show(56)
   }
 
-  ///Start Jessica
+  ///Start Jessica/Topic 1
 
-  val AgeSexPF = spark.read.parquet("input/AgeSexPF/*")
-  AgeSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
   def pedtotal(): Unit = {
     println(
