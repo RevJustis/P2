@@ -32,6 +32,23 @@ object Utilities {
       "LOAD DATA LOCAL INPATH 'input/PersonsKilled/PersonsKilled.csv' OVERWRITE INTO TABLE personsKilled"
     )
 
+    //Jessica; "main" datafiles and "agesex" datailes
+    val main = spark.read
+      .option("header", true)
+      .csv("input/Main/*")
+      .toDF()
+    mainPF.write.parquet("mainPF.parquet")
+    val mainPF = spark.read.parquet("input/mainPF/*")
+    val.mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
+
+    val AgeSex = spark.read
+      .option("header", true)
+      .csv("input/AgeSexPF/*")
+      .toDF()
+    AgeSexPF.write.parquet("AgeSexPF.parquet")
+    val AgeSexPF = spark.read.parquet("input/AgeSexPF/*")
+    val.AgeSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
+
     //PATRICK
     //CREATE TABLE OF ALL CRASH DATA
     //val peopleDF = spark.read.option("input/vehicleStats/*")

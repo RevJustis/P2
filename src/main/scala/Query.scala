@@ -73,17 +73,7 @@ object Query {
 
   ///Start Jessica
 
-  val mainPF = spark.read
-    .option("header", true)
-    .csv("input/Main/*")
-  mainPF.write.parquet("mainPF.parquet")
-  val mainPFPF = spark.read.parquet("input/mainPF/*")
 
-  val AgeSexPF = spark.read
-    .option("header", true)
-    .csv("input/AgeSexPF/*")
-  AgeSexPF.write.parquet("AgeSexPF.parquet")
-  val AgeSexPF = spark.read.parquet("input/AgeSexPF/*")
 
 
   def pedtotal(): Unit = {
@@ -138,7 +128,7 @@ object Query {
       .show(60)
 
     println("Pedestrian FATALITIES by state  ")
-    mainPF.where("A_PED_F == 1")
+    state
       .groupBy("STATENAME")
       .agg(
         functions
@@ -168,7 +158,6 @@ object Query {
 
   def age(): Unit = {
     println("Pedestrian INJURIES (fatal and nonfatal) by age: ")
-
 
     val t1 = AgeSexPF.where("AGE<=15")
     val t2 = AgeSexPF.where("AGE<=23 AND AGE>=16")
@@ -316,8 +305,6 @@ object Query {
 
   def jonathan(): Unit = {
     spark.sql("select * from personskilled").show()
-//    spark.sql("select * from personskilled").show()
-
     spark
       .sql(
         "select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
@@ -325,11 +312,9 @@ object Query {
           " total from personsKilled where year between 2008 and 2018"
       )
       .show()
-
-    // "(total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as Delta, total from " +
-    // "personsKilled where year between 2008 and 2018").show()
-
   }
+
+ ///Begin Patrick
 
   def usfatals(): Unit = {
     //Graph the trend of fatalities in the entire USA
@@ -337,25 +322,17 @@ object Query {
     val dfAllUS = spark.sql(
       "SELECT sum(fatals) as fatalities, year from crashData group by year order by year"
     )
-    //Optimization
     dfAllUS.persist(StorageLevel.MEMORY_ONLY_SER)
     dfAllUS.show()
-    /*
-      df.write
-      .format("csv")
-      .option("header", true)
-      .mode("overwrite")
-      .save("hdfs://localhost:9000/user/patrickbrown/usfatals.csv")
-     */
   }
-  def statefatals(): Unit = {
+
+def statefatals(): Unit = {
     //Graph the trend of fatalities in individual states
     println("Trend of fatalities in individual states from 2016 to 2019:")
     val dfState = spark.sql(
       "SELECT sum(fatals) as fatalities, year, state from crashData group by state, year \n" +
         "order by state, year"
     )
-    //Optimization
     dfState.persist(StorageLevel.MEMORY_ONLY_SER)
     dfState.show()
     /*
@@ -460,4 +437,5 @@ object Query {
   def q10(): Unit = {}
   def q11(): Unit = {}
 
-}
+
+
