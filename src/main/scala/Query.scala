@@ -71,44 +71,28 @@ object Query {
       .show(56)
   }
 
-  def jessica(): Unit = {
-    spark.sql(
-      "CREATE TABLE IF NOT EXISTS test (year STRING, total STRING)" +
-        "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'"
-    )
-    //  spark.sql(
-    // "LOAD DATA LOCAL INPATH 'input/FileName.txt' OVERWRITE INTO TABLE test"
-    // )
-    // spark.sql("select * from test").show
+  ///Start Jessica
 
-    val mainPF = spark.read
-      .option("header", true)
-      .csv("input/Main/*")
-   mainPF.write.parquet("mainPF.parquet")
-    val mainPFPF = spark.read.parquet("input/mainPF/*")
+  val mainPF = spark.read
+    .option("header", true)
+    .csv("input/Main/*")
+  mainPF.write.parquet("mainPF.parquet")
+  val mainPFPF = spark.read.parquet("input/mainPF/*")
 
-    val AgeSexPF = spark.read
-      .option("header", true)
-      .csv("input/AgeSexPF/*")
-    AgeSexPF.write.parquet("AgeSexPF.parquet")
-    val AgeSexPF = spark.read.parquet("input/AgeSexPF/*")
+  val AgeSexPF = spark.read
+    .option("header", true)
+    .csv("input/AgeSexPF/*")
+  AgeSexPF.write.parquet("AgeSexPF.parquet")
+  val AgeSexPF = spark.read.parquet("input/AgeSexPF/*")
 
-    println(
-      "Total number of pedestrian vehicle-related INJURIES (fatal and non-fatal) 2016-2019: "
-    )
-    println(
-      mainPFPF.where("A_PED == 1").count()
-    ) //result is same if you use both columns
-    println(
-      AgeSexPF.where("A_PED == 1").count()
-    ) //this code using the other dataset AgeSexPF returns
-    //a slightly higher number
 
-    println(
-      "Total number of pedestrian vehicle-related INJURIES (fatal and non-fatal) by year: "
-    )
+  def pedtotal(): Unit = {
+    println("Total number of pedestrian vehicle-related INJURIES (fatal and non-fatal) 2016-2019: ")
+    println(mainPF.where("A_PED == 1").count())
+
+    println("Total number of pedestrian vehicle-related INJURIES (fatal and non-fatal) by year: ")
     val pedTotalByY =
-      mainPF.where("A_PED == 1") // Justis was here
+      mainPF.where("A_PED == 1")
     pedTotalByY
       .groupBy("YEAR")
       .agg(
@@ -118,22 +102,17 @@ object Query {
       )
       .orderBy("YEAR")
       .show()
+  }
 
-    println(
-      "Total number of pedestrian vehicle-related FATALITIES 2016-2019: "
-    )
+  def fatalities(): Unit = {
+    println("Total number of pedestrian vehicle-related FATALITIES 2016-2019: ")
     println(mainPF.where("A_PED_F == 1").count())
 
-    //println(AgeSexPF.where("A_PED_F == 1").count())//used the other dataset here and got a different result
-    // from above, both numbers seem really high
-
-    println(
-      "Total number of pedestrian vehicle-related FATALITIES by year: "
-    ) //number result seems really high
+    println("Total number of pedestrian vehicle-related FATALITIES by year: ")
     val pedFbyY =
       mainPF.where(
         "A_PED_F == 1"
-      ) //why do I get ridiculous number when == to "2"??
+      )
     pedFbyY
       .groupBy("YEAR")
       .agg(
@@ -143,12 +122,11 @@ object Query {
       )
       .orderBy("YEAR")
       .show(60)
+  }
 
-    println(
-      "Pedestrian INJURIES (fatal and nonfatal) by state: "
-    ) //could do min/max here as well
+  def states(): Unit = {
+    println("Pedestrian INJURIES (fatal and nonfatal) by state: ")
     val state = mainPF.where("A_PED == 1")
-
     state
       .groupBy("STATENAME")
       .agg(
@@ -160,8 +138,7 @@ object Query {
       .show(60)
 
     println("Pedestrian FATALITIES by state  ")
-    mainPF
-      .where("A_PED_F == 1")
+    mainPF.where("A_PED_F == 1")
       .groupBy("STATENAME")
       .agg(
         functions
@@ -170,7 +147,9 @@ object Query {
       )
       .orderBy("Total")
       .show(60)
+  }
 
+  def sex(): Unit = {
     println("Pedestrian INJURIES (fatal and nonfatal) by sex 2016-2019: ")
     val sex =
       AgeSexPF
@@ -185,9 +164,12 @@ object Query {
         )
         .orderBy("Total")
         .show()
+  }
 
-
+  def age(): Unit = {
     println("Pedestrian INJURIES (fatal and nonfatal) by age: ")
+
+
     val t1 = AgeSexPF.where("AGE<=15")
     val t2 = AgeSexPF.where("AGE<=23 AND AGE>=16")
     val t3 = AgeSexPF.where("AGE<=29 AND AGE>=24")
@@ -328,23 +310,7 @@ object Query {
           .as("70+ years")
       )
       .show()
-
-
-
-    // val t1 = (AgeSexPF.where("AGE<=15").toDF(), "0-15 years")
-    // val t2 = (AgeSexPF.where("AGE<=15").toDF(), "2")
-    // val t3 = (AgeSexPF.where("AGE<=15").toDF(), "3")
-    // val a = new Array[(DataFrame, String)](t1, t2, t3)
-
-    // for (e <- a) {
-    //   e._1
-    //     .agg(
-    //       functions
-    //         .count("*")
-    //         .as(e._2)
-    //     )
-    //     .show()
-    // }
+  }
 
   }
 
