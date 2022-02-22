@@ -244,6 +244,7 @@ object Query {
     // "personsKilled where year between 2008 and 2018").show()
 
   }
+
   def usfatals(): Unit = {
     //CREATE TABLE OF ALL DATA
     //val peopleDF = spark.read.option("input/vehicleStats/*")
@@ -258,7 +259,7 @@ object Query {
     // Parquet files are self-describing so the schema is preserved
     // The result of loading a Parquet file is also a DataFrame
     val parquetFileDF =
-    spark.read.parquet("spark-warehouse/usCrashes.parquet")
+      spark.read.parquet("spark-warehouse/usCrashes.parquet")
     // Parquet files can also be used to create a temporary view and then used in SQL statements
     parquetFileDF.createOrReplaceTempView("crashData")
 
@@ -292,7 +293,7 @@ object Query {
     // Parquet files are self-describing so the schema is preserved
     // The result of loading a Parquet file is also a DataFrame
     val parquetFileDF =
-    spark.read.parquet("spark-warehouse/usCrashes.parquet")
+      spark.read.parquet("spark-warehouse/usCrashes.parquet")
     // Parquet files can also be used to create a temporary view and then used in SQL statements
     parquetFileDF.createOrReplaceTempView("crashData")
 
@@ -327,7 +328,7 @@ object Query {
     // Parquet files are self-describing so the schema is preserved
     // The result of loading a Parquet file is also a DataFrame
     val parquetFileDF =
-    spark.read.parquet("spark-warehouse/usCrashes.parquet")
+      spark.read.parquet("spark-warehouse/usCrashes.parquet")
     // Parquet files can also be used to create a temporary view and then used in SQL statements
     parquetFileDF.createOrReplaceTempView("crashData")
 
@@ -381,7 +382,7 @@ object Query {
     // Parquet files are self-describing so the schema is preserved
     // The result of loading a Parquet file is also a DataFrame
     val parquetFileDF =
-    spark.read.parquet("spark-warehouse/usCrashes.parquet")
+      spark.read.parquet("spark-warehouse/usCrashes.parquet")
     // Parquet files can also be used to create a temporary view and then used in SQL statements
     parquetFileDF.createOrReplaceTempView("crashData")
 
