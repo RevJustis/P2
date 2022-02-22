@@ -1,6 +1,6 @@
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions._
 import Utilities._
+import org.apache.spark.storage.StorageLevel
+import org.apache.spark.sql.SparkSession
 
 object P2 {
   val spark = SparkSession.builder
@@ -14,6 +14,7 @@ object P2 {
   def main(args: Array[String]): Unit = {
     sc.setLogLevel("ERROR")
     prep
+    prep()
     var auth = false
     while (!auth) {
       getOption(List[String]("Log In", "Sign Up", "Quit Program")) match {
@@ -59,13 +60,13 @@ object P2 {
       val op = List[String](
         "Go to Main Menu",
         "Make new Admin",
-        "Do Admin things",
+        "Refresh All",
         "End Program"
       )
       getOption(op) match {
         case "Go to Main Menu"            => // do nothing
         case "Make another user an Admin" => println("Comming Soon!")
-        case "Do Admin things"            => println("Comming Soon!")
+        case "Refresh All"                => prep
         case "End Program"                => System.exit(0)
       }
     }
@@ -82,17 +83,16 @@ object P2 {
     val list3 = List[String]("E", "F", "Unknown", "PEDAL", b)
     val list4 = List[String]("G", "H", b)
 
-    var continue = true
-    while (continue) {
+    var continue = false
+    while (!continue) {
       getOption(op) match {
         case "Topic 1"     => qMenu(list1)
         case "Topic 2"     => qMenu(list2)
         case "Topic 3"     => qMenu(list3)
         case "Topic 4"     => qMenu(list4)
-        case "End Program" => continue = false
+        case "End Program" => continue = true
       }
     }
     spark.close
-    end
   }
 }
