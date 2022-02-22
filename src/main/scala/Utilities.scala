@@ -1,10 +1,10 @@
-import scala.io.StdIn.readLine
-import org.apache.spark.sql.{SparkSession, functions}
-import java.io.{File, FileOutputStream, PrintWriter}
-import scala.io.Source
 import P2._
 import Query._
 import org.apache.spark.storage.StorageLevel
+
+import java.io.{File, FileOutputStream, PrintWriter}
+import scala.io.Source
+import scala.io.StdIn.readLine
 
 object Utilities {
   var admin: Boolean = false
@@ -33,34 +33,6 @@ object Utilities {
       "LOAD DATA LOCAL INPATH 'input/PersonsKilled/PersonsKilled.csv' OVERWRITE INTO TABLE personsKilled"
     )
 
-    //Jessica; "main" datafiles and "agesex" datailes
-    val main = spark.read
-      .option("header", true)
-      .csv("input/Main/*")
-      .toDF()
-<<<<<<< Updated upstream
-    main.write.parquet("main.parquet")
-    val mainPF = spark.read.parquet("input/mainPF/*")
-||||||| constructed merge base
-    mainPF.write.parquet("main.parquet")
-<<<<<<< Updated upstream
-    val mainPF = spark.read.parquet("input/mainPF/*")
-=======
-    mainPF.write.parquet("main.parquet")
->>>>>>> Stashed changes
-||||||| constructed merge base
-    val mainPF = spark.read.parquet("input/mainPF/*")
-=======
->>>>>>> Stashed changes
-    mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
-
-    val AgeSex = spark.read
-      .option("header", true)
-      .csv("input/AgeSexPF/*")
-      .toDF()
-    AgeSex.write.parquet("AgeSex.parquet")
-    val AgeSexPF = spark.read.parquet("input/AgeSexPF/*")
-    AgeSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
     //PATRICK
     //CREATE TABLE OF ALL CRASH DATA

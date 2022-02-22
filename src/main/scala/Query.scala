@@ -73,6 +73,9 @@ object Query {
 
   ///Start Jessica
 
+  val AgeSexPF = spark.read.parquet("input/AgeSexPF/*")
+  AgeSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
+
   def pedtotal(): Unit = {
     println(
       "Total number of pedestrian vehicle-related INJURIES (fatal and non-fatal) 2016-2019: "
@@ -231,7 +234,7 @@ object Query {
       .show()
 
     println("Pedestrian FATALITIES by age: ")
-    val t9 = AgeSexPF.where("AGE<=15")
+    val t9 = AgeSexPF.where("AGE<=15 AND )
     val t10 = AgeSexPF.where("AGE<=23 AND AGE>=16")
     val t11 = AgeSexPF.where("AGE<=29 AND AGE>=24")
     val t12 = AgeSexPF.where("AGE<=39 AND AGE>=30")
