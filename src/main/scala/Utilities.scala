@@ -1,6 +1,7 @@
 import scala.io.StdIn.readLine
 import org.apache.spark.sql.{SparkSession, functions}
 import java.io.{File, FileOutputStream, PrintWriter}
+import scala.io.Source
 import P2._
 import Query._
 import org.apache.spark.storage.StorageLevel
@@ -279,6 +280,25 @@ object Utilities {
     menu.printMenu()
     val in = chooseN(l.length.toByte)
     menu.selectOption(in)
+  }
+
+  def makeAdmin(user: String): Unit = {
+    val q = spark.sql(
+      s"SELECT pass FROM userpass WHERE user = '$user'"
+    )
+    val pass = q.head.getString(0)
+
+    val f1 = new File("input/userpass.txt") // Original File
+    val f2 = new File("input/temp.txt") // Temporary File
+    val w = new PrintWriter(f2)
+    Source
+      .fromFile(f1)
+      .getLines
+      .map { x => if (x.contains(user)) s"$user,$pass,true" else x }
+      .foreach(x => w.println(x))
+    w.close()
+    f2.renameTo(f1)
+    println(s"$user has been successfully made admin!")
   }
 
   def junk(): Unit = {

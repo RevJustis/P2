@@ -57,27 +57,37 @@ object P2 {
     }
 
     if (admin) {
-      val op = List[String](
-        "Go to Main Menu",
-        "Make new Admin",
-        "Refresh All",
-        "End Program"
-      )
-      getOption(op) match {
-        case "Go to Main Menu"            => // do nothing
-        case "Make another user an Admin" => println("Comming Soon!")
-        case "Refresh All"                => prep
-        case "End Program"                => System.exit(0)
+      val s1 = "Go to Main Menu"
+      val s2 = "Make new Admin"
+      val s3 = "Refresh All"
+      val s4 = "End Program"
+      getOption(List[String](s1, s2, s3, s4)) match {
+        case `s2` =>
+          println(
+            "Please enter username of the account you want to make admin:"
+          )
+          var continue = false
+          while (!continue) {
+            val in = readLine.trim
+            if (userExists(in)) {
+              makeAdmin(in)
+              continue = true
+            } else {
+              println("Sorry, that username doesn't exist!")
+            }
+          }
+        case `s3` => prep
+        case `s4` => System.exit(0)
+        case `s1` => // do nothing
       }
     }
 
-    val op = List[String](
-      "Topic 1",
-      "Topic 2",
-      "Topic 3",
-      "Topic 4",
-      "End Program"
-    )
+    val s1 = "Topic 1"
+    val s2 = "Topic 2"
+    val s3 = "Topic 3"
+    val s4 = "Topic 4"
+    val s5 = "End Program"
+    // TODO update these lists!
     val list1 = List[String]("A", b)
     val list2 = List[String]("USfatals", "StateFatals", "Safest", b)
     val list3 = List[String]("E", "F", "Unknown", "PEDAL", b)
@@ -85,12 +95,12 @@ object P2 {
 
     var continue = false
     while (!continue) {
-      getOption(op) match {
-        case "Topic 1"     => qMenu(list1)
-        case "Topic 2"     => qMenu(list2)
-        case "Topic 3"     => qMenu(list3)
-        case "Topic 4"     => qMenu(list4)
-        case "End Program" => continue = true
+      getOption(List[String](s1, s2, s3, s4, s5)) match {
+        case `s1` => qMenu(list1)
+        case `s2` => qMenu(list2)
+        case `s3` => qMenu(list3)
+        case `s4` => qMenu(list4)
+        case `s5` => continue = true
       }
     }
     spark.close

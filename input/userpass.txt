@@ -1,5 +1,6 @@
 maria,1234,true
 john,apple,false
-test,qwer,false
-test2,qwerty,false
+test,qwer,true
+test,qwer,true
 Patrick,Patrick_Brown0,false
+justis,1234,false
