@@ -234,14 +234,14 @@ object Query {
       .show()
 
     println("Pedestrian FATALITIES by age: ")
-    val t9 = AgeSexPF.where("AGE<=15 AND )
-    val t10 = AgeSexPF.where("AGE<=23 AND AGE>=16")
-    val t11 = AgeSexPF.where("AGE<=29 AND AGE>=24")
-    val t12 = AgeSexPF.where("AGE<=39 AND AGE>=30")
-    val t13 = AgeSexPF.where("AGE<=49 AND AGE>=40")
-    val t14 = AgeSexPF.where("AGE<=59 AND AGE>=50")
-    val t15 = AgeSexPF.where("AGE<=60 AND AGE>=60")
-    val t16 = AgeSexPF.where("AGE>=70")
+    val t9 = AgeSexPF.where("AGE<=15 and A_PED_F=1")
+    val t10 = AgeSexPF.where("AGE<=23 AND AGE>=16 A_PED_F=1")
+    val t11 = AgeSexPF.where("AGE<=29 AND AGE>=24 A_PED_F=1")
+    val t12 = AgeSexPF.where("AGE<=39 AND AGE>=30 A_PED_F=1")
+    val t13 = AgeSexPF.where("AGE<=49 AND AGE>=40 A_PED_F=1")
+    val t14 = AgeSexPF.where("AGE<=59 AND AGE>=50 A_PED_F=1")
+    val t15 = AgeSexPF.where("AGE<=60 AND AGE>=60 A_PED_F=1")
+    val t16 = AgeSexPF.where("AGE>=70 A_PED_F=1")
     t9
       .agg(
         functions
