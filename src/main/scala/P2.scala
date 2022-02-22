@@ -79,7 +79,7 @@ object P2 {
       "End Program"
     )
     val list1 = List[String]("A", b)
-    val list2 = List[String]("B", "C", "D", b)
+    val list2 = List[String]("USfatals", "StateFatals", "Safest", b)
     val list3 = List[String]("E", "F", "Unknown", "PEDAL", b)
     val list4 = List[String]("G", "H", b)
 
