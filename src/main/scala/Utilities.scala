@@ -31,6 +31,38 @@ object Utilities {
     spark.sql(
       "LOAD DATA LOCAL INPATH 'input/PersonsKilled/PersonsKilled.csv' OVERWRITE INTO TABLE personsKilled"
     )
+
+    //PATRICK
+    //CREATE TABLE OF ALL CRASH DATA
+    //val peopleDF = spark.read.option("input/vehicleStats/*")
+    val aDF = spark.read.option("header", true).csv("input/main_p/*")
+    //Optimization
+    aDF.persist(StorageLevel.MEMORY_ONLY_SER)
+    // DataFrames can be saved as Parquet files, maintaining the schema information
+    aDF.write
+      .mode("overwrite")
+      .parquet("spark-warehouse/usCrashes.parquet")
+    // Read in the parquet file created above
+    // Parquet files are self-describing so the schema is preserved
+    // The result of loading a Parquet file is also a DataFrame
+    val parquetFileDF =
+    spark.read.parquet("spark-warehouse/usCrashes.parquet")
+    // Parquet files can also be used to create a temporary view and then used in SQL statements
+    parquetFileDF.createOrReplaceTempView("crashData")
+
+    //VEHICLE CRASH TABLE FOR PATRICK
+    val vDF =
+      spark.read.option("header", true).csv("input/vehicleStats/*").toDF()
+    //Optimization
+    vDF.persist(StorageLevel.MEMORY_ONLY_SER)
+    // DataFrames can be saved as Parquet files, maintaining the schema information
+    vDF.write.mode("overwrite").parquet("spark-warehouse/vehicle.parquet")
+    // Read in the parquet file created above
+    // Parquet files are self-describing so the schema is preserved
+    // The result of loading a Parquet file is also a DataFrame
+    val parquetDF = spark.read.parquet("spark-warehouse/vehicle.parquet")
+    // Parquet files can also be used to create a temporary view and then used in SQL statements
+    parquetDF.createOrReplaceTempView("vehicleParquetFile")
   }
 
   def end(): Unit = {
@@ -142,17 +174,30 @@ object Utilities {
         case "Urban"   => urban
         case "Unknown" => other
         case "PEDAL"   => pedal
-        case "B" => //GRAPH TRENDS OF FATALITIES IN ENTIRE U.S. FOR 4 YEARS:
-          usfatals()
+        case "USfatals" => //GRAPH TRENDS OF FATALITIES IN ENTIRE U.S. FOR 4 YEARS:
+          usfatals
 
-        case "C" => //GRAPH TRENDS OF FATALITIES IN EACH STATE:
-          statefatals()
+        case "StateFatals" => //GRAPH TRENDS OF FATALITIES IN EACH STATE:
+          statefatals
 
-        case "D" => //WHICH STATES ARE THE SAFEST?
-          // TODO sub menu here?
-          highfatalstates()
-          lowfatalstates()
-          vehicleCrash()
+        case "Safest" => //WHICH STATES ARE THE SAFEST?
+          //Sub menu for states with the highest and lowest fatalities
+          //and also to see if public transportation is a factor in the results
+          val subtopics = List[String](
+            "Most fatalities",
+            "Least fatalities",
+            "Vehicle fatals",
+            "Back to Prev Menu"
+          )
+          var continue = false
+          while(!continue) {
+                getOption(subtopics) match{
+                  case "Most fatalities" => highfatalstates
+                  case "Least fatalities" => lowfatalstates
+                  case "Vehicle fatals" => vehicleCrash
+                  case "Back to Prev Menu" => continue = true
+                }
+          }
 
         case "q4.1" =>
           spark

@@ -246,31 +246,14 @@ object Query {
   }
 
   def usfatals(): Unit = {
-    //CREATE TABLE OF ALL DATA
-    //val peopleDF = spark.read.option("input/vehicleStats/*")
-    val aDF = spark.read.option("header", true).csv("input/main_p/*")
-    //Optimization
-    aDF.persist(StorageLevel.MEMORY_ONLY_SER)
-    // DataFrames can be saved as Parquet files, maintaining the schema information
-    aDF.write
-      .mode("overwrite")
-      .parquet("spark-warehouse/usCrashes.parquet")
-    // Read in the parquet file created above
-    // Parquet files are self-describing so the schema is preserved
-    // The result of loading a Parquet file is also a DataFrame
-    val parquetFileDF =
-      spark.read.parquet("spark-warehouse/usCrashes.parquet")
-    // Parquet files can also be used to create a temporary view and then used in SQL statements
-    parquetFileDF.createOrReplaceTempView("crashData")
-
     //Graph the trend of fatalities in the entire USA
     println("Trend of fatalities in the entire USA from 2016 to 2019:")
     val dfAllUS = spark.sql(
       "SELECT sum(fatals) as fatalities, year from crashData group by year order by year"
     )
-    dfAllUS.show()
     //Optimization
     dfAllUS.persist(StorageLevel.MEMORY_ONLY_SER)
+    dfAllUS.show()
     /*
       df.write
       .format("csv")
@@ -280,23 +263,6 @@ object Query {
      */
   }
   def statefatals(): Unit = {
-    //CREATE TABLE OF ALL DATA
-    //val peopleDF = spark.read.option("input/vehicleStats/*")
-    val aDF = spark.read.option("header", true).csv("input/main_p/*")
-    //Optimization
-    aDF.persist(StorageLevel.MEMORY_ONLY_SER)
-    // DataFrames can be saved as Parquet files, maintaining the schema information
-    aDF.write
-      .mode("overwrite")
-      .parquet("spark-warehouse/usCrashes.parquet")
-    // Read in the parquet file created above
-    // Parquet files are self-describing so the schema is preserved
-    // The result of loading a Parquet file is also a DataFrame
-    val parquetFileDF =
-      spark.read.parquet("spark-warehouse/usCrashes.parquet")
-    // Parquet files can also be used to create a temporary view and then used in SQL statements
-    parquetFileDF.createOrReplaceTempView("crashData")
-
     //Graph the trend of fatalities in individual states
     println("Trend of fatalities in individual states from 2016 to 2019:")
     val dfState = spark.sql(
@@ -315,23 +281,6 @@ object Query {
      */
   }
   def highfatalstates(): Unit = {
-    //CREATE TABLE OF ALL DATA
-    //val peopleDF = spark.read.option("input/vehicleStats/*")
-    val aDF = spark.read.option("header", true).csv("input/main_p/*")
-    //Optimization
-    aDF.persist(StorageLevel.MEMORY_ONLY_SER)
-    // DataFrames can be saved as Parquet files, maintaining the schema information
-    aDF.write
-      .mode("overwrite")
-      .parquet("spark-warehouse/usCrashes.parquet")
-    // Read in the parquet file created above
-    // Parquet files are self-describing so the schema is preserved
-    // The result of loading a Parquet file is also a DataFrame
-    val parquetFileDF =
-      spark.read.parquet("spark-warehouse/usCrashes.parquet")
-    // Parquet files can also be used to create a temporary view and then used in SQL statements
-    parquetFileDF.createOrReplaceTempView("crashData")
-
     //Trend by year for all states
     //States with highest crashes every year
     println("States with highest crash fatality numbers every year: ")
@@ -369,23 +318,6 @@ object Query {
      */
   }
   def lowfatalstates(): Unit = {
-    //CREATE TABLE OF ALL DATA
-    //val peopleDF = spark.read.option("input/vehicleStats/*")
-    val aDF = spark.read.option("header", true).csv("input/main_p/*")
-    //Optimization
-    aDF.persist(StorageLevel.MEMORY_ONLY_SER)
-    // DataFrames can be saved as Parquet files, maintaining the schema information
-    aDF.write
-      .mode("overwrite")
-      .parquet("spark-warehouse/usCrashes.parquet")
-    // Read in the parquet file created above
-    // Parquet files are self-describing so the schema is preserved
-    // The result of loading a Parquet file is also a DataFrame
-    val parquetFileDF =
-      spark.read.parquet("spark-warehouse/usCrashes.parquet")
-    // Parquet files can also be used to create a temporary view and then used in SQL statements
-    parquetFileDF.createOrReplaceTempView("crashData")
-
     //States with lowest crashes every year
     println("States with lowest crash fatality numbers every year: ")
     val state2016down = spark.sql(
@@ -423,18 +355,6 @@ object Query {
   }
   def vehicleCrash(): Unit = {
     //See what type of vehicle led to the most crashes.
-    val vDF =
-      spark.read.option("header", true).csv("input/vehicleStats/*").toDF()
-    //Optimization
-    vDF.persist(StorageLevel.MEMORY_ONLY_SER)
-    // DataFrames can be saved as Parquet files, maintaining the schema information
-    vDF.write.mode("overwrite").parquet("spark-warehouse/vehicle.parquet")
-    // Read in the parquet file created above
-    // Parquet files are self-describing so the schema is preserved
-    // The result of loading a Parquet file is also a DataFrame
-    val parquetDF = spark.read.parquet("spark-warehouse/vehicle.parquet")
-    // Parquet files can also be used to create a temporary view and then used in SQL statements
-    parquetDF.createOrReplaceTempView("vehicleParquetFile")
     println("Here are the stats for different vehicles: ")
     val x = spark.sql(
       "select * from vehicleParquetFile order by Year, VehicleType"
