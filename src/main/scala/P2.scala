@@ -11,10 +11,12 @@ object P2 {
   val sc = spark.sparkContext
   val b = "Back to Main Menu"
 
-  val mainPF = spark.read.parquet("input/mainPF/*")
+  val main = spark.read
+    .option("header", true)
+    .csv("input/main/*")
+  main.write.mode("overwrite").parquet("input/mainPF.parquet")
+  val mainPF = spark.read.parquet("input/mainPF.parquet")
   mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
-  val AgeSexPF = spark.read.parquet("input/AgeSexPF/*")
-  AgeSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
   val t1q1 = "Pedestrian Totals"
   val t1q2 = "Pedestrian Fatal Totals"
@@ -38,7 +40,6 @@ object P2 {
   def main(args: Array[String]): Unit = {
     sc.setLogLevel("ERROR")
     prep
-    prep()
     var auth = false
     while (!auth) {
       getOption(List[String]("Log In", "Sign Up", "Quit Program")) match {

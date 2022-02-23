@@ -1,3 +1,7 @@
+import scala.io.StdIn.readLine
+import org.apache.spark.sql.{SparkSession, functions}
+import java.io.{File, FileOutputStream, PrintWriter}
+import scala.io.Source
 import P2._
 import Query._
 import org.apache.spark.storage.StorageLevel
@@ -42,12 +46,12 @@ object Utilities {
     // DataFrames can be saved as Parquet files, maintaining the schema information
     aDF.write
       .mode("overwrite")
-      .parquet("spark-warehouse/usCrashes.parquet")
+      .parquet("input/usCrashes.parquet")
     // Read in the parquet file created above
     // Parquet files are self-describing so the schema is preserved
     // The result of loading a Parquet file is also a DataFrame
     val parquetFileDF =
-      spark.read.parquet("spark-warehouse/usCrashes.parquet")
+    spark.read.parquet("input/usCrashes.parquet")
     // Parquet files can also be used to create a temporary view and then used in SQL statements
     parquetFileDF.createOrReplaceTempView("crashData")
 
@@ -57,11 +61,11 @@ object Utilities {
     //Optimization
     vDF.persist(StorageLevel.MEMORY_ONLY_SER)
     // DataFrames can be saved as Parquet files, maintaining the schema information
-    vDF.write.mode("overwrite").parquet("spark-warehouse/vehicle.parquet")
+    vDF.write.mode("overwrite").parquet("input/vehicle.parquet")
     // Read in the parquet file created above
     // Parquet files are self-describing so the schema is preserved
     // The result of loading a Parquet file is also a DataFrame
-    val parquetDF = spark.read.parquet("spark-warehouse/vehicle.parquet")
+    val parquetDF = spark.read.parquet("input/vehicle.parquet")
     // Parquet files can also be used to create a temporary view and then used in SQL statements
     parquetDF.createOrReplaceTempView("vehicleParquetFile")
   }
@@ -191,13 +195,13 @@ object Utilities {
             "Back to Prev Menu"
           )
           var continue = false
-          while (!continue) {
-            getOption(subtopics) match {
-              case "Most fatalities"   => highfatalstates
-              case "Least fatalities"  => lowfatalstates
-              case "Vehicle fatals"    => vehicleCrash
-              case "Back to Prev Menu" => continue = true
-            }
+          while(!continue) {
+                getOption(subtopics) match{
+                  case "Most fatalities" => highfatalstates
+                  case "Least fatalities" => lowfatalstates
+                  case "Vehicle fatals" => vehicleCrash
+                  case "Back to Prev Menu" => continue = true
+                }
           }
         case "jessica1" => pedtotal()
         case "jonathan" => jonathan
