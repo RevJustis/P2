@@ -183,31 +183,34 @@ object Query {
 
   //Start Jonathan's
   def jonathan(): Unit = {
-    spark
+    val df = spark
       .sql(
         "select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
           "motorcycles as Delta, (total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as DeltaPED," +
           " total from personsKilled where year between 2008 and 2018"
       )
-      .show()
+    df.show()
+    viz(df, "vehicle_j", "justis")
   }
 
   def pedal(): Unit = {
     val pedal = mainPF.where("A_PEDAL_F == 1")
 
     println("Number of crashes fatal to Cyclists by state")
-    pedal
+    val df = pedal
       .groupBy("STATENAME")
       .count()
       .orderBy(functions.col("count").desc)
-      .show(56)
+    df.show(56)
+    viz(df, "vehicle_j", "justis")
 
     println("Number of crashes fatal to Cyclists by Year")
-    pedal
+    val df2 = pedal
       .groupBy("YEAR")
       .count()
       .orderBy(functions.col("count").desc)
-      .show(56)
+    df2.show(56)
+    viz(df2, "vehicle_j", "justis")
   }
 
   //Start Patrick's
