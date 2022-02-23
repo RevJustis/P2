@@ -2,21 +2,13 @@ import P2._
 import Query._
 
 import org.apache.spark.sql.DataFrame
-import java.io.{
-  File,
-  FileOutputStream,
-  PrintWriter,
-  BufferedReader,
-  BufferedWriter,
-  FileReader,
-  FileWriter
-}
+import java.io.{File, FileOutputStream, PrintWriter}
 import scala.io.Source
 import scala.io.StdIn.readLine
 
 object Utilities {
   var admin: Boolean = false
-  def userPassPrep(): Unit = {
+  def prep(): Unit = {
     // Account table setup
     spark.sql(
       "CREATE TABLE IF NOT EXISTS userpass (user STRING, pass STRING, admin STRING) "
@@ -30,8 +22,7 @@ object Utilities {
       case e: Throwable =>
         println("There was an issue reading from userpass.txt")
     }
-  }
-  def prep(): Unit = {
+
     //Jonathan
     spark.sql(
       "CREATE TABLE IF NOT EXISTS personsKilled (year int, passengerCars int, lightTrucks int, largeTrucks int," +
@@ -313,34 +304,24 @@ object Utilities {
 
   def eraseAcc(n: String): Unit = {
     if (userExists(n)) {
-      // val inputFile = new File("input/userpass.txt");
-      // val tempFile = new File("myTempFile.txt");
+     // File inputFile = new File("myFile.txt");
+     // File tempFile = new File("myTempFile.txt");
 
-      // val reader = new BufferedReader(new FileReader(inputFile));
-      // val writer = new BufferedWriter(new FileWriter(tempFile));
+      //BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+      //BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
 
-      // while (reader. != null) {
+     // String lineToRemove = "bbb";
+     // String currentLine;
+
+     // while ((currentLine = reader.readLine()) != null) {
       //   // trim newline when comparing with lineToRemove
-      //   val trimmedLine = reader.readLine().trim();
-      //   if (trimmedLine.equals(lineToRemove)) continue;
-      //   writer.write(currentLine + System.getProperty("line.separator"));
-      // }
+      //String trimmedLine = currentLine.trim();
+        //if (trimmedLine.equals(lineToRemove)) continue;
+        //writer.write(currentLine + System.getProperty("line.separator"));
+      //}
       // writer.close();
       // reader.close();
       // boolean successful = tempFile.renameTo(inputFile);
-      val f1 = new File("input/userpass.txt") // Original File
-      val f2 = new File("input/temp.txt") // Temporary File
-      val w = new PrintWriter(f2)
-      Source
-        .fromFile(f1)
-        .getLines
-        .map { x => if (x.contains(n)) "" else x }
-        .foreach(x => if (x != "") w.println(x))
-      w.close()
-      f2.renameTo(f1)
-
-      userPassPrep()
-      if (!userExists(n)) println("Account has been Erased!")
     }
   }
 

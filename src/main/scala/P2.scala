@@ -145,6 +145,7 @@ object P2 {
           eraseAcc(in)
         case `s4` => System.exit(0)
         case `s1` => // do nothing
+
       }
     }
 
