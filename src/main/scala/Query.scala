@@ -177,10 +177,8 @@ object Query {
     x.foreach(tup => tup._1.agg(functions.count("*").as(tup._2)).show())
 
     println("Pedestrian FATALITIES by age: ")
-    val t9 = ageSexPF.where("AGE<=15 A_PED_F=1")
-    val t10 = ageSexPF.where(
-      "AGE<=23 AND AGE>=16 AND A_PED_F=1"
-    ) ///NEED TO ADD AND A_PED_F to these
+    val t9 = ageSexPF.where("AGE<=15 AND A_PED_F=1")
+    val t10 = ageSexPF.where("AGE<=23 AND AGE>=16 AND A_PED_F=1")
     val t11 = ageSexPF.where("AGE<=29 AND AGE>=24 AND A_PED_F=1")
     val t12 = ageSexPF.where("AGE<=39 AND AGE>=30 AND A_PED_F=1")
     val t13 = ageSexPF.where("AGE<=49 AND AGE>=40 AND A_PED_F=1")
