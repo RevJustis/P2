@@ -9,14 +9,10 @@ object P2 {
     .enableHiveSupport()
     .getOrCreate()
   val sc = spark.sparkContext
+  sc.setLogLevel("ERROR")
   val b = "Back to Main Menu"
 
-  val main = spark.read
-    .option("header", true)
-    .csv("input/main/*")
-  main.write.mode("overwrite").parquet("input/mainPF.parquet")
   val mainPF = spark.read.parquet("input/mainPF.parquet")
-  mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
   val t1q1 = "Pedestrian Totals"
   val t1q2 = "Pedestrian Fatal Totals"
@@ -38,7 +34,7 @@ object P2 {
   val t2q4 = "Least Fatal States"
 
   def main(args: Array[String]): Unit = {
-    sc.setLogLevel("ERROR")
+    mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
     prep
     var auth = false
     while (!auth) {
