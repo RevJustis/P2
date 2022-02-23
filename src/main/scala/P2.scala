@@ -138,7 +138,7 @@ object P2 {
     val s5 = "End Program"
 
     val list1 = List[String](t1q1, t1q2, t1q3, t1q4, t1q5, b)
-    val list2 = List[String](t2q1, t2q2, t2q3, t2q4, b)
+    val list2 = List[String](t2q1, t2q2, t2, b)
     val list3 = List[String](t3q1, t3q2, t3q3, b)
     val list4 = List[String](t4q1, t4q2, t4q3, b)
 
