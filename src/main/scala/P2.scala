@@ -20,9 +20,11 @@ object P2 {
   val t1q4 = "Pedestrian By Sex"
   val t1q5 = "Pedestrian By Age"
 
+  val t2 = "Safety Queries"
   val t2q1 = "US Wide Fatalities"
   val t2q2 = "State Wide Fatalities"
   val t2q3 = "Most Fatal States"
+  val t2q4 = "Least Fatal States"
 
   val t3q1 = "Rural"
   val t3q2 = "Urban"
@@ -31,7 +33,6 @@ object P2 {
   val t4q1 = "Fatalities by Vehicle"
   val t4q2 = "Vehicle Types"
   val t4q3 = "Cyclists"
-  val t2q4 = "Least Fatal States"
 
   def main(args: Array[String]): Unit = {
     mainPF.persist(StorageLevel.MEMORY_ONLY_SER)

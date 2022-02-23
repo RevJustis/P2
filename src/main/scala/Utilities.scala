@@ -51,7 +51,7 @@ object Utilities {
     // Parquet files are self-describing so the schema is preserved
     // The result of loading a Parquet file is also a DataFrame
     val parquetFileDF =
-    spark.read.parquet("input/usCrashes.parquet")
+      spark.read.parquet("input/usCrashes.parquet")
     // Parquet files can also be used to create a temporary view and then used in SQL statements
     parquetFileDF.createOrReplaceTempView("crashData")
 
@@ -175,37 +175,40 @@ object Utilities {
     var continue = false
     while (!continue) {
       getOption(options) match {
-        case "Rural"         => rural
-        case "Urban"         => urban
-        case "Other"         => other
-        case "Pedal Cyclist" => pedal
-        case "US Fatals" => //GRAPH TRENDS OF FATALITIES IN ENTIRE U.S. FOR 4 YEARS:
+        case `t3q1` => rural
+        case `t3q2` => urban
+        case `t3q3` => other
+        case `t2q1` => //GRAPH TRENDS OF FATALITIES IN ENTIRE U.S. FOR 4 YEARS:
           usfatals
 
-        case "State Fatals" => //GRAPH TRENDS OF FATALITIES IN EACH STATE:
+        case `t2q2` => //GRAPH TRENDS OF FATALITIES IN EACH STATE:
           statefatals
 
-        case "Safest" => //WHICH STATES ARE THE SAFEST?
+        case `t2` => //WHICH STATES ARE THE SAFEST?
           //Sub menu for states with the highest and lowest fatalities
           //and also to see if public transportation is a factor in the results
           val subtopics = List[String](
-            "Most fatalities",
-            "Least fatalities",
-            "Vehicle fatals",
+            t2q3,
+            t2q4,
             "Back to Prev Menu"
           )
           var continue = false
-          while(!continue) {
-                getOption(subtopics) match{
-                  case "Most fatalities" => highfatalstates
-                  case "Least fatalities" => lowfatalstates
-                  case "Vehicle fatals" => vehicleCrash
-                  case "Back to Prev Menu" => continue = true
-                }
+          while (!continue) {
+            getOption(subtopics) match {
+              case `t2q3`              => highfatalstates
+              case `t2q4`              => lowfatalstates
+              case "Back to Prev Menu" => continue = true
+            }
           }
-        case "jessica1" => pedtotal()
-        case "jonathan" => jonathan
-        case b          => continue = true
+        case `t1q1` => pedtotal
+        case `t1q2` => fatalities
+        case `t1q3` => states
+        case `t1q4` => sex
+        case `t1q5` => age
+        case `t4q1` => jonathan
+        case `t4q2` => vehicleCrash
+        case `t4q3` => pedal
+        case `b`    => continue = true
       }
     }
   }
