@@ -10,21 +10,22 @@ object P2 {
     .getOrCreate()
   val sc = spark.sparkContext
   sc.setLogLevel("ERROR")
-  val b = "Back to Main Menu"
 
   val main = spark.read
     .option("header", true)
     .csv("input/originals/main/*")
-  main.write.mode("overwrite").parquet("input/AgeSexPF.parquet")
-  val mainPF = spark.read.parquet("input/AgeSexPF.parquet")
+
+  main.write.mode("overwrite").parquet("input/main_pf.parquet")
+  val mainPF = spark.read.parquet("input/main_pf.parquet")
   mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
-  val AgeSex = spark.read
+  val ageSex = spark.read
     .option("header", true)
     .csv("input/originals/AgeSex/*")
-  AgeSex.write.mode("overwrite").parquet("input/AgeSexPF.parquet")
-  val AgeSexPF = spark.read.parquet("input/AgeSexPF.parquet")
-  AgeSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
+
+  ageSex.write.mode("overwrite").parquet("input/age_sex_pf.parquet")
+  val ageSexPF = spark.read.parquet("input/age_sex_pf.parquet")
+  ageSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
   val aDF = spark.read.option("header", true).csv("input/originals/main_p/*")
   //Optimization
@@ -32,14 +33,18 @@ object P2 {
   // DataFrames can be saved as Parquet files, maintaining the schema information
   aDF.write
     .mode("overwrite")
-    .parquet("input/mainPF_P.parquet")
+    .parquet("input/mainpf_p.parquet")
 
   val vDF =
-    spark.read.option("header", true).csv("input/originals/vehicleStats/*").toDF()
+    spark.read
+      .option("header", true)
+      .csv("input/originals/vehicleStats/*")
   //Optimization
   vDF.persist(StorageLevel.MEMORY_ONLY_SER)
   // DataFrames can be saved as Parquet files, maintaining the schema information
   vDF.write.mode("overwrite").parquet("input/vehicle.parquet")
+
+  val b = "Back to Main Menu"
 
   val t1q1 = "Pedestrian Totals"
   val t1q2 = "Pedestrian Fatal Totals"
@@ -63,7 +68,6 @@ object P2 {
   val t4q3 = "Cyclists"
 
   def main(args: Array[String]): Unit = {
-    mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
     prep
     var auth = false
     while (!auth) {

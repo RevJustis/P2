@@ -17,7 +17,6 @@ object Utilities {
     spark.sql(
       "set hive.exec.dynamic.partition.mode=nonstrict"
     )
-    spark.sql("DROP TABLE IF EXISTS userpass")
     spark.sql(
       "CREATE TABLE IF NOT EXISTS userpass (user STRING, pass STRING, admin STRING) "
         + "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"
@@ -43,7 +42,7 @@ object Utilities {
     // Parquet files are self-describing so the schema is preserved
     // The result of loading a Parquet file is also a DataFrame
     val parquetFileDF =
-      spark.read.parquet("input/mainPF_P.parquet")
+      spark.read.parquet("input/mainpf_p.parquet")
     // Parquet files can also be used to create a temporary view and then used in SQL statements
     parquetFileDF.createOrReplaceTempView("crashData")
 
