@@ -15,7 +15,7 @@ object Query {
 
     println("Rural Fatalities by Year")
     val sum2 = ru.groupBy("YEAR").agg(functions.sum("FATALS").as("SUM"))
-    sum.orderBy(functions.col("SUM").desc).show(60)
+    sum2.orderBy(functions.col("SUM").desc).show(60)
     viz(sum2, "rural_y", "justis")
   }
 
@@ -29,8 +29,8 @@ object Query {
 
     println("Urban Fatalities by Year")
     val sum2 = ur.groupBy("YEAR").agg(functions.sum("FATALS").as("SUM"))
-    sum.orderBy(functions.col("SUM").desc).show(60)
-    viz(sum, "urban_y", "justis")
+    sum2.orderBy(functions.col("SUM").desc).show(60)
+    viz(sum2, "urban_y", "justis")
 
   }
 

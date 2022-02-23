@@ -6,7 +6,6 @@ object Visualization {
       .format("csv")
       .option("header", true)
       .mode("overwrite")
-      .save("hdfs://localhost:9000/user/wizard/future.csv")
-
+      .save(s"hdfs://localhost:9000/user/$u/$n.csv")
   }
 }
