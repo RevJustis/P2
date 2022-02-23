@@ -307,6 +307,6 @@ object Query {
     //Optimization
     x.persist(StorageLevel.MEMORY_ONLY_SER)
     x.show(28)
-    viz(x, "vehicleCrash", "patrickbrown")
+    viz(x, "vehicleCrash", "wizard")
   }
 }

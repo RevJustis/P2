@@ -15,6 +15,23 @@ libraryDependencies += "org.apache.spark" %% "spark-sql" % "2.3.1"
 // https://mvnrepository.com/artifact/org.apache.spark/spark-hive
 libraryDependencies += "org.apache.spark" %% "spark-hive" % "2.3.1"
 
+// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+//libraryDependencies += "org.apache.commons" % "commons-lang3" % "3.12.0"
+
 // Below two lines are needed for Justis to be able to run the program without IntelliJ...
 fork in run := true
 connectInput in run := true
+
+/*
+Compile / mainClass := Some("P2")
+assembly / mainClass := Some("P2")
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
+
+ */
+
+
+
