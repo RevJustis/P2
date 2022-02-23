@@ -1,6 +1,5 @@
 import P2._
 import Utilities._
-import Visualization._
 import org.apache.spark.sql.{DataFrame, functions}
 import org.apache.spark.storage.StorageLevel
 
@@ -60,7 +59,7 @@ object Query {
     )
     val pedTotalByY =
       mainPF.where("A_PED == 1")
-    pedTotalByY
+    val df = pedTotalByY
       .groupBy("YEAR")
       .agg(
         functions
@@ -81,7 +80,7 @@ object Query {
       mainPF.where(
         "A_PED_F == 1"
       )
-    pedFbyY
+    val df = pedFbyY
       .groupBy("YEAR")
       .agg(
         functions
@@ -96,7 +95,7 @@ object Query {
   def states(): Unit = {
     println("Pedestrian INJURIES (fatal and nonfatal) by state: ")
     val state = mainPF.where("A_PED == 1")
-    state
+    var df = state
       .groupBy("STATENAME")
       .agg(
         functions
@@ -108,7 +107,7 @@ object Query {
     viz(df, "ped_inj_s", "justis")
 
     println("Pedestrian FATALITIES by state  ")
-    state
+    df = state
       .groupBy("STATENAME")
       .agg(
         functions
@@ -135,8 +134,8 @@ object Query {
             .as("Total")
         )
         .orderBy("Total")
-    df.show()
-    viz(df, "ped_sex", "justis")
+    sex.show()
+    viz(sex, "ped_sex", "justis")
   }
 
   def age(): Unit = {
@@ -188,7 +187,7 @@ object Query {
 
   //Start Jonathan's
   def jonathan(): Unit = {
-    val df = spark  //FIXME this need fixing(convert to parquet?)
+    val df = spark //FIXME this need fixing(convert to parquet?)
       .sql(
         "select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
           "motorcycles as Delta, (total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as DeltaPED," +
@@ -225,7 +224,9 @@ object Query {
     val dfAllUS = spark.sql(
       "SELECT sum(fatals) as fatalities, year from crashData group by year order by year"
     )
-    dfAllUS.persist(StorageLevel.MEMORY_ONLY_SER)//FIXME this needs fixing; caching isn't optimal when querying parquet files (if even using SQl query?)
+    dfAllUS.persist(
+      StorageLevel.MEMORY_ONLY_SER
+    ) //FIXME this needs fixing; caching isn't optimal when querying parquet files (if even using SQl query?)
     dfAllUS.show()
     viz(dfAllUS, "usfatals", "patrickbrown")
   }
@@ -237,7 +238,9 @@ object Query {
       "SELECT sum(fatals) as fatalities, year, state from crashData group by state, year \n" +
         "order by state, year"
     )
-    dfState.persist(StorageLevel.MEMORY_ONLY_SER)//FIXME this needs fixing; caching isn't optimal when querying parquet files
+    dfState.persist(
+      StorageLevel.MEMORY_ONLY_SER
+    ) //FIXME this needs fixing; caching isn't optimal when querying parquet files
     dfState.show()
     viz(dfState, "statefatals", "patrickbrown")
   }
@@ -263,7 +266,9 @@ object Query {
         "group by state, year order by fatalities DESC LIMIT 8"
     )
     //Optimization
-    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //FIXME this needs fixing; caching isn't optimal when querying parquet files
+    dfState2016.persist(
+      StorageLevel.MEMORY_ONLY_SER
+    ) //FIXME this needs fixing; caching isn't optimal when querying parquet files
     dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //""
     dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //""
     dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //""
@@ -293,7 +298,9 @@ object Query {
         "group by state, year order by fatalities LIMIT 8"
     )
     //Optimization
-    state2016down.persist(StorageLevel.MEMORY_ONLY_SER) // FIXME this needs fixing; caching isn't optimal when querying parquet files
+    state2016down.persist(
+      StorageLevel.MEMORY_ONLY_SER
+    ) // FIXME this needs fixing; caching isn't optimal when querying parquet files
     state2017down.persist(StorageLevel.MEMORY_ONLY_SER) //""
     state2018down.persist(StorageLevel.MEMORY_ONLY_SER) //""
     state2019down.persist(StorageLevel.MEMORY_ONLY_SER) //""
@@ -310,7 +317,9 @@ object Query {
       "select * from vehicleParquetFile order by Year, VehicleType"
     )
     //Optimization
-    x.persist(StorageLevel.MEMORY_ONLY_SER) //FIXME this needs fixing; ditto above
+    x.persist(
+      StorageLevel.MEMORY_ONLY_SER
+    ) //FIXME this needs fixing; ditto above
     x.show(28)
     viz(x, "vehicleCrash", "wizard")
   }
