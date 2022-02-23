@@ -176,6 +176,7 @@ object Utilities {
           val subtopics = List[String](
             t2q3,
             t2q4,
+            t2q5,
             "Back to Prev Menu"
           )
           var continue = false
@@ -183,6 +184,7 @@ object Utilities {
             getOption(subtopics) match {
               case `t2q3`              => highfatalstates
               case `t2q4`              => lowfatalstates
+              case `t2q5`              => vehicleCrash
               case "Back to Prev Menu" => continue = true
             }
           }

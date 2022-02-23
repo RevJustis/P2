@@ -52,6 +52,7 @@ object P2 {
   val t2q2 = "State Wide Fatalities"
   val t2q3 = "Most Fatal States"
   val t2q4 = "Least Fatal States"
+  val t2q5 = "Fatalities Based on Vehicle Type"
 
   val t3q1 = "Rural"
   val t3q2 = "Urban"
