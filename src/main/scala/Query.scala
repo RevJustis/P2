@@ -40,14 +40,14 @@ object Query {
     println("Unknown location type Fatalities by State")
     val sum = other.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
     sum.orderBy(functions.col("SUM").desc).show(60)
+    viz(sum, "other_s", "justis")
 
     println("Unknown location type Fatalities by Year")
     val sum2 = other.groupBy("YEAR").agg(functions.sum("FATALS").as("SUM"))
     sum.orderBy(functions.col("SUM").desc).show(60)
+    viz(sum, "other_y", "justis")
 
   }
-
-  ///Start Jessica/Topic 1
 
   def pedtotal(): Unit = {
     println(
@@ -68,9 +68,10 @@ object Query {
           .as("PedTotalYear")
       )
       .orderBy("YEAR")
-      .show()
+    df.show()
+    viz(df, "ped_total", "justis")
   }
-
+//start Jessica
   def fatalities(): Unit = {
     println("Total number of pedestrian vehicle-related FATALITIES 2016-2019: ")
     println(mainPF.where("A_PED_F == 1").count())
@@ -88,7 +89,8 @@ object Query {
           .as("PedFatalsYear")
       )
       .orderBy("YEAR")
-      .show(60)
+    df.show(60)
+    viz(df, "ped_fatal_y", "justis")
   }
 
   def states(): Unit = {
@@ -102,7 +104,8 @@ object Query {
           .as("Total")
       )
       .orderBy("Total")
-      .show(60)
+    df.show(60)
+    viz(df, "ped_inj_s", "justis")
 
     println("Pedestrian FATALITIES by state  ")
     state
@@ -113,7 +116,8 @@ object Query {
           .as("Total")
       )
       .orderBy("Total")
-      .show(60)
+    df.show(60)
+    viz(df, "ped_fatal_s", "justis")
   }
 
   def sex(): Unit = {
@@ -131,7 +135,8 @@ object Query {
             .as("Total")
         )
         .orderBy("Total")
-        .show()
+    df.show()
+    viz(df, "ped_sex", "justis")
   }
 
   def age(): Unit = {
@@ -183,7 +188,7 @@ object Query {
 
   //Start Jonathan's
   def jonathan(): Unit = {
-    val df = spark
+    val df = spark  //FIXME this need fixing(convert to parquet?)
       .sql(
         "select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
           "motorcycles as Delta, (total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as DeltaPED," +
@@ -202,7 +207,7 @@ object Query {
       .count()
       .orderBy(functions.col("count").desc)
     df.show(56)
-    viz(df, "vehicle_j", "justis")
+    viz(df, "pedal_s", "justis")
 
     println("Number of crashes fatal to Cyclists by Year")
     val df2 = pedal
@@ -210,7 +215,7 @@ object Query {
       .count()
       .orderBy(functions.col("count").desc)
     df2.show(56)
-    viz(df2, "vehicle_j", "justis")
+    viz(df2, "pedal_y", "justis")
   }
 
   //Start Patrick's
@@ -220,7 +225,7 @@ object Query {
     val dfAllUS = spark.sql(
       "SELECT sum(fatals) as fatalities, year from crashData group by year order by year"
     )
-    dfAllUS.persist(StorageLevel.MEMORY_ONLY_SER)
+    dfAllUS.persist(StorageLevel.MEMORY_ONLY_SER)//FIXME this needs fixing; caching isn't optimal when querying parquet files (if even using SQl query?)
     dfAllUS.show()
     viz(dfAllUS, "usfatals", "patrickbrown")
   }
@@ -232,7 +237,7 @@ object Query {
       "SELECT sum(fatals) as fatalities, year, state from crashData group by state, year \n" +
         "order by state, year"
     )
-    dfState.persist(StorageLevel.MEMORY_ONLY_SER)
+    dfState.persist(StorageLevel.MEMORY_ONLY_SER)//FIXME this needs fixing; caching isn't optimal when querying parquet files
     dfState.show()
     viz(dfState, "statefatals", "patrickbrown")
   }
@@ -258,10 +263,10 @@ object Query {
         "group by state, year order by fatalities DESC LIMIT 8"
     )
     //Optimization
-    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
-    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
-    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
-    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
+    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //FIXME this needs fixing; caching isn't optimal when querying parquet files
+    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //""
+    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //""
+    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //""
     dfState2016.show()
     dfState2017.show()
     dfState2018.show()
@@ -288,10 +293,10 @@ object Query {
         "group by state, year order by fatalities LIMIT 8"
     )
     //Optimization
-    state2016down.persist(StorageLevel.MEMORY_ONLY_SER)
-    state2017down.persist(StorageLevel.MEMORY_ONLY_SER)
-    state2018down.persist(StorageLevel.MEMORY_ONLY_SER)
-    state2019down.persist(StorageLevel.MEMORY_ONLY_SER)
+    state2016down.persist(StorageLevel.MEMORY_ONLY_SER) // FIXME this needs fixing; caching isn't optimal when querying parquet files
+    state2017down.persist(StorageLevel.MEMORY_ONLY_SER) //""
+    state2018down.persist(StorageLevel.MEMORY_ONLY_SER) //""
+    state2019down.persist(StorageLevel.MEMORY_ONLY_SER) //""
     state2016down.show()
     state2017down.show()
     state2018down.show()
@@ -305,7 +310,7 @@ object Query {
       "select * from vehicleParquetFile order by Year, VehicleType"
     )
     //Optimization
-    x.persist(StorageLevel.MEMORY_ONLY_SER)
+    x.persist(StorageLevel.MEMORY_ONLY_SER) //FIXME this needs fixing; ditto above
     x.show(28)
     viz(x, "vehicleCrash", "wizard")
   }

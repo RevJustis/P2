@@ -1,7 +1,7 @@
 import P2._
 import Query._
-import org.apache.spark.sql.SparkSession
 
+import org.apache.spark.sql.DataFrame
 import java.io.{File, FileOutputStream, PrintWriter}
 import scala.io.Source
 import scala.io.StdIn.readLine
@@ -11,43 +11,67 @@ object Utilities {
   def prep(): Unit = {
     // Account table setup
     spark.sql(
-      "set hive.exec.dynamic.partition.mode=nonstrict"
-    )
-    spark.sql(
       "CREATE TABLE IF NOT EXISTS userpass (user STRING, pass STRING, admin STRING) "
         + "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"
     )
-    spark.sql(
-      "LOAD DATA LOCAL INPATH 'input/userpass.txt' OVERWRITE INTO TABLE userpass"
-    )
+    try {
+      spark.sql(
+        "LOAD DATA LOCAL INPATH 'input/userpass.txt' OVERWRITE INTO TABLE userpass"
+      )
+    } catch {
+      case e: Throwable =>
+        println("There was an issue reading from userpass.txt")
+    }
 
     //Jonathan
-    spark.sql("DROP TABLE IF EXISTS personsKilled")
     spark.sql(
       "CREATE TABLE IF NOT EXISTS personsKilled (year int, passengerCars int, lightTrucks int, largeTrucks int," +
         "motorcycles int, buses int, otherUnknown int, total1 int, pedestrian int, pedalcyclist int, other int, total2 int," +
         "unknownPersonType int, total int)" +
-        "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"
+        "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','" //FIXME (convert to parquet?)
     )
-    spark.sql(
-      "LOAD DATA LOCAL INPATH 'input/originals/PersonsKilled/PersonsKilled.csv' OVERWRITE INTO TABLE personsKilled"
-    )
+    try {
+      spark.sql(
+        "LOAD DATA LOCAL INPATH 'input/originals/PersonsKilled/PersonsKilled.csv' OVERWRITE INTO TABLE personsKilled"
+      )
+    } catch {
+      case e: Throwable =>
+        println("There was an issue reading from PersonsKilled.csv")
+    }
 
     //PATRICK
     //CREATE TABLE OF ALL CRASH DATA
     // Read in the parquet file created above
     // Parquet files are self-describing so the schema is preserved
     // The result of loading a Parquet file is also a DataFrame
-    val parquetFileDF =
-      spark.read.parquet("input/mainpf_p.parquet")
-    // Parquet files can also be used to create a temporary view and then used in SQL statements
-    parquetFileDF.createOrReplaceTempView("crashData")
+    try {
+      val parquetFileDF =
+        spark.read.parquet("input/mainpf_p.parquet")
+      // Parquet files can also be used to create a temporary view and then used in SQL statements
+      parquetFileDF.createOrReplaceTempView("crashData")
+    } catch {
+      case e: Throwable =>
+        println("There was an issue with reading mainpf_p.parquet")
+    }
 
     //VEHICLE CRASH TABLE FOR PATRICK
     // Read in the parquet file created for the vehicle data
-    val parquetDF = spark.read.parquet("input/vehicle.parquet")
-    // Parquet files can also be used to create a temporary view and then used in SQL statements
-    parquetDF.createOrReplaceTempView("vehicleParquetFile")
+    try {
+      val parquetDF = spark.read.parquet("input/vehicle.parquet")
+      // Parquet files can also be used to create a temporary view and then used in SQL statements
+      parquetDF.createOrReplaceTempView("vehicleParquetFile")
+    } catch {
+      case e: Throwable =>
+        println("There was an issue with reading vehicle.parquet")
+    }
+  }
+
+  def viz(df: DataFrame, n: String, u: String): Unit = {
+    df.write
+      .format("csv")
+      .option("header", true)
+      .mode("overwrite")
+      .save(s"hdfs://localhost:9000/user/$u/$n.csv")
   }
 
   def end(): Unit = {
@@ -204,17 +228,25 @@ object Utilities {
     }
     println("Please enter a Password:")
     val pass = readLine()
-
-    val pw = new PrintWriter(
-      new FileOutputStream(
-        new File("input/userpass.txt"),
-        true // append = true
+    try {
+      val pw = new PrintWriter(
+        new FileOutputStream(
+          new File("input/userpass.txt"),
+          true // append = true
+        )
       )
-    )
-    pw.append(s"$user,$pass,false\n")
-    pw.close()
-    prep()
-    user
+      pw.append(s"$user,$pass,false\n")
+      pw.close()
+      prep()
+      user
+    } catch {
+      case e: Throwable =>
+        println(
+          "Couldn't sign you up! There was an issue with the record of usernames and passwords."
+        )
+        System.exit(1)
+        "Error"
+    }
   }
 
   def logIn(user: String): Unit = {
@@ -249,17 +281,48 @@ object Utilities {
     )
     val pass = q.head.getString(0)
 
-    val f1 = new File("input/userpass.txt") // Original File
-    val f2 = new File("input/temp.txt") // Temporary File
-    val w = new PrintWriter(f2)
-    Source
-      .fromFile(f1)
-      .getLines
-      .map { x => if (x.contains(user)) s"$user,$pass,true" else x }
-      .foreach(x => w.println(x))
-    w.close()
-    f2.renameTo(f1)
-    println(s"$user has been successfully made admin!")
+    try {
+      val f1 = new File("input/userpass.txt") // Original File
+      val f2 = new File("input/temp.txt") // Temporary File
+      val w = new PrintWriter(f2)
+      Source
+        .fromFile(f1)
+        .getLines
+        .map { x => if (x.contains(user)) s"$user,$pass,true" else x }
+        .foreach(x => w.println(x))
+      w.close()
+      f2.renameTo(f1)
+      println(s"$user has been successfully made admin!")
+
+    } catch {
+      case e: Throwable =>
+        println(
+          "Admin couldn't be made, a problem occured with the reading and writing to the record."
+        )
+    }
+  }
+
+  def eraseAcc(n: String): Unit = {
+    if (userExists(n)) {
+      // File inputFile = new File("myFile.txt");
+      // File tempFile = new File("myTempFile.txt");
+
+      // BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+      // BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+      // String lineToRemove = "bbb";
+      // String currentLine;
+
+      // while ((currentLine = reader.readLine()) != null) {
+      //   // trim newline when comparing with lineToRemove
+      //   String trimmedLine = currentLine.trim();
+      //   if (trimmedLine.equals(lineToRemove)) continue;
+      //   writer.write(currentLine + System.getProperty("line.separator"));
+      // }
+      // writer.close();
+      // reader.close();
+      // boolean successful = tempFile.renameTo(inputFile);
+    }
   }
 
   def junk(): Unit = {
