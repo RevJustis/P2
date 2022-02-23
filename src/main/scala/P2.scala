@@ -1,6 +1,6 @@
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions._
 import Utilities._
+import org.apache.spark.storage.StorageLevel
+import org.apache.spark.sql.SparkSession
 
 object P2 {
   val spark = SparkSession.builder
@@ -9,10 +9,65 @@ object P2 {
     .enableHiveSupport()
     .getOrCreate()
   val sc = spark.sparkContext
+  sc.setLogLevel("ERROR")
+
+  val main = spark.read
+    .option("header", true)
+    .csv("input/originals/main/*")
+
+  main.write.mode("overwrite").parquet("input/main_pf.parquet")
+  val mainPF = spark.read.parquet("input/main_pf.parquet")
+  mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
+
+  val ageSex = spark.read
+    .option("header", true)
+    .csv("input/originals/AgeSex/*")
+
+  ageSex.write.mode("overwrite").parquet("input/age_sex_pf.parquet")
+  val ageSexPF = spark.read.parquet("input/age_sex_pf.parquet")
+  ageSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
+
+  val aDF = spark.read.option("header", true).csv("input/originals/main_p/*")
+  //Optimization
+  aDF.persist(StorageLevel.MEMORY_ONLY_SER)
+  // DataFrames can be saved as Parquet files, maintaining the schema information
+  aDF.write
+    .mode("overwrite")
+    .parquet("input/mainpf_p.parquet")
+
+  val vDF =
+    spark.read
+      .option("header", true)
+      .csv("input/originals/vehicleStats/*")
+  //Optimization
+  vDF.persist(StorageLevel.MEMORY_ONLY_SER)
+  // DataFrames can be saved as Parquet files, maintaining the schema information
+  vDF.write.mode("overwrite").parquet("input/vehicle.parquet")
+
   val b = "Back to Main Menu"
 
+  val t1q1 = "Pedestrian Totals"
+  val t1q2 = "Pedestrian Fatal Totals"
+  val t1q3 = "Pedestrian By State"
+  val t1q4 = "Pedestrian By Sex"
+  val t1q5 = "Pedestrian By Age"
+
+  val t2 = "Safety Queries"
+  val t2q1 = "US Wide Fatalities"
+  val t2q2 = "State Wide Fatalities"
+  val t2q3 = "Most Fatal States"
+  val t2q4 = "Least Fatal States"
+
+  val t3q1 = "Rural"
+  val t3q2 = "Urban"
+  val t3q3 = "Other"
+
+  val t4q1 = "Fatalities by Vehicle"
+  val t4q2 = "Vehicle Fatalities"
+  val t4q3 = "Cyclists"
+
   def main(args: Array[String]): Unit = {
-    sc.setLogLevel("ERROR")
+    prep
     var auth = false
     while (!auth) {
       getOption(List[String]("Log In", "Sign Up", "Quit Program")) match {
@@ -43,8 +98,7 @@ object P2 {
                 auth = true
               } else {
                 println("Sorry, your password is incorrect")
-                val option = getOption(List[String]("Try Again", "Quit"))
-                option match {
+                getOption(List[String]("Try Again", "Quit")) match {
                   case "Try Again" => //do nothing
                   case "Quit"      => continue = true
                 }
@@ -56,43 +110,52 @@ object P2 {
     }
 
     if (admin) {
-      val op = List[String](
-        "Go to Main Menu",
-        "Make new Admin",
-        "Do Admin things",
-        "End Program"
-      )
-      getOption(op) match {
-        case "Go to Main Menu"            => // do nothing
-        case "Make another user an Admin" => println("Comming Soon!")
-        case "Do Admin things"            => println("Comming Soon!")
-        case "End Program"                => System.exit(0)
+      val s1 = "Go to Main Menu"
+      val s2 = "Make new Admin"
+      val s3 = "Refresh All"
+      val s4 = "End Program"
+      getOption(List[String](s1, s2, s3, s4)) match {
+        case `s2` =>
+          println(
+            "Please enter username of the account you want to make admin:"
+          )
+          var continue = false
+          while (!continue) {
+            val in = readLine.trim
+            if (userExists(in)) {
+              makeAdmin(in)
+              continue = true
+            } else {
+              println("Sorry, that username doesn't exist!")
+            }
+          }
+        case `s3` => prep
+        case `s4` => System.exit(0)
+        case `s1` => // do nothing
       }
     }
 
-    val op = List[String](
-      "Topic 1",
-      "Topic 2",
-      "Topic 3",
-      "Topic 4",
-      "End Program"
-    )
-    val list1 = List[String]("A", b)
-    val list2 = List[String]("B", "C", "D", b)
-    val list3 = List[String]("E", "F", "Unknown", "PEDAL", b)
-    val list4 = List[String]("G", "H", b)
+    val s1 = "Topic 1"
+    val s2 = "Topic 2"
+    val s3 = "Topic 3"
+    val s4 = "Topic 4"
+    val s5 = "End Program"
 
-    var continue = true
-    while (continue) {
-      getOption(op) match {
-        case "Topic 1"     => menuLev2(list1)
-        case "Topic 2"     => menuLev2(list2)
-        case "Topic 3"     => menuLev2(list3)
-        case "Topic 4"     => menuLev2(list4)
-        case "End Program" => continue = false
+    val list1 = List[String](t1q1, t1q2, t1q3, t1q4, t1q5, b)
+    val list2 = List[String](t2q1, t2q2, t2, b)
+    val list3 = List[String](t3q1, t3q2, t3q3, b)
+    val list4 = List[String](t4q1, t4q2, t4q3, b)
+
+    var continue = false
+    while (!continue) {
+      getOption(List[String](s1, s2, s3, s4, s5)) match {
+        case `s1` => qMenu(list1)
+        case `s2` => qMenu(list2)
+        case `s3` => qMenu(list3)
+        case `s4` => qMenu(list4)
+        case `s5` => continue = true
       }
     }
     spark.close
-    end
   }
 }
