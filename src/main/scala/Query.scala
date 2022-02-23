@@ -165,19 +165,18 @@ object Query {
 
     println("Pedestrian FATALITIES by age: ")
     val t9 = AgeSexPF.where("AGE<=15")
-    val t10 = AgeSexPF.where("AGE<=23 AND AGE>=16")
-    val t11 = AgeSexPF.where("AGE<=29 AND AGE>=24")
-    val t12 = AgeSexPF.where("AGE<=39 AND AGE>=30")
-    val t13 = AgeSexPF.where("AGE<=49 AND AGE>=40")
-    val t14 = AgeSexPF.where("AGE<=59 AND AGE>=50")
-    val t15 = AgeSexPF.where("AGE<=60 AND AGE>=60")
-    val t16 = AgeSexPF.where("AGE>=70")
+    val t10 = AgeSexPF.where("AGE<=23 AND AGE>=16 AND A_PED_F")///NEED TO ADD AND A_PED_F to these
+    val t11 = AgeSexPF.where("AGE<=29 AND AGE>=24 AND A_PED_F")
+    val t12 = AgeSexPF.where("AGE<=39 AND AGE>=30 AND A_PED_F")
+    val t13 = AgeSexPF.where("AGE<=49 AND AGE>=40 AND A_PED_F")
+    val t14 = AgeSexPF.where("AGE<=59 AND AGE>=50 AND A_PED_F")
+    val t15 = AgeSexPF.where("AGE<=60 AND AGE>=60 AND A_PED_F")
+    val t16 = AgeSexPF.where("AGE>=70 AND A_PED_F")
     val l: List[(DataFrame, String)] =
       List((t9, "0-15 years AND A_PED_F"), (t10, "16-23 AND A_PED_F"), (t11, "24-29 AND A_PED_F"), (t12, "30-39 AND A_PED_F"),
         (t13, "40-49 AND A_PED_F"), (t14, "50-59 AND A_PED_F"), (t15, "60-69 AND A_PED_F"), (t16, "70+ AND A_PED_F"))
     l.foreach(tup => tup._1.agg(functions.count("*").as(tup._2)).show())
 }
-
 
     def jonathan(): Unit = {
       spark.sql("select * from personskilled").show()
