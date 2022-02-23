@@ -40,10 +40,12 @@ object Query {
     println("Unknown location type Fatalities by State")
     val sum = other.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
     sum.orderBy(functions.col("SUM").desc).show(60)
+    viz(sum, "other_s", "justis")
 
     println("Unknown location type Fatalities by Year")
     val sum2 = other.groupBy("YEAR").agg(functions.sum("FATALS").as("SUM"))
     sum.orderBy(functions.col("SUM").desc).show(60)
+    viz(sum, "other_y", "justis")
 
   }
 
@@ -66,7 +68,8 @@ object Query {
           .as("PedTotalYear")
       )
       .orderBy("YEAR")
-      .show()
+    df.show()
+    viz(df, "ped_total", "justis")
   }
 //start Jessica
   def fatalities(): Unit = {
@@ -86,7 +89,8 @@ object Query {
           .as("PedFatalsYear")
       )
       .orderBy("YEAR")
-      .show(60)
+    df.show(60)
+    viz(df, "ped_fatal_y", "justis")
   }
 
   def states(): Unit = {
@@ -100,7 +104,8 @@ object Query {
           .as("Total")
       )
       .orderBy("Total")
-      .show(60)
+    df.show(60)
+    viz(df, "ped_inj_s", "justis")
 
     println("Pedestrian FATALITIES by state  ")
     state
@@ -111,7 +116,8 @@ object Query {
           .as("Total")
       )
       .orderBy("Total")
-      .show(60)
+    df.show(60)
+    viz(df, "ped_fatal_s", "justis")
   }
 
   def sex(): Unit = {
@@ -129,7 +135,8 @@ object Query {
             .as("Total")
         )
         .orderBy("Total")
-        .show()
+    df.show()
+    viz(df, "ped_sex", "justis")
   }
 
   def age(): Unit = {
@@ -200,7 +207,7 @@ object Query {
       .count()
       .orderBy(functions.col("count").desc)
     df.show(56)
-    viz(df, "vehicle_j", "justis")
+    viz(df, "pedal_s", "justis")
 
     println("Number of crashes fatal to Cyclists by Year")
     val df2 = pedal
@@ -208,7 +215,7 @@ object Query {
       .count()
       .orderBy(functions.col("count").desc)
     df2.show(56)
-    viz(df2, "vehicle_j", "justis")
+    viz(df2, "pedal_y", "justis")
   }
 
   //Start Patrick's
