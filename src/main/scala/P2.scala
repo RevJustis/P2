@@ -10,36 +10,25 @@ object P2 {
     .getOrCreate()
   val sc = spark.sparkContext
   sc.setLogLevel("ERROR")
-  val b = "Back to Main Menu"
 
   val main = spark.read
     .option("header", true)
     .csv("input/originals/main/*")
-  main.write.mode("overwrite").parquet("input/AgeSexPF.parquet")
   val mainPF = spark.read.parquet("input/AgeSexPF.parquet")
-  mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
   val AgeSex = spark.read
     .option("header", true)
     .csv("input/originals/AgeSex/*")
-  AgeSex.write.mode("overwrite").parquet("input/AgeSexPF.parquet")
   val AgeSexPF = spark.read.parquet("input/AgeSexPF.parquet")
-  AgeSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
   val aDF = spark.read.option("header", true).csv("input/originals/main_p/*")
-  //Optimization
-  aDF.persist(StorageLevel.MEMORY_ONLY_SER)
-  // DataFrames can be saved as Parquet files, maintaining the schema information
-  aDF.write
-    .mode("overwrite")
-    .parquet("input/mainPF_P.parquet")
 
   val vDF =
-    spark.read.option("header", true).csv("input/originals/vehicleStats/*").toDF()
-  //Optimization
-  vDF.persist(StorageLevel.MEMORY_ONLY_SER)
-  // DataFrames can be saved as Parquet files, maintaining the schema information
-  vDF.write.mode("overwrite").parquet("input/vehicle.parquet")
+    spark.read
+      .option("header", true)
+      .csv("input/originals/vehicleStats/*")
+
+  val b = "Back to Main Menu"
 
   val t1q1 = "Pedestrian Totals"
   val t1q2 = "Pedestrian Fatal Totals"
@@ -63,7 +52,6 @@ object P2 {
   val t4q3 = "Cyclists"
 
   def main(args: Array[String]): Unit = {
-    mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
     prep
     var auth = false
     while (!auth) {

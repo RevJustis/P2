@@ -17,7 +17,6 @@ object Utilities {
     spark.sql(
       "set hive.exec.dynamic.partition.mode=nonstrict"
     )
-    spark.sql("DROP TABLE IF EXISTS userpass")
     spark.sql(
       "CREATE TABLE IF NOT EXISTS userpass (user STRING, pass STRING, admin STRING) "
         + "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"
@@ -36,6 +35,21 @@ object Utilities {
     spark.sql(
       "LOAD DATA LOCAL INPATH 'input/originals/PersonsKilled' OVERWRITE INTO TABLE personsKilled"
     )
+
+    main.write.mode("overwrite").parquet("input/AgeSexPF.parquet")
+    mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
+    AgeSex.write.mode("overwrite").parquet("input/AgeSexPF.parquet")
+    AgeSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
+    //Optimization
+    aDF.persist(StorageLevel.MEMORY_ONLY_SER)
+    // DataFrames can be saved as Parquet files, maintaining the schema information
+    aDF.write
+      .mode("overwrite")
+      .parquet("input/mainPF_P.parquet")
+    //Optimization
+    vDF.persist(StorageLevel.MEMORY_ONLY_SER)
+    // DataFrames can be saved as Parquet files, maintaining the schema information
+    vDF.write.mode("overwrite").parquet("input/vehicle.parquet")
 
     //PATRICK
     //CREATE TABLE OF ALL CRASH DATA
