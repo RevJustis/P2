@@ -14,19 +14,35 @@ object P2 {
   val main = spark.read
     .option("header", true)
     .csv("input/originals/main/*")
-  val mainPF = spark.read.parquet("input/AgeSexPF.parquet")
 
-  val AgeSex = spark.read
+  main.write.mode("overwrite").parquet("input/main_pf.parquet")
+  val mainPF = spark.read.parquet("input/main_pf.parquet")
+  mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
+
+  val ageSex = spark.read
     .option("header", true)
     .csv("input/originals/AgeSex/*")
-  val AgeSexPF = spark.read.parquet("input/AgeSexPF.parquet")
+
+  ageSex.write.mode("overwrite").parquet("input/age_sex_pf.parquet")
+  val ageSexPF = spark.read.parquet("input/age_sex_pf.parquet")
+  ageSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
   val aDF = spark.read.option("header", true).csv("input/originals/main_p/*")
+  //Optimization
+  aDF.persist(StorageLevel.MEMORY_ONLY_SER)
+  // DataFrames can be saved as Parquet files, maintaining the schema information
+  aDF.write
+    .mode("overwrite")
+    .parquet("input/mainpf_p.parquet")
 
   val vDF =
     spark.read
       .option("header", true)
       .csv("input/originals/vehicleStats/*")
+  //Optimization
+  vDF.persist(StorageLevel.MEMORY_ONLY_SER)
+  // DataFrames can be saved as Parquet files, maintaining the schema information
+  vDF.write.mode("overwrite").parquet("input/vehicle.parquet")
 
   val b = "Back to Main Menu"
 

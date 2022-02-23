@@ -36,28 +36,13 @@ object Utilities {
       "LOAD DATA LOCAL INPATH 'input/originals/PersonsKilled' OVERWRITE INTO TABLE personsKilled"
     )
 
-    main.write.mode("overwrite").parquet("input/AgeSexPF.parquet")
-    mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
-    AgeSex.write.mode("overwrite").parquet("input/AgeSexPF.parquet")
-    AgeSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
-    //Optimization
-    aDF.persist(StorageLevel.MEMORY_ONLY_SER)
-    // DataFrames can be saved as Parquet files, maintaining the schema information
-    aDF.write
-      .mode("overwrite")
-      .parquet("input/mainPF_P.parquet")
-    //Optimization
-    vDF.persist(StorageLevel.MEMORY_ONLY_SER)
-    // DataFrames can be saved as Parquet files, maintaining the schema information
-    vDF.write.mode("overwrite").parquet("input/vehicle.parquet")
-
     //PATRICK
     //CREATE TABLE OF ALL CRASH DATA
     // Read in the parquet file created above
     // Parquet files are self-describing so the schema is preserved
     // The result of loading a Parquet file is also a DataFrame
     val parquetFileDF =
-      spark.read.parquet("input/mainPF_P.parquet")
+      spark.read.parquet("input/mainpf_p.parquet")
     // Parquet files can also be used to create a temporary view and then used in SQL statements
     parquetFileDF.createOrReplaceTempView("crashData")
 
