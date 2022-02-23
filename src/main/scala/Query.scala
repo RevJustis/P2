@@ -47,24 +47,6 @@ object Query {
 
   }
 
-  def pedal(): Unit = {
-    val pedal = mainPF.where("A_PEDAL_F == 1")
-
-    println("Number of crashes fatal to Cyclists by state")
-    pedal
-      .groupBy("STATENAME")
-      .count()
-      .orderBy(functions.col("count").desc)
-      .show(56)
-
-    println("Number of crashes fatal to Cyclists by Year")
-    pedal
-      .groupBy("YEAR")
-      .count()
-      .orderBy(functions.col("count").desc)
-      .show(56)
-  }
-
   ///Start Jessica/Topic 1
 
   def pedtotal(): Unit = {
@@ -201,6 +183,7 @@ object Query {
     l.foreach(tup => tup._1.agg(functions.count("*").as(tup._2)).show())
   }
 
+  //Start Jonathan's
   def jonathan(): Unit = {
     spark.sql("select * from personskilled").show()
     spark
@@ -212,6 +195,25 @@ object Query {
       .show()
   }
 
+  def pedal(): Unit = {
+    val pedal = mainPF.where("A_PEDAL_F == 1")
+
+    println("Number of crashes fatal to Cyclists by state")
+    pedal
+      .groupBy("STATENAME")
+      .count()
+      .orderBy(functions.col("count").desc)
+      .show(56)
+
+    println("Number of crashes fatal to Cyclists by Year")
+    pedal
+      .groupBy("YEAR")
+      .count()
+      .orderBy(functions.col("count").desc)
+      .show(56)
+  }
+
+  //Start Patrick's
   def usfatals(): Unit = {
     //Graph the trend of fatalities in the entire USA
     println("Trend of fatalities in the entire USA from 2016 to 2019:")
@@ -220,6 +222,7 @@ object Query {
     )
     dfAllUS.persist(StorageLevel.MEMORY_ONLY_SER)
     dfAllUS.show()
+    viz(dfAllUS, "usfatals", "patrickbrown")
   }
 
   def statefatals(): Unit = {
@@ -231,6 +234,7 @@ object Query {
     )
     dfState.persist(StorageLevel.MEMORY_ONLY_SER)
     dfState.show()
+    viz(dfState, "statefatals", "patrickbrown")
   }
 
   def highfatalstates(): Unit = {
@@ -303,5 +307,6 @@ object Query {
     //Optimization
     x.persist(StorageLevel.MEMORY_ONLY_SER)
     x.show(28)
+    viz(x, "vehicleCrash", "patrickbrown")
   }
 }

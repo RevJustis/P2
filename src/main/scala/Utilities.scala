@@ -34,7 +34,7 @@ object Utilities {
         "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"
     )
     spark.sql(
-      "LOAD DATA LOCAL INPATH 'input/originals/PersonsKilled' OVERWRITE INTO TABLE personsKilled"
+      "LOAD DATA LOCAL INPATH 'input/originals/PersonsKilled/PersonsKilled.csv' OVERWRITE INTO TABLE personsKilled"
     )
 
     //PATRICK
@@ -48,9 +48,7 @@ object Utilities {
     parquetFileDF.createOrReplaceTempView("crashData")
 
     //VEHICLE CRASH TABLE FOR PATRICK
-    // Read in the parquet file created above
-    // Parquet files are self-describing so the schema is preserved
-    // The result of loading a Parquet file is also a DataFrame
+    // Read in the parquet file created for the vehicle data
     val parquetDF = spark.read.parquet("input/vehicle.parquet")
     // Parquet files can also be used to create a temporary view and then used in SQL statements
     parquetDF.createOrReplaceTempView("vehicleParquetFile")
@@ -176,7 +174,6 @@ object Utilities {
           val subtopics = List[String](
             t2q3,
             t2q4,
-            t2q5,
             "Back to Prev Menu"
           )
           var continue = false
@@ -184,7 +181,6 @@ object Utilities {
             getOption(subtopics) match {
               case `t2q3`              => highfatalstates
               case `t2q4`              => lowfatalstates
-              case `t2q5`              => vehicleCrash
               case "Back to Prev Menu" => continue = true
             }
           }

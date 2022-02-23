@@ -57,14 +57,13 @@ object P2 {
   val t2q2 = "State Wide Fatalities"
   val t2q3 = "Most Fatal States"
   val t2q4 = "Least Fatal States"
-  val t2q5 = "Vehicle Fatalities"
 
   val t3q1 = "Rural"
   val t3q2 = "Urban"
   val t3q3 = "Other"
 
   val t4q1 = "Fatalities by Vehicle"
-  val t4q2 = "Vehicle Types"
+  val t4q2 = "Vehicle Fatalities"
   val t4q3 = "Cyclists"
 
   def main(args: Array[String]): Unit = {
