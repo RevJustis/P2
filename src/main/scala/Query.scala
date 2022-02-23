@@ -151,7 +151,7 @@ object Query {
     val t8 = ageSexPF.where("AGE>=70")
     val x: List[(DataFrame, String)] =
       List(
-        (t1, "0-15 years"),
+        (t1, "0-15"),
         (t2, "16-23"),
         (t3, "24-29"),
         (t4, "30-39"),
