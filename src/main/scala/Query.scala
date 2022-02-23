@@ -12,11 +12,12 @@ object Query {
     println("Rural Fatalities by State")
     val sum = ru.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
     sum.orderBy(functions.col("SUM").desc).show(60)
-    viz(sum)
+    viz(sum, "rural_s", "justis")
 
     println("Rural Fatalities by Year")
     val sum2 = ru.groupBy("YEAR").agg(functions.sum("FATALS").as("SUM"))
     sum.orderBy(functions.col("SUM").desc).show(60)
+    viz(sum2, "rural_y", "justis")
   }
 
   def urban(): Unit = {
@@ -25,10 +26,12 @@ object Query {
     println("Urban Fatalities by State")
     val sum = ur.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
     sum.orderBy(functions.col("SUM").desc).show(60)
+    viz(sum, "urban_s", "justis")
 
     println("Urban Fatalities by Year")
     val sum2 = ur.groupBy("YEAR").agg(functions.sum("FATALS").as("SUM"))
     sum.orderBy(functions.col("SUM").desc).show(60)
+    viz(sum, "urban_y", "justis")
 
   }
 
@@ -176,7 +179,9 @@ object Query {
 
     println("Pedestrian FATALITIES by age: ")
     val t9 = AgeSexPF.where("AGE<=15")
-    val t10 = AgeSexPF.where("AGE<=23 AND AGE>=16 AND A_PED_F")///NEED TO ADD AND A_PED_F to these
+    val t10 = AgeSexPF.where(
+      "AGE<=23 AND AGE>=16 AND A_PED_F"
+    ) ///NEED TO ADD AND A_PED_F to these
     val t11 = AgeSexPF.where("AGE<=29 AND AGE>=24 AND A_PED_F")
     val t12 = AgeSexPF.where("AGE<=39 AND AGE>=30 AND A_PED_F")
     val t13 = AgeSexPF.where("AGE<=49 AND AGE>=40 AND A_PED_F")
@@ -197,16 +202,16 @@ object Query {
     l.foreach(tup => tup._1.agg(functions.count("*").as(tup._2)).show())
   }
 
-    def jonathan(): Unit = {
-      spark.sql("select * from personskilled").show()
-      spark
-        .sql(
-          "select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
-            "motorcycles as Delta, (total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as DeltaPED," +
-            " total from personsKilled where year between 2008 and 2018"
-        )
-        .show()
-    }
+  def jonathan(): Unit = {
+    spark.sql("select * from personskilled").show()
+    spark
+      .sql(
+        "select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
+          "motorcycles as Delta, (total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as DeltaPED," +
+          " total from personsKilled where year between 2008 and 2018"
+      )
+      .show()
+  }
 
   def usfatals(): Unit = {
     //Graph the trend of fatalities in the entire USA
