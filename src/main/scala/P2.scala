@@ -112,7 +112,7 @@ object P2 {
     if (admin) {
       val s1 = "Go to Main Menu"
       val s2 = "Make new Admin"
-      val s3 = "Refresh All"
+      val s3 = "Erase Account"
       val s4 = "End Program"
       getOption(List[String](s1, s2, s3, s4)) match {
         case `s2` =>
@@ -129,7 +129,7 @@ object P2 {
               println("Sorry, that username doesn't exist!")
             }
           }
-        case `s3` => prep
+        case `s3` => eraseAcc()
         case `s4` => System.exit(0)
         case `s1` => // do nothing
       }

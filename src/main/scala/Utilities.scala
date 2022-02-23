@@ -11,9 +11,6 @@ object Utilities {
   def prep(): Unit = {
     // Account table setup
     spark.sql(
-      "set hive.exec.dynamic.partition.mode=nonstrict"
-    )
-    spark.sql(
       "CREATE TABLE IF NOT EXISTS userpass (user STRING, pass STRING, admin STRING) "
         + "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"
     )
@@ -22,7 +19,6 @@ object Utilities {
     )
 
     //Jonathan
-    spark.sql("DROP TABLE IF EXISTS personsKilled")
     spark.sql(
       "CREATE TABLE IF NOT EXISTS personsKilled (year int, passengerCars int, lightTrucks int, largeTrucks int," +
         "motorcycles int, buses int, otherUnknown int, total1 int, pedestrian int, pedalcyclist int, other int, total2 int," +
@@ -260,6 +256,29 @@ object Utilities {
     w.close()
     f2.renameTo(f1)
     println(s"$user has been successfully made admin!")
+  }
+
+  def eraseAcc(n: String): Unit = {
+    if (userExists(n)) {
+      // File inputFile = new File("myFile.txt");
+      // File tempFile = new File("myTempFile.txt");
+
+      // BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+      // BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+      // String lineToRemove = "bbb";
+      // String currentLine;
+
+      // while ((currentLine = reader.readLine()) != null) {
+      //   // trim newline when comparing with lineToRemove
+      //   String trimmedLine = currentLine.trim();
+      //   if (trimmedLine.equals(lineToRemove)) continue;
+      //   writer.write(currentLine + System.getProperty("line.separator"));
+      // }
+      // writer.close();
+      // reader.close();
+      // boolean successful = tempFile.renameTo(inputFile);
+    }
   }
 
   def junk(): Unit = {
