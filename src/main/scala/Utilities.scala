@@ -8,7 +8,7 @@ import scala.io.StdIn.readLine
 
 object Utilities {
   var admin: Boolean = false
-  def prep(): Unit = {
+  def userPassPrep(): Unit = {
     // Account table setup
     spark.sql(
       "CREATE TABLE IF NOT EXISTS userpass (user STRING, pass STRING, admin STRING) "
@@ -22,7 +22,8 @@ object Utilities {
       case e: Throwable =>
         println("There was an issue reading from userpass.txt")
     }
-
+  }
+  def prep(): Unit = {
     //Jonathan
     spark.sql(
       "CREATE TABLE IF NOT EXISTS personsKilled (year int, passengerCars int, lightTrucks int, largeTrucks int," +
@@ -304,24 +305,19 @@ object Utilities {
 
   def eraseAcc(n: String): Unit = {
     if (userExists(n)) {
-     // File inputFile = new File("myFile.txt");
-     // File tempFile = new File("myTempFile.txt");
+      val f1 = new File("input/userpass.txt") // Original File
+      val f2 = new File("input/temp.txt") // Temporary File
+      val w = new PrintWriter(f2)
+      Source
+        .fromFile(f1)
+        .getLines
+        .map { x => if (x.contains(n)) "" else x }
+        .foreach(x => if (x != "") w.println(x))
+      w.close()
+      f2.renameTo(f1)
 
-      //BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-      //BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-
-     // String lineToRemove = "bbb";
-     // String currentLine;
-
-     // while ((currentLine = reader.readLine()) != null) {
-      //   // trim newline when comparing with lineToRemove
-      //String trimmedLine = currentLine.trim();
-        //if (trimmedLine.equals(lineToRemove)) continue;
-        //writer.write(currentLine + System.getProperty("line.separator"));
-      //}
-      // writer.close();
-      // reader.close();
-      // boolean successful = tempFile.renameTo(inputFile);
+      userPassPrep()
+      if (!userExists(n)) println("Account has been Erased!")
     }
   }
 
