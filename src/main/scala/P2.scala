@@ -12,7 +12,19 @@ object P2 {
   sc.setLogLevel("ERROR")
   val b = "Back to Main Menu"
 
+  val main= spark.read
+    .option("header", true)
+    .csv("input/originals/main/*")
+  main.write.mode("overwrite").parquet("input/mainPF.parquet")
   val mainPF = spark.read.parquet("input/mainPF.parquet")
+  mainPF.persist(StorageLevel.MEMORY_ONLY_SER)
+
+  val AgeSex = spark.read
+    .option("header", true)
+    .csv("input/originals/AgeSex/*")
+  AgeSex.write.mode("overwrite").parquet("input/AgeSexPF.parquet")
+  val AgeSexPF = spark.read.parquet("input/AgeSexPF.parquet")
+  AgeSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
   val t1q1 = "Pedestrian Totals"
   val t1q2 = "Pedestrian Fatal Totals"

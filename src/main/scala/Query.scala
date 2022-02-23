@@ -135,12 +135,6 @@ object Query {
   }
 
   def sex(): Unit = {
-    val AgeSex = spark.read
-      .option("header", true)
-      .csv("input/AgeSex/*")
-    AgeSex.write.mode("overwrite").parquet("input/AgeSexPF.parquet")
-    val AgeSexPF = spark.read.parquet("input/AgeSexPF.parquet")
-    AgeSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
     println("Pedestrian INJURIES (fatal and nonfatal) by sex 2016-2019: ")
     val sex =
@@ -159,12 +153,6 @@ object Query {
   }
 
   def age(): Unit = {
-    val AgeSex = spark.read
-      .option("header", true)
-      .csv("input/AgeSex/*")
-    AgeSex.write.mode("overwrite").parquet("input/AgeSexPF.parquet")
-    val AgeSexPF = spark.read.parquet("input/AgeSexPF.parquet")
-    AgeSexPF.persist(StorageLevel.MEMORY_ONLY_SER)
 
     println("Pedestrian INJURIES (fatal and nonfatal) by age: ")
 

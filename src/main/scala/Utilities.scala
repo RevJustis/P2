@@ -1,7 +1,3 @@
-import scala.io.StdIn.readLine
-import org.apache.spark.sql.{SparkSession, functions}
-import java.io.{File, FileOutputStream, PrintWriter}
-import scala.io.Source
 import P2._
 import Query._
 import org.apache.spark.storage.StorageLevel
@@ -34,13 +30,13 @@ object Utilities {
         "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"
     )
     spark.sql(
-      "LOAD DATA LOCAL INPATH 'input/PersonsKilled/PersonsKilled.csv' OVERWRITE INTO TABLE personsKilled"
+      "LOAD DATA LOCAL INPATH 'input/originals/PersonsKilled' OVERWRITE INTO TABLE personsKilled"
     )
 
     //PATRICK
     //CREATE TABLE OF ALL CRASH DATA
     //val peopleDF = spark.read.option("input/vehicleStats/*")
-    val aDF = spark.read.option("header", true).csv("input/main_p/*")
+    val aDF = spark.read.option("header", true).csv("input/originals/main_p/*")
     //Optimization
     aDF.persist(StorageLevel.MEMORY_ONLY_SER)
     // DataFrames can be saved as Parquet files, maintaining the schema information
@@ -57,7 +53,7 @@ object Utilities {
 
     //VEHICLE CRASH TABLE FOR PATRICK
     val vDF =
-      spark.read.option("header", true).csv("input/vehicleStats/*").toDF()
+      spark.read.option("header", true).csv("input/originals/vehicleStats/*").toDF()
     //Optimization
     vDF.persist(StorageLevel.MEMORY_ONLY_SER)
     // DataFrames can be saved as Parquet files, maintaining the schema information
