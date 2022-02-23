@@ -1,6 +1,7 @@
 import P2._
 import org.apache.spark.sql.functions
 import org.apache.spark.storage.StorageLevel
+import org.apache.spark.sql.DataFrame
 
 object Query {
   def rural(): Unit = {
@@ -72,7 +73,6 @@ object Query {
   }
 
   ///Start Jessica/Topic 1
-
 
   def pedtotal(): Unit = {
     println(
@@ -232,75 +232,88 @@ object Query {
       .show()
 
     println("Pedestrian FATALITIES by age: ")
-    val t9 = AgeSexPF.where("AGE<=15 and A_PED_F=1")
-    val t10 = AgeSexPF.where("AGE<=23 AND AGE>=16 A_PED_F=1")
-    val t11 = AgeSexPF.where("AGE<=29 AND AGE>=24 A_PED_F=1")
-    val t12 = AgeSexPF.where("AGE<=39 AND AGE>=30 A_PED_F=1")
-    val t13 = AgeSexPF.where("AGE<=49 AND AGE>=40 A_PED_F=1")
-    val t14 = AgeSexPF.where("AGE<=59 AND AGE>=50 A_PED_F=1")
-    val t15 = AgeSexPF.where("AGE<=60 AND AGE>=60 A_PED_F=1")
-    val t16 = AgeSexPF.where("AGE>=70 A_PED_F=1")
-    t9
-      .agg(
-        functions
-          .count("*")
-          .as("0-15 years")
-      )
-      .show()
-    t10
-      .agg(
-        functions
-          .count("*")
-          .as("16-23 years")
-      )
-      .show()
-    t11
-      .agg(
-        functions
-          .count("*")
-          .as("24-29 years")
-      )
-      .show()
+    val t9 = AgeSexPF.where("AGE<=15")
+    val t10 = AgeSexPF.where("AGE<=23 AND AGE>=16")
+    val t11 = AgeSexPF.where("AGE<=29 AND AGE>=24")
+    val t12 = AgeSexPF.where("AGE<=39 AND AGE>=30")
+    val t13 = AgeSexPF.where("AGE<=49 AND AGE>=40")
+    val t14 = AgeSexPF.where("AGE<=59 AND AGE>=50")
+    val t15 = AgeSexPF.where("AGE<=60 AND AGE>=60")
+    val t16 = AgeSexPF.where("AGE>=70")
+    val l: List[(DataFrame, String)] =
+      List((t9, "0-15 years"), (t10, "16-23"))
+    l.foreach(tup => tup._1.agg(functions.count("*").as(tup._2)).show())
 
-    t12
-      .agg(
-        functions
-          .count("*")
-          .as("30-39 years")
-      )
-      .show()
+    // val t9 = AgeSexPF.where("AGE<=15 AND )
+    // val t10 = AgeSexPF.where("AGE<=23 AND AGE>=16")
+    // val t11 = AgeSexPF.where("AGE<=29 AND AGE>=24")
+    // val t12 = AgeSexPF.where("AGE<=39 AND AGE>=30")
+    // val t13 = AgeSexPF.where("AGE<=49 AND AGE>=40")
+    // val t14 = AgeSexPF.where("AGE<=59 AND AGE>=50")
+    // val t15 = AgeSexPF.where("AGE<=60 AND AGE>=60")
+    // val t16 = AgeSexPF.where("AGE>=70")
+    //
+    // t9
+    // .agg(
+    // functions
+    // .count("*")
+    // .as("0-15 years")
+    // )
+    // .show()
+    // t10
+    // .agg(
+    // functions
+    // .count("*")
+    // .as("16-23 years")
+    // )
+    // .show()
+    // t11
+    // .agg(
+    // functions
+    // .count("*")
+    // .as("24-29 years")
+    // )
+    // .show()
+    //
+    // t12
+    // .agg(
+    // functions
+    // .count("*")
+    // .as("30-39 years")
+    // )
+    // .show()
+    //
+    // t13
+    // .agg(
+    // functions
+    // .count("*")
+    // .as("40-49 years")
+    // )
+    // .show()
 
-    t13
-      .agg(
-        functions
-          .count("*")
-          .as("40-49 years")
-      )
-      .show()
+    // t14
+    // .agg(
+    // functions
+    // .count("*")
+    // .as("50-59 years")
+    // )
+    // .show()
+    //
+    // t15
+    // .agg(
+    // functions
+    // .count("*")
+    // .as("60-69 years")
+    // )
+    // .show()
 
-    t14
-      .agg(
-        functions
-          .count("*")
-          .as("50-59 years")
-      )
-      .show()
-
-    t15
-      .agg(
-        functions
-          .count("*")
-          .as("60-69 years")
-      )
-      .show()
-
-    t16
-      .agg(
-        functions
-          .count("*")
-          .as("70+ years")
-      )
-      .show()
+    // t16
+    // .agg(
+    // functions
+    // .count("*")
+    // .as("70+ years")
+    // )
+    // .show()
   }
 
   def jonathan(): Unit = {
@@ -335,13 +348,6 @@ object Query {
     )
     dfState.persist(StorageLevel.MEMORY_ONLY_SER)
     dfState.show()
-    /*
-    ur.write
-      .format("csv")
-      .option("header", true)
-      .mode("overwrite")
-      .save("hdfs://localhost:9000/user/patrickbrown/state_fatals.csv")
-     */
   }
 
   def highfatalstates(): Unit = {
@@ -373,13 +379,6 @@ object Query {
     dfState2017.show()
     dfState2018.show()
     dfState2019.show()
-    /*
-    ur.write
-      .format("csv")
-      .option("header", true)
-      .mode("overwrite")
-      .save("hdfs://localhost:9000/user/patrickbrown/highfatalstates.csv")
-     */
   }
 
   def lowfatalstates(): Unit = {
@@ -410,13 +409,6 @@ object Query {
     state2017down.show()
     state2018down.show()
     state2019down.show()
-    /*
-    ur.write
-      .format("csv")
-      .option("header", true)
-      .mode("overwrite")
-      .save("hdfs://localhost:9000/user/patrickbrown/lowfatalstates.csv")
-     */
   }
 
   def vehicleCrash(): Unit = {
@@ -428,15 +420,5 @@ object Query {
     //Optimization
     x.persist(StorageLevel.MEMORY_ONLY_SER)
     x.show(28)
-    /*
-    ur.write
-      .format("csv")
-      .option("header", true)
-      .mode("overwrite")
-      .save("hdfs://localhost:9000/user/patrickbrown/vehicle_crash_data.csv")
-     */
   }
-  def q9(): Unit = {}
-  def q10(): Unit = {}
-  def q11(): Unit = {}
 }
