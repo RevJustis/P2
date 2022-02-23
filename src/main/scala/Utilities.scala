@@ -1,6 +1,7 @@
 import P2._
 import Query._
 
+import org.apache.spark.sql.DataFrame
 import java.io.{File, FileOutputStream, PrintWriter}
 import scala.io.Source
 import scala.io.StdIn.readLine
@@ -63,6 +64,14 @@ object Utilities {
       case e: Throwable =>
         println("There was an issue with reading vehicle.parquet")
     }
+  }
+
+  def viz(df: DataFrame, n: String, u: String): Unit = {
+    df.write
+      .format("csv")
+      .option("header", true)
+      .mode("overwrite")
+      .save(s"hdfs://localhost:9000/user/$u/$n.csv")
   }
 
   def end(): Unit = {
