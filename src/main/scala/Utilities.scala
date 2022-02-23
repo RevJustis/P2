@@ -1,10 +1,6 @@
-import scala.io.StdIn.readLine
-import org.apache.spark.sql.{SparkSession, functions}
-import java.io.{File, FileOutputStream, PrintWriter}
-import scala.io.Source
 import P2._
 import Query._
-import org.apache.spark.storage.StorageLevel
+import org.apache.spark.sql.SparkSession
 
 import java.io.{File, FileOutputStream, PrintWriter}
 import scala.io.Source

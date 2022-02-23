@@ -183,7 +183,6 @@ object Query {
 
   //Start Jonathan's
   def jonathan(): Unit = {
-    spark.sql("select * from personskilled").show()
     spark
       .sql(
         "select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
