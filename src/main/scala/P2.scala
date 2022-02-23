@@ -129,7 +129,19 @@ object P2 {
               println("Sorry, that username doesn't exist!")
             }
           }
-        case `s3` => eraseAcc()
+        case `s3` =>
+          println("Please enter the username for the account to be erased")
+          var continue = false
+          var in = ""
+          while (!continue) {
+            in = readLine.trim
+            if (userExists(in)) continue = true
+            else
+              println(
+                "Sorry, that username doesn't exist in the record. Try again:"
+              )
+          }
+          eraseAcc(in)
         case `s4` => System.exit(0)
         case `s1` => // do nothing
       }
