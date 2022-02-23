@@ -6,8 +6,7 @@ import org.apache.spark.sql.DataFrame
 object Query {
   def rural(): Unit = {
     val ru = spark.read
-      .option("header", true)
-      .csv("input/mainPF/*")
+      .parquet("input/mainPF.parquet")
       .where("A_RU == 1")
 
     println("Rural Fatalities by State")
@@ -20,9 +19,7 @@ object Query {
   }
   def urban(): Unit = {
     val ur = spark.read
-      .option("header", true)
-      .csv("input/mainPF/*")
-      .toDF()
+      .parquet("input/mainPF.parquet")
       .where("A_RU == 2")
 
     println("Urban Fatalities by State")
@@ -36,9 +33,7 @@ object Query {
   }
   def other(): Unit = {
     val other = spark.read
-      .option("header", true)
-      .csv("input/mainPF/*")
-      .toDF()
+      .parquet("input/mainPF.parquet")
       .where("A_RU == 3")
 
     println("Unknown location type Fatalities by State")
@@ -52,9 +47,7 @@ object Query {
   }
   def pedal(): Unit = {
     val pedal = spark.read
-      .option("header", true)
-      .csv("input/mainPF/*")
-      .toDF()
+      .parquet("input/mainPF.parquet")
       .where("A_PEDAL_F == 1")
 
     println("Number of crashes fatal to Cyclists by state")
