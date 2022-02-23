@@ -18,6 +18,10 @@ input/AgeSexPF.parquet/
 input/mainPF.parquet/
 input/uscrashes.parquet/
 input/vehicle.parquet/
+input/usCrashes.parquet/
+input/mainPF_P.parquet/
+input/main_pf.parquet/
+input/age_sex_pf.parquet/
 
 #MacOS
 .DS_Store

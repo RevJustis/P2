@@ -26,6 +26,7 @@ object Utilities {
     )
 
     //Jonathan
+    spark.sql("DROP TABLE IF EXISTS personsKilled")
     spark.sql(
       "CREATE TABLE IF NOT EXISTS personsKilled (year int, passengerCars int, lightTrucks int, largeTrucks int," +
         "motorcycles int, buses int, otherUnknown int, total1 int, pedestrian int, pedalcyclist int, other int, total2 int," +
