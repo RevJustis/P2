@@ -5,9 +5,7 @@ import org.apache.spark.sql.DataFrame
 
 object Query {
   def rural(): Unit = {
-    val ru = spark.read
-      .parquet("input/mainPF.parquet")
-      .where("A_RU == 1")
+    val ru = mainPF.where("A_RU == 1")
 
     println("Rural Fatalities by State")
     val sum = ru.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
@@ -18,9 +16,7 @@ object Query {
     sum.orderBy(functions.col("SUM").desc).show(60)
   }
   def urban(): Unit = {
-    val ur = spark.read
-      .parquet("input/mainPF.parquet")
-      .where("A_RU == 2")
+    val ur = mainPF.where("A_RU == 2")
 
     println("Urban Fatalities by State")
     val sum = ur.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
@@ -32,9 +28,7 @@ object Query {
 
   }
   def other(): Unit = {
-    val other = spark.read
-      .parquet("input/mainPF.parquet")
-      .where("A_RU == 3")
+    val other = mainPF.where("A_RU == 3")
 
     println("Unknown location type Fatalities by State")
     val sum = other.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
@@ -46,9 +40,7 @@ object Query {
 
   }
   def pedal(): Unit = {
-    val pedal = spark.read
-      .parquet("input/mainPF.parquet")
-      .where("A_PEDAL_F == 1")
+    val pedal = mainPF.where("A_PEDAL_F == 1")
 
     println("Number of crashes fatal to Cyclists by state")
     pedal
