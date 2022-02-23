@@ -1,8 +1,6 @@
 maria,1234,true
-john,apple,false
-test,qwer,true
-test,qwer,true
 Patrick,Patrick_Brown0,false
 justis,1234,false
 lexie,1588,false
 588,1588,false
+john,apple,false

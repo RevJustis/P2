@@ -16,7 +16,7 @@ import scala.io.StdIn.readLine
 
 object Utilities {
   var admin: Boolean = false
-  def prep(): Unit = {
+  def userPassPrep(): Unit = {
     // Account table setup
     spark.sql(
       "CREATE TABLE IF NOT EXISTS userpass (user STRING, pass STRING, admin STRING) "
@@ -30,7 +30,8 @@ object Utilities {
       case e: Throwable =>
         println("There was an issue reading from userpass.txt")
     }
-
+  }
+  def prep(): Unit = {
     //Jonathan
     spark.sql(
       "CREATE TABLE IF NOT EXISTS personsKilled (year int, passengerCars int, lightTrucks int, largeTrucks int," +
@@ -333,10 +334,13 @@ object Utilities {
       Source
         .fromFile(f1)
         .getLines
-        .map { x => if (x.contains(n)) {} else x }
-        .foreach(x => w.println(x))
+        .map { x => if (x.contains(n)) "" else x }
+        .foreach(x => if (x != "") w.println(x))
       w.close()
       f2.renameTo(f1)
+
+      userPassPrep()
+      if (!userExists(n)) println("Account has been Erased!")
     }
   }
 

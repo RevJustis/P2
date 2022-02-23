@@ -67,6 +67,7 @@ object P2 {
   val t4q3 = "Cyclists"
 
   def main(args: Array[String]): Unit = {
+    userPassPrep
     prep
     var auth = false
     while (!auth) {
