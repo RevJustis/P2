@@ -178,16 +178,16 @@ object Query {
     x.foreach(tup => tup._1.agg(functions.count("*").as(tup._2)).show())
 
     println("Pedestrian FATALITIES by age: ")
-    val t9 = AgeSexPF.where("AGE<=15")
-    val t10 = AgeSexPF.where(
+    val t9 = ageSexPF.where("AGE<=15")
+    val t10 = ageSexPF.where(
       "AGE<=23 AND AGE>=16 AND A_PED_F"
     ) ///NEED TO ADD AND A_PED_F to these
-    val t11 = AgeSexPF.where("AGE<=29 AND AGE>=24 AND A_PED_F")
-    val t12 = AgeSexPF.where("AGE<=39 AND AGE>=30 AND A_PED_F")
-    val t13 = AgeSexPF.where("AGE<=49 AND AGE>=40 AND A_PED_F")
-    val t14 = AgeSexPF.where("AGE<=59 AND AGE>=50 AND A_PED_F")
-    val t15 = AgeSexPF.where("AGE<=60 AND AGE>=60 AND A_PED_F")
-    val t16 = AgeSexPF.where("AGE>=70 AND A_PED_F")
+    val t11 = ageSexPF.where("AGE<=29 AND AGE>=24 AND A_PED_F")
+    val t12 = ageSexPF.where("AGE<=39 AND AGE>=30 AND A_PED_F")
+    val t13 = ageSexPF.where("AGE<=49 AND AGE>=40 AND A_PED_F")
+    val t14 = ageSexPF.where("AGE<=59 AND AGE>=50 AND A_PED_F")
+    val t15 = ageSexPF.where("AGE<=60 AND AGE>=60 AND A_PED_F")
+    val t16 = ageSexPF.where("AGE>=70 AND A_PED_F")
     val l: List[(DataFrame, String)] =
       List(
         (t9, "0-15 years AND A_PED_F"),
