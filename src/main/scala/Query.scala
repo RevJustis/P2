@@ -173,14 +173,14 @@ object Query {
     val t16 = ageSexPF.where("AGE>=70 AND A_PED_F=1")
     val l: List[(DataFrame, String)] =
       List(
-        (t9, "0-15 years AND A_PED_F=1"),
-        (t10, "16-23 AND A_PED_F=1"),
-        (t11, "24-29 AND A_PED_F=1"),
-        (t12, "30-39 AND A_PED_F=1"),
-        (t13, "40-49 AND A_PED_F=1"),
-        (t14, "50-59 AND A_PED_F=1"),
-        (t15, "60-69 AND A_PED_F=1"),
-        (t16, "70+ AND A_PED_F=1")
+        (t9, "0-15"),
+        (t10, "16-23"),
+        (t11, "24-29"),
+        (t12, "30-39"),
+        (t13, "40-49"),
+        (t14, "50-59"),
+        (t15, "60-69"),
+        (t16, "70+")
       )
     l.foreach(tup => tup._1.agg(functions.count("*").as(tup._2)).show())
   }
