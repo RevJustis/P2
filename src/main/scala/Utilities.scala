@@ -244,6 +244,8 @@ object Utilities {
         println(
           "Couldn't sign you up! There was an issue with the record of usernames and passwords."
         )
+        System.exit(1)
+        "Error"
     }
   }
 
