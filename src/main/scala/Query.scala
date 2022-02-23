@@ -9,28 +9,28 @@ object Query {
     val ru = mainPF.where("A_RU == 1")
 
     println("Rural Fatalities by State")
-    var sum = ru.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
+    val sum = ru.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
     sum.orderBy(functions.col("SUM").desc).show(60)
     viz(sum, "rural_s", "justis")
 
     println("Rural Fatalities by Year")
-    sum = ru.groupBy("YEAR").agg(functions.sum("FATALS").as("SUM"))
-    sum.orderBy(functions.col("SUM").desc).show(60)
-    viz(sum, "rural_y", "justis")
+    val sum2 = ru.groupBy("YEAR").agg(functions.sum("FATALS").as("SUM"))
+    sum2.orderBy(functions.col("SUM").desc).show(60)
+    viz(sum2, "rural_y", "justis")
   }
 
   def urban(): Unit = {
     val ur = mainPF.where("A_RU == 2")
 
     println("Urban Fatalities by State")
-    var sum = ur.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
+    val sum = ur.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
     sum.orderBy(functions.col("SUM").desc).show(60)
     viz(sum, "urban_s", "justis")
 
     println("Urban Fatalities by Year")
-    sum = ur.groupBy("YEAR").agg(functions.sum("FATALS").as("SUM"))
-    sum.orderBy(functions.col("SUM").desc).show(60)
-    viz(sum, "urban_y", "justis")
+    val sum2 = ur.groupBy("YEAR").agg(functions.sum("FATALS").as("SUM"))
+    sum2.orderBy(functions.col("SUM").desc).show(60)
+    viz(sum2, "urban_y", "justis")
 
   }
 
@@ -38,18 +38,15 @@ object Query {
     val other = mainPF.where("A_RU == 3")
 
     println("Unknown location type Fatalities by State")
-    var sum = other.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
+    val sum = other.groupBy("STATENAME").agg(functions.sum("FATALS").as("SUM"))
     sum.orderBy(functions.col("SUM").desc).show(60)
-    viz(sum, "rural_s", "justis")
 
     println("Unknown location type Fatalities by Year")
-    sum = other.groupBy("YEAR").agg(functions.sum("FATALS").as("SUM"))
+    val sum2 = other.groupBy("YEAR").agg(functions.sum("FATALS").as("SUM"))
     sum.orderBy(functions.col("SUM").desc).show(60)
-    viz(sum, "rural_s", "justis")
 
   }
 
-  ///Start Jessica/Topic 1
   def pedtotal(): Unit = {
     println(
       "Total number of pedestrian vehicle-related INJURIES (fatal and non-fatal) 2016-2019: "
@@ -61,7 +58,7 @@ object Query {
     )
     val pedTotalByY =
       mainPF.where("A_PED == 1")
-    val df = pedTotalByY
+    pedTotalByY
       .groupBy("YEAR")
       .agg(
         functions
@@ -69,10 +66,9 @@ object Query {
           .as("PedTotalYear")
       )
       .orderBy("YEAR")
-    df.show()
-    viz(df, "rural_s", "justis")
+      .show()
   }
-
+//start Jessica
   def fatalities(): Unit = {
     println("Total number of pedestrian vehicle-related FATALITIES 2016-2019: ")
     println(mainPF.where("A_PED_F == 1").count())
@@ -82,7 +78,7 @@ object Query {
       mainPF.where(
         "A_PED_F == 1"
       )
-    val df = pedFbyY
+    pedFbyY
       .groupBy("YEAR")
       .agg(
         functions
@@ -90,14 +86,13 @@ object Query {
           .as("PedFatalsYear")
       )
       .orderBy("YEAR")
-    df.show(60)
-    viz(df, "rural_s", "justis")
+      .show(60)
   }
 
   def states(): Unit = {
     println("Pedestrian INJURIES (fatal and nonfatal) by state: ")
     val state = mainPF.where("A_PED == 1")
-    var df = state
+    state
       .groupBy("STATENAME")
       .agg(
         functions
@@ -105,11 +100,10 @@ object Query {
           .as("Total")
       )
       .orderBy("Total")
-    df.show(60)
-    viz(df, "rural_s", "justis")
+      .show(60)
 
     println("Pedestrian FATALITIES by state  ")
-    df = state
+    state
       .groupBy("STATENAME")
       .agg(
         functions
@@ -117,14 +111,13 @@ object Query {
           .as("Total")
       )
       .orderBy("Total")
-    df.show(60)
-    viz(df, "rural_s", "justis")
+      .show(60)
   }
 
   def sex(): Unit = {
 
     println("Pedestrian INJURIES (fatal and nonfatal) by sex 2016-2019: ")
-    val df =
+    val sex =
       ageSexPF
         .where(
           "SEX = 1 OR SEX = 2 OR SEX = 9"
@@ -136,8 +129,7 @@ object Query {
             .as("Total")
         )
         .orderBy("Total")
-    df.show()
-    viz(df, "rural_s", "justis")
+        .show()
   }
 
   def age(): Unit = {
@@ -189,7 +181,7 @@ object Query {
 
   //Start Jonathan's
   def jonathan(): Unit = {
-    val df = spark
+    val df = spark  //FIXME this need fixing(convert to parquet?)
       .sql(
         "select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
           "motorcycles as Delta, (total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as DeltaPED," +
@@ -226,9 +218,9 @@ object Query {
     val dfAllUS = spark.sql(
       "SELECT sum(fatals) as fatalities, year from crashData group by year order by year"
     )
-    dfAllUS.persist(StorageLevel.MEMORY_ONLY_SER)
+    dfAllUS.persist(StorageLevel.MEMORY_ONLY_SER)//FIXME this needs fixing; caching isn't optimal when querying parquet files (if even using SQl query?)
     dfAllUS.show()
-    viz(dfAllUS, "us_fatals", "justis")
+    viz(dfAllUS, "usfatals", "patrickbrown")
   }
 
   def statefatals(): Unit = {
@@ -238,9 +230,9 @@ object Query {
       "SELECT sum(fatals) as fatalities, year, state from crashData group by state, year \n" +
         "order by state, year"
     )
-    dfState.persist(StorageLevel.MEMORY_ONLY_SER)
+    dfState.persist(StorageLevel.MEMORY_ONLY_SER)//FIXME this needs fixing; caching isn't optimal when querying parquet files
     dfState.show()
-    viz(dfState, "state_fatals", "justis")
+    viz(dfState, "statefatals", "patrickbrown")
   }
 
   def highfatalstates(): Unit = {
@@ -264,10 +256,10 @@ object Query {
         "group by state, year order by fatalities DESC LIMIT 8"
     )
     //Optimization
-    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER)
-    dfState2017.persist(StorageLevel.MEMORY_ONLY_SER)
-    dfState2018.persist(StorageLevel.MEMORY_ONLY_SER)
-    dfState2019.persist(StorageLevel.MEMORY_ONLY_SER)
+    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //FIXME this needs fixing; caching isn't optimal when querying parquet files
+    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //""
+    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //""
+    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //""
     dfState2016.show()
     dfState2017.show()
     dfState2018.show()
@@ -294,10 +286,10 @@ object Query {
         "group by state, year order by fatalities LIMIT 8"
     )
     //Optimization
-    state2016down.persist(StorageLevel.MEMORY_ONLY_SER)
-    state2017down.persist(StorageLevel.MEMORY_ONLY_SER)
-    state2018down.persist(StorageLevel.MEMORY_ONLY_SER)
-    state2019down.persist(StorageLevel.MEMORY_ONLY_SER)
+    state2016down.persist(StorageLevel.MEMORY_ONLY_SER) // FIXME this needs fixing; caching isn't optimal when querying parquet files
+    state2017down.persist(StorageLevel.MEMORY_ONLY_SER) //""
+    state2018down.persist(StorageLevel.MEMORY_ONLY_SER) //""
+    state2019down.persist(StorageLevel.MEMORY_ONLY_SER) //""
     state2016down.show()
     state2017down.show()
     state2018down.show()
@@ -311,8 +303,8 @@ object Query {
       "select * from vehicleParquetFile order by Year, VehicleType"
     )
     //Optimization
-    x.persist(StorageLevel.MEMORY_ONLY_SER)
+    x.persist(StorageLevel.MEMORY_ONLY_SER) //FIXME this needs fixing; ditto above
     x.show(28)
-    viz(x, "vehicle_crash", "justis")
+    viz(x, "vehicleCrash", "patrickbrown")
   }
 }

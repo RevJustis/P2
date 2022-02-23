@@ -1,6 +1,5 @@
 import P2._
 import Query._
-import org.apache.spark.sql.SparkSession
 
 import java.io.{File, FileOutputStream, PrintWriter}
 import scala.io.Source
@@ -23,7 +22,7 @@ object Utilities {
       "CREATE TABLE IF NOT EXISTS personsKilled (year int, passengerCars int, lightTrucks int, largeTrucks int," +
         "motorcycles int, buses int, otherUnknown int, total1 int, pedestrian int, pedalcyclist int, other int, total2 int," +
         "unknownPersonType int, total int)" +
-        "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','"
+        "ROW FORMAT DELIMITED FIELDS TERMINATED BY ','" //FIXME (convert to parquet?)
     )
     spark.sql(
       "LOAD DATA LOCAL INPATH 'input/originals/PersonsKilled/PersonsKilled.csv' OVERWRITE INTO TABLE personsKilled"
