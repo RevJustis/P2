@@ -2,15 +2,7 @@ import P2._
 import Query._
 
 import org.apache.spark.sql.DataFrame
-import java.io.{
-  File,
-  FileOutputStream,
-  PrintWriter,
-  BufferedReader,
-  BufferedWriter,
-  FileReader,
-  FileWriter
-}
+import java.io.{File, FileOutputStream, PrintWriter}
 import scala.io.Source
 import scala.io.StdIn.readLine
 
@@ -313,21 +305,6 @@ object Utilities {
 
   def eraseAcc(n: String): Unit = {
     if (userExists(n)) {
-      // val inputFile = new File("input/userpass.txt");
-      // val tempFile = new File("myTempFile.txt");
-
-      // val reader = new BufferedReader(new FileReader(inputFile));
-      // val writer = new BufferedWriter(new FileWriter(tempFile));
-
-      // while (reader. != null) {
-      //   // trim newline when comparing with lineToRemove
-      //   val trimmedLine = reader.readLine().trim();
-      //   if (trimmedLine.equals(lineToRemove)) continue;
-      //   writer.write(currentLine + System.getProperty("line.separator"));
-      // }
-      // writer.close();
-      // reader.close();
-      // boolean successful = tempFile.renameTo(inputFile);
       val f1 = new File("input/userpass.txt") // Original File
       val f2 = new File("input/temp.txt") // Temporary File
       val w = new PrintWriter(f2)
