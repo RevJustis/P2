@@ -2,6 +2,10 @@ import Utilities._
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.Dataset
+import java.io.Console
+import java.lang.System.console
+
+import java.lang.System.console
 
 object P2 {
   val spark = SparkSession.builder
@@ -93,7 +97,9 @@ object P2 {
             var continue = false
             while (!continue) {
               println("Please enter your Password")
-              var pass = readLine()
+              val pass = readLine()
+              //val x = console().readPassword()
+              //val pass = x.toString
               if (authPass(user, pass)) {
                 continue = true
                 logIn(user)
