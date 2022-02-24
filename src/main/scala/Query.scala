@@ -94,7 +94,7 @@ object Query {
 
   def states(): Unit = {
     println("Pedestrian INJURIES (fatal and nonfatal) by state: ")
-    val state = mainPF.where("A_PED == 1")
+    var state = mainPF.where("A_PED == 1")
     var df = state
       .groupBy("STATENAME")
       .agg(
@@ -107,6 +107,7 @@ object Query {
     viz(df, "ped_inj_s", "justis")
 
     println("Pedestrian FATALITIES by state  ")
+    state = mainPF.where("A_PED_F == 1")
     df = state
       .groupBy("STATENAME")
       .agg(
