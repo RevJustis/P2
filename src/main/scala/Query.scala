@@ -228,7 +228,7 @@ object Query {
       StorageLevel.MEMORY_ONLY_SER
     ) //FIXME this needs fixing; caching isn't optimal when querying parquet files (if even using SQl query?)
     dfAllUS.show()
-    viz(dfAllUS, "usfatals", "patrickbrown")
+    viz(dfAllUS, "us_fatals", "justis")
   }
 
   def statefatals(): Unit = {
@@ -242,7 +242,7 @@ object Query {
       StorageLevel.MEMORY_ONLY_SER
     ) //FIXME this needs fixing; caching isn't optimal when querying parquet files
     dfState.show()
-    viz(dfState, "statefatals", "patrickbrown")
+    viz(dfState, "state_fatals", "justis")
   }
 
   def highfatalstates(): Unit = {
@@ -301,9 +301,9 @@ object Query {
     state2016down.persist(
       StorageLevel.MEMORY_ONLY_SER
     ) // FIXME this needs fixing; caching isn't optimal when querying parquet files
-    state2017down.persist(StorageLevel.MEMORY_ONLY_SER) //""
-    state2018down.persist(StorageLevel.MEMORY_ONLY_SER) //""
-    state2019down.persist(StorageLevel.MEMORY_ONLY_SER) //""
+    state2017down.persist(StorageLevel.MEMORY_ONLY_SER)
+    state2018down.persist(StorageLevel.MEMORY_ONLY_SER)
+    state2019down.persist(StorageLevel.MEMORY_ONLY_SER)
     state2016down.show()
     state2017down.show()
     state2018down.show()
@@ -321,6 +321,6 @@ object Query {
       StorageLevel.MEMORY_ONLY_SER
     ) //FIXME this needs fixing; ditto above
     x.show(28)
-    viz(x, "vehicleCrash", "patrickbrown")
+    viz(x, "vehicle_crash", "justis")
   }
 }
