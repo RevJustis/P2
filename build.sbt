@@ -6,11 +6,12 @@ lazy val root = (project in file("."))
   .settings(
     name := "P2"
   )
+
 // https://mvnrepository.com/artifact/org.apache.spark/spark-core
 libraryDependencies += "org.apache.spark" %% "spark-core" % "2.3.1"
 
 // https://mvnrepository.com/artifact/org.apache.spark/spark-sql
-libraryDependencies += "org.apache.spark" %% "spark-sql" % "2.3.1"
+libraryDependencies += "org.apache.spark" %% "spark-sql" % "2.3.1" % "provided"
 
 // https://mvnrepository.com/artifact/org.apache.spark/spark-hive
 libraryDependencies += "org.apache.spark" %% "spark-hive" % "2.3.1"
@@ -22,16 +23,15 @@ libraryDependencies += "org.apache.spark" %% "spark-hive" % "2.3.1"
 fork in run := true
 connectInput in run := true
 
-/*
-Compile / mainClass := Some("P2")
-assembly / mainClass := Some("P2")
-
+//Code to enable sbt assembly commands to work
+assemblyJarName in assembly := "P2.jar"
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
   case x => MergeStrategy.first
 }
 
- */
+
+
 
 
 

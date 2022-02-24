@@ -1,6 +1,7 @@
 import Utilities._
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.Dataset
 
 object P2 {
   val spark = SparkSession.builder
