@@ -70,7 +70,8 @@ object Query {
     df.show()
     viz(df, "ped_total", "justis")
   }
-//start Jessica
+
+  //start Jessica
   def fatalities(): Unit = {
     println("Total number of pedestrian vehicle-related FATALITIES 2016-2019: ")
     println(mainPF.where("A_PED_F == 1").count())
@@ -184,7 +185,53 @@ object Query {
         (t16, "70+")
       )
     l.foreach(tup => tup._1.agg(functions.count("*").as(tup._2)).show())
+
+
+    println("Pedestrian FATALITIES Male: ")
+    val t17 = ageSexPF.where("AGE<=15 AND A_PED_F=1 AND SEX=1")
+    val t18 = ageSexPF.where("AGE<=23 AND AGE>=16 AND A_PED_F=1 AND SEX=1")
+    val t19 = ageSexPF.where("AGE<=29 AND AGE>=24 AND A_PED_F=1 AND SEX=1")
+    val t20 = ageSexPF.where("AGE<=39 AND AGE>=30 AND A_PED_F=1 AND SEX=1")
+    val t21 = ageSexPF.where("AGE<=49 AND AGE>=40 AND A_PED_F=1 AND SEX=1")
+    val t22 = ageSexPF.where("AGE<=59 AND AGE>=50 AND A_PED_F=1 AND SEX=1 ")
+    val t23 = ageSexPF.where("AGE<=60 AND AGE>=60 AND A_PED_F=1 AND SEX=1")
+    val t24 = ageSexPF.where("AGE>=70 AND A_PED_F=1 AND SEX=1")
+    val m: List[(DataFrame, String)] =
+      List(
+        (t17, "0-15"),
+        (t18, "16-23"),
+        (t19, "24-29"),
+        (t20, "30-39"),
+        (t21, "40-49"),
+        (t22, "50-59"),
+        (t23, "60-69"),
+        (t24, "70+")
+      )
+    m.foreach(tup => tup._1.agg(functions.count("*").as(tup._2)).show())
   }
+
+  println("Pedestrian FATALITIES Male: ")
+  val t17 = ageSexPF.where("AGE<=15 AND A_PED_F=1 AND SEX=1")
+  val t18 = ageSexPF.where("AGE<=23 AND AGE>=16 AND A_PED_F=1 AND SEX=1")
+  val t19 = ageSexPF.where("AGE<=29 AND AGE>=24 AND A_PED_F=1 AND SEX=1")
+  val t20 = ageSexPF.where("AGE<=39 AND AGE>=30 AND A_PED_F=1 AND SEX=1")
+  val t21 = ageSexPF.where("AGE<=49 AND AGE>=40 AND A_PED_F=1 AND SEX=1")
+  val t22 = ageSexPF.where("AGE<=59 AND AGE>=50 AND A_PED_F=1 AND SEX=1 ")
+  val t23 = ageSexPF.where("AGE<=60 AND AGE>=60 AND A_PED_F=1 AND SEX=1")
+  val t24 = ageSexPF.where("AGE>=70 AND A_PED_F=1 AND SEX=1")
+  val m: List[(DataFrame, String)] =
+    List(
+      (t17, "0-15"),
+      (t18, "16-23"),
+      (t19, "24-29"),
+      (t20, "30-39"),
+      (t21, "40-49"),
+      (t22, "50-59"),
+      (t23, "60-69"),
+      (t24, "70+")
+    )
+  m.foreach(tup => tup._1.agg(functions.count("*").as(tup._2)).show())
+
 
   //Start Jonathan's
   def jonathan(): Unit = {
