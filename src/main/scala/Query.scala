@@ -96,7 +96,7 @@ object Query {
   def states(): Unit = {
     println("Pedestrian INJURIES (fatal and nonfatal) by state: ")
     val state = mainPF.where("A_PED == 1")
-    val df = state
+    var df = state
       .groupBy("STATENAME")
       .agg(
         functions
@@ -108,7 +108,7 @@ object Query {
     viz(df, "ped_inj_s", "justis")
 
     println("Pedestrian FATALITIES by state  ")
-    state
+    df = state
       .groupBy("STATENAME")
       .agg(
         functions
@@ -227,7 +227,7 @@ object Query {
     )
     dfAllUS.persist(StorageLevel.MEMORY_ONLY_SER)//FIXME this needs fixing; caching isn't optimal when querying parquet files (if even using SQl query?)
     dfAllUS.show()
-    viz(dfAllUS, "usfatals", "patrickbrown")
+    viz(dfAllUS, "us_fatals", "justis")
   }
 
   def statefatals(): Unit = {
@@ -237,9 +237,11 @@ object Query {
       "SELECT sum(fatals) as fatalities, year, state from crashData group by state, year \n" +
         "order by state, year"
     )
-    dfState.persist(StorageLevel.MEMORY_ONLY_SER)//FIXME this needs fixing; caching isn't optimal when querying parquet files
+    dfState.persist(
+      StorageLevel.MEMORY_ONLY_SER
+    ) //FIXME this needs fixing; caching isn't optimal when querying parquet files
     dfState.show()
-    viz(dfState, "statefatals", "patrickbrown")
+    viz(dfState, "state_fatals", "justis")
   }
 
   def highfatalstates(): Unit = {
@@ -263,7 +265,9 @@ object Query {
         "group by state, year order by fatalities DESC LIMIT 8"
     )
     //Optimization
-    dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //FIXME this needs fixing; caching isn't optimal when querying parquet files
+    dfState2016.persist(
+      StorageLevel.MEMORY_ONLY_SER
+    ) //FIXME this needs fixing; caching isn't optimal when querying parquet files
     dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //""
     dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //""
     dfState2016.persist(StorageLevel.MEMORY_ONLY_SER) //""
@@ -293,10 +297,12 @@ object Query {
         "group by state, year order by fatalities LIMIT 8"
     )
     //Optimization
-    state2016down.persist(StorageLevel.MEMORY_ONLY_SER) // FIXME this needs fixing; caching isn't optimal when querying parquet files
-    state2017down.persist(StorageLevel.MEMORY_ONLY_SER) //""
-    state2018down.persist(StorageLevel.MEMORY_ONLY_SER) //""
-    state2019down.persist(StorageLevel.MEMORY_ONLY_SER) //""
+    state2016down.persist(
+      StorageLevel.MEMORY_ONLY_SER
+    ) // FIXME this needs fixing; caching isn't optimal when querying parquet files
+    state2017down.persist(StorageLevel.MEMORY_ONLY_SER)
+    state2018down.persist(StorageLevel.MEMORY_ONLY_SER)
+    state2019down.persist(StorageLevel.MEMORY_ONLY_SER)
     state2016down.show()
     state2017down.show()
     state2018down.show()
@@ -310,8 +316,10 @@ object Query {
       "select * from vehicleParquetFile order by Year, VehicleType"
     )
     //Optimization
-    x.persist(StorageLevel.MEMORY_ONLY_SER) //FIXME this needs fixing; ditto above
+    x.persist(
+      StorageLevel.MEMORY_ONLY_SER
+    ) //FIXME this needs fixing; ditto above
     x.show(28)
-    viz(x, "vehicleCrash", "wizard")
+    viz(x, "vehicle_crash", "justis")
   }
 }
