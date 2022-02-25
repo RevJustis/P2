@@ -187,7 +187,6 @@ object Query {
       )
     l.foreach(tup => tup._1.agg(functions.count("*").as(tup._2)).show())
 
-
     println("Pedestrian FATALITIES Male: ")
     val t17 = ageSexPF.where("AGE<=15 AND A_PED_F=1 AND SEX=1")
     val t18 = ageSexPF.where("AGE<=23 AND AGE>=16 AND A_PED_F=1 AND SEX=1")
@@ -211,32 +210,9 @@ object Query {
     m.foreach(tup => tup._1.agg(functions.count("*").as(tup._2)).show())
   }
 
-  println("Pedestrian FATALITIES Male: ")
-  val t17 = ageSexPF.where("AGE<=15 AND A_PED_F=1 AND SEX=1")
-  val t18 = ageSexPF.where("AGE<=23 AND AGE>=16 AND A_PED_F=1 AND SEX=1")
-  val t19 = ageSexPF.where("AGE<=29 AND AGE>=24 AND A_PED_F=1 AND SEX=1")
-  val t20 = ageSexPF.where("AGE<=39 AND AGE>=30 AND A_PED_F=1 AND SEX=1")
-  val t21 = ageSexPF.where("AGE<=49 AND AGE>=40 AND A_PED_F=1 AND SEX=1")
-  val t22 = ageSexPF.where("AGE<=59 AND AGE>=50 AND A_PED_F=1 AND SEX=1 ")
-  val t23 = ageSexPF.where("AGE<=60 AND AGE>=60 AND A_PED_F=1 AND SEX=1")
-  val t24 = ageSexPF.where("AGE>=70 AND A_PED_F=1 AND SEX=1")
-  val m: List[(DataFrame, String)] =
-    List(
-      (t17, "0-15"),
-      (t18, "16-23"),
-      (t19, "24-29"),
-      (t20, "30-39"),
-      (t21, "40-49"),
-      (t22, "50-59"),
-      (t23, "60-69"),
-      (t24, "70+")
-    )
-  m.foreach(tup => tup._1.agg(functions.count("*").as(tup._2)).show())
-
-
   //Start Jonathan's
   def jonathan(): Unit = {
-    val df = spark  //FIXME this need fixing(convert to parquet?)
+    val df = spark //FIXME this need fixing(convert to parquet?)
       .sql(
         "select year, passengerCars, buses, total1 as TotalExcludingMotorcyclesAndPed, " +
           "motorcycles as Delta, (total1 + motorcycles) as TotalExcludingPed, abs((total1 + motorcycles) - total) as DeltaPED," +
@@ -273,7 +249,9 @@ object Query {
     val dfAllUS = spark.sql(
       "SELECT sum(fatals) as fatalities, year from crashData group by year order by year"
     )
-    dfAllUS.persist(StorageLevel.MEMORY_ONLY_SER)//FIXME this needs fixing; caching isn't optimal when querying parquet files (if even using SQl query?)
+    dfAllUS.persist(
+      StorageLevel.MEMORY_ONLY_SER
+    ) //FIXME this needs fixing; caching isn't optimal when querying parquet files (if even using SQl query?)
     dfAllUS.show()
     viz(dfAllUS, "us_fatals", "justis")
   }
