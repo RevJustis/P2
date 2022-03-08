@@ -27,7 +27,7 @@ Cyclists Urban and Rural trends in vehicular-related incidents involving pedestr
 - Admin feature for managing UI
 - Interactive Menu
 - User Account Creation
-- 
+
 To Do List:
 - AWS Integration
 - Package project with Spark Submit
@@ -39,7 +39,7 @@ To Do List:
 ```
 git clone https://github.com/revjustis/p2.git
 ```
-Find data for project
+- Find data for project
 - Ingest data from National Highway Traffic Safety Administration in the form of CSV files
 - Download Zeppelin for presentation of project and launch in Intellij
 
