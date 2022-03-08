@@ -11,14 +11,23 @@ Should have admin and normal user access with password set in database along wit
 
 Let the P2, have presentation with screen shots and practical demo.
 
-## Trends
-Age: (A)What are the trends across the age continuum effect the fatality rate of riders/drivers vs pedestrians? Essentially, what ages are most likely to die inside the car, and what ages are most likely to die outside of the car? Are they the same, do the trends have any similarities?
-Big Picture: (B) Graph the trend of fatalities in entire USA, (C) then graph the trend of fatalities in individual states. What are the differences, do they all have the same basic movement upward and downwards? (D) Which states are safest (could be cross referenced with states with high public transport use to find correlation)?
-Rural vs Urban: (E)(F)Combine rural state data together and urban state data together, compare graphed trends (specifically death rates of vehicle types, and overall death rates across time).
-Vehicle: (G)(H)Find which vehicles are most dangerous to be around (kill passengers) vs most dangerous to be inside.
+### Trends
+1. Age: (A)What are the trends across the age continuum effect the fatality rate of riders/drivers vs pedestrians? Essentially, what ages are most likely to die inside the car, and what ages are most likely to die outside of the car? Are they the same, do the trends have any similarities?
+2. Big Picture: (B) Graph the trend of fatalities in entire USA, (C) then graph the trend of fatalities in individual states. What are the differences, do they all have the same basic movement upward and downwards? (D) Which states are safest (could be cross referenced with states with high public transport use to find correlation)?
+3. Rural vs Urban: (E)(F)Combine rural state data together and urban state data together, compare graphed trends (specifically death rates of vehicle types, and overall death rates across time).
+4. Vehicle: (G)(H)Find which vehicles are most dangerous to be around (kill passengers) vs most dangerous to be inside.
+
+## Technologies Used
+- IntelliJ/Emacs
+- Scala ver. 2.11.12
+- Spark-Core ver. 2.3.1
+- Magit (administrative git client)
+- SBT ver. 1.5.7+
+- Zeppelin ver. 0.10.0
+- Asana
 
 ## Getting Started
-1. Clone the repo with `git clone https://github.com/revjustis/p2.git`
+1. Clone the repo with > git clone https://github.com/revjustis/p2.git
 
 ## Collaborators
 Developed by Jessica(Optimization Lead), Jonathan (Visualization Lead), Justis (GitHub Admin/Owner, Team Lead), Patrick(Co-Admin/Lead).
