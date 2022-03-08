@@ -1,21 +1,17 @@
 # P2
+@RevJustis@lexiehollis
+49 lines (37 sloc)  2.73 KB
+   
+Road Safety Analysis
+Project Description
+Using data from the National Highway Traffic Aafety Administration, this project examined trends in vehicle-related injuries and fatalities. It looks at accidents involving motorized vehicles and their occupants as well as those affecting pedestrians and cyclists. Queries included the following:
 
-## Project Description
-Create a Spark Application that process data(choose your data).
+Big Picture: Graph the trend of fatalities in entire USA, then graph the trend of fatalities in individual states. What are the differences, do they all have the same basic movement upward and downwards? Which states are safest (could be cross referenced with states with high public transport use to find correlation)?
+Rural vs Urban: Combine rural state data together and urban state data together, compare graphed trends (specifically death rates of vehicle types, and overall death rates across time).
+Cyclists Urban and Rural trends in vehicular-related incidents involving pedestrians. Do certain urban and/or rural areas present surprising trends?
+Pedestrians: What are the trends across the age continuum that affect the injury and fatality rate of pedestrians, nationwide and within individual states? What are the sex/gender trends? Are they the same, do the trends have any similarities?
+Vehicle: Find which vehicles are most dangerous to be around (those that result in fatalities) vs most dangerous to be inside.
 
-Size of data should be 2k and above,and a minimum 3 tables.
-
-Your project  should involve useful analysis of data(Every concept of spark like rdd, dataframes, sql, dataset and optimization methods  and  persistence should be included). The Expected output is different trends that you have observed as part of data collectivley and how you can use these trends to make some useful decisions.
-
-Should have admin and normal user access with password set in database along with Visualization  for out put 
-
-Let the P2, have presentation with screen shots and practical demo.
-
-### Trends
-1. Age: (A)What are the trends across the age continuum effect the fatality rate of riders/drivers vs pedestrians? Essentially, what ages are most likely to die inside the car, and what ages are most likely to die outside of the car? Are they the same, do the trends have any similarities?
-2. Big Picture: (B) Graph the trend of fatalities in entire USA, (C) then graph the trend of fatalities in individual states. What are the differences, do they all have the same basic movement upward and downwards? (D) Which states are safest (could be cross referenced with states with high public transport use to find correlation)?
-3. Rural vs Urban: (E)(F)Combine rural state data together and urban state data together, compare graphed trends (specifically death rates of vehicle types, and overall death rates across time).
-4. Vehicle: (G)(H)Find which vehicles are most dangerous to be around (kill passengers) vs most dangerous to be inside.
 
 ## Technologies Used
 - IntelliJ/Emacs
@@ -26,8 +22,31 @@ Let the P2, have presentation with screen shots and practical demo.
 - Zeppelin ver. 0.10.0
 - Asana
 
+FEATURES
+
+User Interface
+Admin feature for managing UI
+Interactive Menu
+User Account Creation
+To Do List:
+
+AWS Integration
+Package project with Spark Submit
+Create More Complex Queries
+
 ## Getting Started
+Set up central project repository in Github, which included creating separate branches in the repository for individual queries, development, main, optimization, User Interface, and Userpass (where user account information stored)
+Clone central project repository to each participant's Intellij
+Find data for project
+Ingest data from National Highway Traffic Safety Administration in the form of CSV files
+Download Zeppelin for presentation of project and launch in Intellij
 1. Clone the repo with > git clone https://github.com/revjustis/p2.git
+
+USAGE
+
+When users run the project, they will initially be prompted to create an account (or if they have one already to log in). Then, a menu of options appears that allows users to choose between topics related to our query categories above. Within each of these topics, users will be able to choose individual queries and see results of those queries.
+
+
 
 ## Collaborators
 Developed by Jessica(Optimization Lead), Jonathan (Visualization Lead), Justis (GitHub Admin/Owner, Team Lead), Patrick(Co-Admin/Lead).
